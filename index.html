@@ -3,25 +3,509 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Experiencia Interactiva</title>
+  <title>Construven Import | Maquinaria Pesada 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background: #0c0d10; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; text-align: center; }
-    .card { max-width: 360px; width: 100%; display: flex; flex-direction: column; gap: 16px; }
-    h1 { font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
-    p { font-size: 0.95rem; color: #a1a1aa; margin-bottom: 12px; }
-    .btn { display: block; padding: 15px 20px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: transform 0.15s ease; }
-    .btn:active { transform: scale(0.98); }
-    .btn-ar { background: #fff; color: #000; box-shadow: 0 4px 20px rgba(255,255,255,0.15); }
-    .btn-portfolio { background: #1f222a; color: #fff; border: 1px solid #2e3340; }
+    :root {
+      --bg: #090a0f;
+      --card-bg: rgba(18, 20, 29, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.2);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --chat-bot-bg: #161922;
+      --chat-user-bg: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(245, 158, 11, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
+    }
+
+    /* Header */
+    header {
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--accent), #d97706);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #000;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: block;
+    }
+
+    .nav-badge {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    /* Left Showcase */
+    .hero-info h1 {
+      font-size: 2.75rem;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero-info h1 span {
+      background: linear-gradient(90deg, #ffffff, #9ca3af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-info p {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 1rem;
+      margin-bottom: 32px;
+    }
+
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .model-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .model-card:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .model-tag {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .model-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .model-spec {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Chat Container */
+    .chat-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chat-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 20, 29, 0.85);
+    }
+
+    .chat-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .chat-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .chat-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+
+    .chat-messages::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .chat-messages::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .msg-bot {
+      align-self: flex-start;
+      background: var(--chat-bot-bg);
+      border: 1px solid var(--card-border);
+      color: #e5e7eb;
+      border-top-left-radius: 4px;
+    }
+
+    .msg-user {
+      align-self: flex-end;
+      background: var(--chat-user-bg);
+      color: #000;
+      font-weight: 500;
+      border-top-right-radius: 4px;
+    }
+
+    .typing {
+      display: none;
+      align-self: flex-start;
+      background: var(--chat-bot-bg);
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 14px;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    .chat-input-area {
+      padding: 14px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      gap: 10px;
+      background: rgba(18, 20, 29, 0.9);
+    }
+
+    .chat-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      color: #fff;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input:focus {
+      border-color: var(--accent);
+    }
+
+    .send-btn {
+      background: var(--accent);
+      border: none;
+      color: #000;
+      font-weight: 600;
+      padding: 0 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: opacity 0.2s;
+    }
+
+    .send-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      header { padding: 20px 24px; }
+      main { grid-template-columns: 1fr; padding: 20px; }
+      .hero-info h1 { font-size: 2rem; }
+      .chat-wrapper { height: 500px; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Experiencia Interactiva</h1>
-    <p>Selecciona una opción para continuar:</p>
-    <a href="ar.html" class="btn btn-ar">Ver Realidad Aumentada</a>
-    <a href="https://tu-portafolio.com" class="btn btn-portfolio" target="_blank" rel="noopener">Ir al Portafolio</a>
-  </div>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo">C</div>
+      <div>
+        <span class="brand-name">CONSTRUVEN IMPORT</span>
+        <span class="brand-tag">Lovol & Shantui 2026</span>
+      </div>
+    </div>
+    <div class="nav-badge">0 Horas • Patio Nacional</div>
+  </header>
+
+  <main>
+    <!-- Left column: Visual branding -->
+    <div class="hero-info">
+      <h1>Asesoría Técnica <span>con Inteligencia Artificial</span></h1>
+      <p>Explora especificaciones mecánicas, capacidades y disponibilidad de equipos de servicio pesado para minería, canteras, movimiento de tierra y vialidad en Venezuela.</p>
+      
+      <div class="models-grid">
+        <div class="model-card" onclick="quickAsk('Háblame de la excavadora FR220D')">
+          <span class="model-tag">Excavadora Lovol</span>
+          <div class="model-title">FR220D (21.9t)</div>
+          <div class="model-spec">Cummins QSB6.7 • 160 HP</div>
+        </div>
+        <div class="model-card" onclick="quickAsk('¿Qué capacidad tiene el payloader FL955K?')">
+          <span class="model-tag">Payloader Lovol</span>
+          <div class="model-title">FL955K (17.2t)</div>
+          <div class="model-spec">Balde 3.0 m³ • Weichai/Cummins</div>
+        </div>
+        <div class="model-card" onclick="quickAsk('Especifaciones del bulldozer FD320')">
+          <span class="model-tag">Bulldozer Lovol</span>
+          <div class="model-title">FD320 (34.5t)</div>
+          <div class="model-spec">Cummins QSNT 345 HP • Ripper</div>
+        </div>
+        <div class="model-card" onclick="quickAsk('Información de la motoniveladora Shantui SG21-B6')">
+          <span class="model-tag">Motoniveladora</span>
+          <div class="model-title">Shantui SG21-B6</div>
+          <div class="model-spec">Cummins 215 HP • Hoja 4.27m</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: Interactive AI Engine -->
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <div class="chat-status">
+          <div class="status-dot"></div>
+          <div>
+            <div class="chat-title">Ingeniería Comercial IA</div>
+            <div class="chat-sub">Construven Import • En línea</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatBox">
+        <div class="msg msg-bot">
+          Bienvenido a <strong>Construven Import</strong>. Soy su asistente técnico comercial para la línea <strong>Lovol</strong> y <strong>Shantui</strong> (año 2026, 0 horas de uso).
+          <br><br>
+          ¿Qué tipo de faena o proyecto tiene planificado ejecutar (minería, cantera, movimiento de tierra, vialidad o agro)?
+        </div>
+      </div>
+
+      <div class="typing" id="typingIndicator">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+
+      <div class="chat-input-area">
+        <input type="text" id="userInput" class="chat-input" placeholder="Escriba su consulta técnica..." onkeydown="handleKey(event)">
+        <button class="send-btn" onclick="sendMessage()">Enviar</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Base de conocimiento técnica exacta de Construven Import
+    const fleetDB = {
+      fr220d: "La excavadora **Lovol FR220D (Año 2026, 0H)** cuenta con peso operativo de 21,900 kg, motor Cummins QSB6.7 de 160 HP a 2000 rpm, bomba de pistón de caudal variable (2x 220 L/min) y profundidad máxima de excavación de 6.73 m.",
+      fr335f: "La excavadora pesada **Lovol FR335F (Año 2026, 0H)** posee peso operativo de 33,250 kg, motor Cummins 6LTAA8.9 de 302 HP (1230 Nm de torque), sistema de centro cerrado Load Sensing con bombas 2x 280 L/min y cucharón de 2.10 m³ para minería.",
+      fl955k: "El payloader **Lovol FL955K (Año 2026, 0H)** tiene un peso operativo de 17,200 kg, motor Weichai WD10G / Cummins de 220 HP, varillaje en Z y balde de 3.0 m³ ideal para movimiento de áridos y areneras.",
+      fl966h: "El cargador de alta capacidad **Lovol FL966H (Año 2026, 0H)** tiene carga nominal de 6,000 kg, motor Weichai WD10G240E21, fuerza de tracción de 175 kN y altura de descarga de 3,150 mm.",
+      fd220: "El bulldozer **Lovol FD220 (Año 2026, 0H)** opera con 23,500 kg de peso, motor Cummins NT855-C280 de 237 HP, fuerza de tracción de 210 kN y ripper de 750 mm de profundidad.",
+      fd320: "El bulldozer de gran escala **Lovol FD320 (Año 2026, 0H)** cuenta con 34,500 kg de peso de operación, motor Cummins QSNT-C345S31 de 345 HP brutos, hoja de hasta 9.0 m³ y opción de escarificador gigante.",
+      fb878m: "La retroexcavadora **Lovol FB878M (Año 2026, 0H)** es 4x4, motor Weichai WP4.1 de alto torque, peso operativo de 8,000 a 8,400 kg y balde frontal de 1.0 m³.",
+      sg21: "La motoniveladora **Shantui SG21-B6 (Año 2026, 0H)** viene equipada con motor Cummins 6CTAA8.3 de 215 HP, vertedera de 3.96 a 4.27 m y peso de 16,800 a 19,000 kg con hoja delantera y ripper.",
+      sg27: "La motoniveladora pesada **Shantui SG27-C5 (Año 2026, 0H)** dispone de motor Weichai WP7G270E302 de 270 HP, tracción máxima de 97 kN y hoja vertedera de alta capacidad."
+    };
+
+    function appendMessage(text, sender) {
+      const chatBox = document.getElementById("chatBox");
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `msg ${sender === 'user' ? 'msg-user' : 'msg-bot'}`;
+      msgDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function quickAsk(text) {
+      document.getElementById("userInput").value = text;
+      sendMessage();
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter') sendMessage();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
+      input.value = "";
+
+      const indicator = document.getElementById("typingIndicator");
+      indicator.style.display = "flex";
+      const chatBox = document.getElementById("chatBox");
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      setTimeout(() => {
+        indicator.style.display = "none";
+        generateResponse(text.toLowerCase());
+      }, 700);
+    }
+
+    function generateResponse(query) {
+      // Regla de Precios
+      if (query.includes("precio") || query.includes("costo") || query.includes("cuanto vale") || query.includes("cotiz")) {
+        appendMessage("En Construven Import manejamos condiciones comerciales según flete y configuración de accesorios. Indíquenos su **nombre, empresa y estado del país** para asignarle al asesor comercial encargado de emitir su proforma formal.", 'bot');
+        return;
+      }
+
+      // Enrutamiento por modelo
+      if (query.includes("220d") || (query.includes("excavador") && query.includes("22"))) {
+        appendMessage(fleetDB.fr220d + "<br><br>¿En qué estado de Venezuela operará el equipo?", 'bot');
+        return;
+      }
+      if (query.includes("335") || (query.includes("excavador") && (query.includes("30") || query.includes("33") || query.includes("grande")))) {
+        appendMessage(fleetDB.fr335f + "<br><br>¿Esta unidad es requerida para cantera o movimiento masivo?", 'bot');
+        return;
+      }
+      if (query.includes("955") || query.includes("cargador") || query.includes("payloader 3")) {
+        appendMessage(fleetDB.fl955k + "<br><br>¿Requeriría entrega inmediata en patio?", 'bot');
+        return;
+      }
+      if (query.includes("966") || query.includes("6 ton")) {
+        appendMessage(fleetDB.fl966h + "<br><br>¿Para qué tipo de ciclo de carga lo tiene contemplado?", 'bot');
+        return;
+      }
+      if (query.includes("fd320") || query.includes("320") || query.includes("ripper")) {
+        appendMessage(fleetDB.fd320 + "<br><br>Contamos con unidad configurada para roca severa. ¿Cuál es su nombre y empresa?", 'bot');
+        return;
+      }
+      if (query.includes("fd220") || query.includes("bulldozer")) {
+        appendMessage(fleetDB.fd220 + "<br><br>¿Para qué tipo de terreno o banqueo se destinará?", 'bot');
+        return;
+      }
+      if (query.includes("fb878") || query.includes("retro") || query.includes("pajarita")) {
+        appendMessage(fleetDB.fb878m + "<br><br>Unidad 4x4 disponible. ¿Desea coordinar inspección técnica?", 'bot');
+        return;
+      }
+      if (query.includes("sg21") || query.includes("sg27") || query.includes("motoniveladora") || query.includes("patrol")) {
+        appendMessage(`${fleetDB.sg21}<br><br>También disponemos de la versión mayor **Shantui SG27-C5** de 270 HP. ¿Para qué kilometraje o tipo de vía la necesita?`, 'bot');
+        return;
+      }
+
+      // Respuesta de orientación técnica general
+      appendMessage("Entendido. En **Construven Import** disponemos de Excavadoras (FR220D, FR335F), Payloaders (FL955K, FL966H), Bulldozers (FD220, FD320), Retroexcavadoras y Motoniveladoras Shantui año 2026 sin uso.<br><br>Por favor indíquenos qué volumen de trabajo requiere mover o en qué zona del país se encuentra.", 'bot');
+    }
+  </script>
 </body>
 </html>
