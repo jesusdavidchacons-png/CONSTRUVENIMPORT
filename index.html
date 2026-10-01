@@ -179,7 +179,6 @@
       margin-top: 2px;
     }
 
-    /* Chat Area */
     .chat-wrapper {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -428,12 +427,11 @@
   </main>
 
   <script>
-    // Memoria conversacional para mantener el hilo natural
     const leadState = {
       name: "",
       interest: "",
       location: "",
-      stage: "ask_name" // ask_name -> ask_job_or_machine -> ask_location -> close_handoff
+      stage: "ask_name"
     };
 
     function appendMessage(text, sender) {
@@ -474,14 +472,36 @@
       appendMessage(text, 'user');
       input.value = "";
 
-      // Procesar respuesta simulando comportamiento humano
       processHumanResponse(text);
+    }
+
+    function extractCleanName(rawText) {
+      // 1. Quitar fórmulas de saludo inicial
+      let cleaned = rawText.replace(
+        /^(hola|buenas|buenos\s*días|buenas\s*tardes|buenas\s*noches|saludos|mucho\s*gusto)[,.]?\s*/gi, ""
+      );
+      
+      // 2. Quitar fórmulas de presentación como "con", "hablas con", "soy", etc.
+      cleaned = cleaned.replace(
+        /(hablas\s+con|te\s+habla|por\s+acá|por\s+aca|de\s+parte\s+de|con|me\s+llamo|mi\s+nombre\s+es|soy\s+el\s+ing[.]?|soy\s+el\s+sr[.]?|soy)\s+/gi, ""
+      );
+
+      // 3. Limpiar puntuación
+      cleaned = cleaned.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
+
+      // 4. Extraer el nombre propio limpio
+      const words = cleaned.split(/\s+/).filter(w => w.length > 1);
+      
+      if (words.length > 0) {
+        return words.slice(0, 2).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+      }
+      return "amigo";
     }
 
     function processHumanResponse(input) {
       const lower = input.toLowerCase();
 
-      // Regla de Precios (siempre tratada de forma ejecutiva)
+      // Regla de Precios
       if (lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto vale") || lower.includes("cotiz")) {
         const persona = leadState.name ? `${leadState.name}` : "amigo";
         simulateTypingAndRespond(`Mira ${persona}, los números exactos te los paso por proforma formal porque varían un poco dependiendo de si requieres flete directo a patio o mina y los aditamentos. Pero con gusto te la armo hoy mismo. ¿Para qué estado de Venezuela sería el traslado?`);
@@ -489,48 +509,42 @@
         return;
       }
 
-      // ETAPA 1: Captura de Nombre
+      // ETAPA 1: Captura limpia de nombre
       if (leadState.stage === "ask_name") {
-        // Limpieza básica para extraer el nombre
-        let cleanName = input.replace(/me llamo|mi nombre es|soy|saludos|buenas|hola/gi, "").trim();
-        if (cleanName.length > 0 && cleanName.length < 30) {
-          leadState.name = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
-        } else {
-          leadState.name = "estimado";
-        }
-
+        leadState.name = extractCleanName(input);
         leadState.stage = "ask_job_or_machine";
-        simulateTypingAndRespond(`Mucho gusto, ${leadState.name}. Cuéntame, ¿estás buscando un equipo puntual (como excavadora, cargador, patromotor o tractor) o tienes una faena específica que necesitas cubrir ahora mismo?`);
+        
+        simulateTypingAndRespond(`Mucho gusto, ${leadState.name}. Cuéntame, ¿estás buscando un equipo puntual (como excavadora, cargador, motoniveladora o bulldozer) o tienes una faena específica que necesitas cubrir ahora mismo?`);
         return;
       }
 
       // ETAPA 2: Recomendación de Máquina / Faena
       if (leadState.stage === "ask_job_or_machine" || !leadState.interest) {
-        if (lower.includes("220") || lower.includes("excavador") && (lower.includes("20") || lower.includes("22") || lower.includes("mediana"))) {
+        if (lower.includes("220") || (lower.includes("excavador") && (lower.includes("20") || lower.includes("22") || lower.includes("mediana")))) {
           leadState.interest = "Excavadora Lovol FR220D";
           leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Excelente equipo. La **Lovol FR220D** viene con motor Cummins QSB6.7 de 160 HP, bomba de caudal variable y 21.9 toneladas de peso operativo. Es una máquina noble y económica en consumo para movimiento de tierra.<br><br>¿En qué parte o estado del país tienen la obra para ver la logística de entrega?`);
+          simulateTypingAndRespond(`Excelente equipo, ${leadState.name}. La **Lovol FR220D** viene con motor Cummins QSB6.7 de 160 HP, bomba de caudal variable y 21.9 toneladas de peso operativo. Es una máquina muy noble y rendidora en combustible para movimiento de tierra.<br><br>¿En qué parte o estado del país tienen la obra para revisar la logística de entrega?`);
           return;
         }
 
-        if (lower.includes("335") || lower.includes("cantera") || lower.includes("mineria") || lower.includes("grande")) {
+        if (lower.includes("335") || lower.includes("cantera") || lower.includes("mineria") || lower.includes("minería") || lower.includes("grande")) {
           leadState.interest = "Excavadora Lovol FR335F";
           leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Para trabajo pesado en cantera o minería la indicada es la **Lovol FR335F**. Son 33 toneladas con balde de 2.1 m³ y motor Cummins 8.9 de 302 HP. Esa máquina tiene una fuerza de rotura tremenda.<br><br>${leadState.name}, ¿en qué estado operarían la máquina?`);
+          simulateTypingAndRespond(`Para trabajo severo en cantera o minería la indicada es la **Lovol FR335F**. Son 33 toneladas con balde de 2.1 m³ y motor Cummins 8.9 de 302 HP. Esa máquina tiene una fuerza de desprendimiento tremenda.<br><br>${leadState.name}, ¿en qué estado operarían la máquina?`);
           return;
         }
 
         if (lower.includes("955") || lower.includes("966") || lower.includes("cargador") || lower.includes("payloader") || lower.includes("arenera")) {
           leadState.interest = "Payloader Lovol";
           leadState.stage = "ask_location";
-          simulateTypingAndRespond(`De payloaders tenemos en patio el **FL955K** con balde de 3 metros cúbicos (el caballo de batalla para áridos y areneras) y el **FL966H** de 6 toneladas de carga útil.<br><br>¿Hacia qué zona del país tendríamos que coordinar el transporte?`);
+          simulateTypingAndRespond(`De payloaders tenemos en patio el **FL955K** con balde de 3 metros cúbicos (el caballo de batalla para areneras y plantas de asfalto) y el **FL966H** de 6 toneladas de carga útil.<br><br>¿Hacia qué zona del país tendríamos que coordinar el transporte?`);
           return;
         }
 
-        if (lower.includes("fd320") || lower.includes("fd220") || lower.includes("bulldozer") || lower.includes("tractor de oruga") || lower.includes("trocha")) {
+        if (lower.includes("fd320") || lower.includes("fd220") || lower.includes("bulldozer") || lower.includes("tractor") || lower.includes("trocha")) {
           leadState.interest = "Bulldozer Lovol";
           leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Tenemos el **FD220** (23.5 ton) para desmonte y banqueo general, y el **FD320** (34.5 ton con Cummins 345 HP) si requieres empuje masivo y ripper gigante en roca dura.<br><br>¿En qué zona geográfica de Venezuela tienen el proyecto?`);
+          simulateTypingAndRespond(`Tenemos el **FD220** (23.5 ton) para desmonte y banqueo general, y el **FD320** (34.5 ton con Cummins 345 HP) si requieres empuje masivo y ripper gigante en roca dura.<br><br>¿En qué zona de Venezuela tienen proyectado meter el tractor?`);
           return;
         }
 
@@ -541,23 +555,21 @@
           return;
         }
 
-        // Si responde algo genérico sobre la faena
         leadState.interest = "Maquinaria general";
         leadState.stage = "ask_location";
-        simulateTypingAndRespond(`Entendido, ${leadState.name}. Por las especificaciones de lo que me comentas tenemos un par de opciones que se ajustan exactas al trabajo. Para revisar el tema de fletes y disponibilidad en patio, ¿en qué estado de Venezuela la estarían necesitando?`);
+        simulateTypingAndRespond(`Entendido, ${leadState.name}. Por lo que me comentas tenemos un par de configuraciones que se ajustan perfecto a esa labor. Para chequear inventario en patio y tema de flete, ¿en qué estado del país está ubicada la faena?`);
         return;
       }
 
-      // ETAPA 3: Cierre y toma de contacto directo (Handoff)
+      // ETAPA 3: Cierre y toma de contacto directo
       if (leadState.stage === "ask_location" || leadState.stage === "close_handoff") {
         leadState.location = input;
         leadState.stage = "finished";
-        simulateTypingAndRespond(`Perfecto, anotado. En esa zona podemos despachar sin contratiempo. Déjame tu número de WhatsApp directo o el de la persona encargada de compras para compartirte la ficha técnica en PDF y la proforma con el desglose comercial.<br><br>¿Te viene mejor que te llamemos o te escribimos primero por WhatsApp?`);
+        simulateTypingAndRespond(`Perfecto ${leadState.name}, para esa zona tenemos ruta de despacho directa en cama baja sin problema.<br><br>Déjame por acá tu número de WhatsApp directo para enviarte de inmediato la ficha técnica en PDF y la proforma desglosada. ¿Prefieres que te echemos una llamada rápida o te escribimos por mensaje?`);
         return;
       }
 
-      // Etapa final
-      simulateTypingAndRespond(`Excelente ${leadState.name}, tomo nota de tus datos. En unos minutos te comparto la documentación para que la revises con calma. Cualquier duda técnica puntual me comentas por acá.`);
+      simulateTypingAndRespond(`Excelente ${leadState.name}, tomo nota de tus datos. En breves minutos te comparto la documentación por WhatsApp para que la revises con calma.`);
     }
   </script>
 </body>
