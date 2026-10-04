@@ -5,31 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela</title>
   
-  <!-- ===============================================================
-       METADATOS OPEN GRAPH PARA PREVISUALIZACIÓN EN WHATSAPP / RRSS
-       =============================================================== -->
-  <meta name="description" content="Importación y provisión estratégica de maquinaria pesada 0 horas para construcción y minería en Venezuela. Excavadoras, Payloaders, Bulldozers y Motoniveladoras Lovol y Shantui con despacho en patio Valencia.">
-  <meta name="author" content="Construven Import C.A.">
-
-  <!-- Open Graph / WhatsApp Card -->
+  <!-- Metadatos Open Graph para WhatsApp -->
+  <meta name="description" content="Importación y provisión estratégica de maquinaria pesada 0 horas para construcción y minería en Venezuela. Despacho nacional en patio Valencia.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://construvenimport.com">
   <meta property="og:title" content="Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela">
-  <meta property="og:description" content="Importación directa de maquinaria pesada 0 horas. Excavadoras, payloaders, bulldozers y motoniveladoras con entrega nacional en patio Valencia. Respaldo de repuestos y proformas inmediatas.">
+  <meta property="og:description" content="Importación directa de maquinaria pesada 0 horas. Excavadoras, payloaders, bulldozers y motoniveladoras con entrega nacional en patio Valencia.">
   <meta property="og:image" content="https://i.postimg.cc/4N18YTbb/LOGO-CONSTRUVEN.jpg">
   <meta property="og:image:secure_url" content="https://i.postimg.cc/4N18YTbb/LOGO-CONSTRUVEN.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Construven Import C.A.">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela">
-  <meta name="twitter:description" content="Importación directa de maquinaria pesada 0 horas con entrega en cama baja todo el país.">
-  <meta name="twitter:image" content="https://i.postimg.cc/4N18YTbb/LOGO-CONSTRUVEN.jpg">
-
-  <!-- Favicon Oficial -->
   <link rel="icon" type="image/png" href="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png">
 
   <!-- Tipografías Oficiales -->
@@ -37,10 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Model Viewer (WebGL para archivos .GLB) -->
+  <!-- Google Model Viewer (Carga asíncrona) -->
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
   <style>
@@ -98,11 +84,13 @@
       animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Regla corregida: solo se muestra en móvil vertical si NO ha sido descartado */
-    @media screen and (orientation: portrait) and (max-width: 1024px) {
-      #rotatePrompt:not(.is-dismissed) {
-        display: flex !important;
-      }
+    /* Regla corregida: no bloquea clics si no está activo */
+    #rotatePrompt {
+      pointer-events: none;
+    }
+    #rotatePrompt.active:not(.is-dismissed) {
+      display: flex !important;
+      pointer-events: auto !important;
     }
     #rotatePrompt.is-dismissed {
       display: none !important;
@@ -165,9 +153,7 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
-  <!-- ===============================================================
-       MODAL DE ROTACIÓN (NO BLOQUEA SI SE DESCARTA)
-       =============================================================== -->
+  <!-- MODAL DE ROTACIÓN -->
   <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
     <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
       <div class="w-14 h-24 border-2 border-amber-400 rounded-2xl animate-rotate-phone relative flex items-center justify-center shadow-lg shadow-amber-500/20">
@@ -187,14 +173,12 @@
       Para apreciar la escala, detalles técnicos y el video en alta resolución de la flota Construven, optimiza la pantalla en formato panorámico.
     </p>
 
-    <button onclick="dismissRotateOverlay()" class="px-5 py-2.5 rounded-full border border-white/20 bg-neutral-900 text-xs text-white tracking-wider font-mono-tech uppercase hover:border-amber-400">
+    <button onclick="dismissRotateOverlay()" class="px-5 py-2.5 rounded-full border border-white/20 bg-neutral-900 text-xs text-white tracking-wider font-mono-tech uppercase hover:border-amber-400 cursor-pointer">
       Continuar en vertical
     </button>
   </div>
 
-  <!-- ===============================================================
-       SECCIÓN 1: HERO BANNER PANTALLA COMPLETA (100VH)
-       =============================================================== -->
+  <!-- SECCIÓN 1: HERO BANNER PANTALLA COMPLETA (100VH) -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     
     <video 
@@ -213,11 +197,10 @@
       Tu navegador no soporta video HTML5.
     </video>
 
-    <!-- Scanlines y viñetas (centro completamente limpio) -->
     <div class="absolute inset-0 hud-scanlines opacity-25 z-10 pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 z-10 pointer-events-none"></div>
 
-    <!-- TOP HEADER: Logo Construven Oficial + Configuración -->
+    <!-- TOP HEADER -->
     <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
       <a href="#" class="flex items-center gap-3 group">
         <img 
@@ -227,23 +210,20 @@
         >
       </a>
 
-      <!-- Controles de video -->
       <div class="flex items-center gap-2">
-        <button onclick="toggleGithubModal()" class="bg-black/50 hover:bg-black/80 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/15 backdrop-blur-md flex items-center gap-1.5 transition-all">
+        <button onclick="toggleGithubModal()" class="bg-black/50 hover:bg-black/80 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/15 backdrop-blur-md flex items-center gap-1.5 transition-all cursor-pointer">
           <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
           <span class="hidden sm:inline">Fuente de Video</span>
         </button>
 
-        <button onclick="togglePlayPause()" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full border border-white/15 backdrop-blur-md">
+        <button onclick="togglePlayPause()" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full border border-white/15 backdrop-blur-md cursor-pointer">
           <svg id="pauseIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <svg id="playIcon" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
         </button>
       </div>
     </div>
 
-    <!-- EL CENTRO QUEDA LIMPIO PARA EL VIDEO -->
-
-    <!-- BASE INFERIOR: Frase abajo a la izquierda + Botón COTIZAR -->
+    <!-- BASE INFERIOR -->
     <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div class="flex flex-col items-start max-w-xl">
         <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug drop-shadow-xl mb-4">
@@ -260,7 +240,6 @@
         </div>
       </div>
 
-      <!-- Marcas en esquina inferior derecha -->
       <div class="hidden md:flex items-center gap-4 bg-black/45 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md">
         <span class="text-xs font-black text-amber-400 tracking-wider">LOVOL</span>
         <div class="h-4 w-px bg-white/20"></div>
@@ -270,12 +249,10 @@
 
   </section>
 
-  <!-- ===============================================================
-       SECCIÓN 2: CATÁLOGO RESUMIDO & ASESOR TÉCNICO INDEPENDIENTE
-       =============================================================== -->
+  <!-- SECCIÓN 2: CATÁLOGO RESUMIDO & ASESOR TÉCNICO -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
-    <!-- COLUMNA IZQUIERDA: Catálogo de Equipos -->
+    <!-- COLUMNA IZQUIERDA: Tarjetas -->
     <div class="lg:col-span-6 flex flex-col gap-6">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
@@ -291,7 +268,6 @@
         </p>
       </div>
 
-      <!-- Tarjetas de Equipos -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         
         <!-- FR220D -->
@@ -385,7 +361,6 @@
 
       </div>
 
-      <!-- Badges B2B -->
       <div class="grid grid-cols-3 gap-3 pt-2">
         <div class="text-center p-3 rounded-xl bg-neutral-900/50 border border-white/5">
           <span class="text-lg font-black text-amber-400 block font-mono-tech">100%</span>
@@ -402,7 +377,7 @@
       </div>
     </div>
 
-    <!-- COLUMNA DERECHA: Asesor Comercial Independiente (Carlos Mendoza) -->
+    <!-- COLUMNA DERECHA: Asesor Comercial (Carlos Mendoza) -->
     <div class="lg:col-span-6 w-full">
       <div class="glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden shadow-2xl flex flex-col h-[620px] bg-[#0c0f18]/90">
         
@@ -463,9 +438,7 @@
     </div>
   </main>
 
-  <!-- ===============================================================
-       SECCIÓN 3: DOSSIER TÉCNICO & VISOR 3D (SHANTUI SG27-C5)
-       =============================================================== -->
+  <!-- SECCIÓN 3: DOSSIER TÉCNICO & VISOR 3D (SHANTUI SG27-C5) -->
   <section id="dossierSection" class="max-w-[1340px] w-full mx-auto px-4 py-12 scroll-mt-6">
     <div class="border-t border-white/10 pt-10">
       
@@ -484,7 +457,7 @@
           </p>
         </div>
 
-        <!-- Botones Selectores de Máquinas (9 Modelos) -->
+        <!-- Botones Selectores (9 Modelos) -->
         <div class="flex items-center gap-1.5 overflow-x-auto pb-2 custom-scrollbar">
           <button onclick="renderMachineSpec('FR220D')" id="tab-FR220D" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-amber-500 bg-amber-500 text-neutral-950 transition-all cursor-pointer">FR220D</button>
           <button onclick="renderMachineSpec('FR335F')" id="tab-FR335F" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all cursor-pointer">FR335F</button>
@@ -498,7 +471,6 @@
         </div>
       </div>
 
-      <!-- Tarjeta Principal del Dossier -->
       <div class="glass-panel rounded-3xl border border-amber-500/30 p-6 md:p-8 bg-[#0b0e17]/95 shadow-2xl relative overflow-hidden">
         
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/10">
@@ -516,7 +488,6 @@
             </p>
           </div>
 
-          <!-- Botón de WhatsApp Directo de la Ficha Técnica -->
           <div class="flex items-center gap-3">
             <button onclick="quoteCurrentSpec()" class="pulse-whatsapp px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs md:text-sm rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95 cursor-pointer">
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
@@ -525,27 +496,23 @@
           </div>
         </div>
 
-        <!-- ===============================================================
-             VISOR 3D EXCLUSIVO PARA SHANTUI SG27-C5 CON ARCHIVO .GLB
-             =============================================================== -->
+        <!-- VISOR 3D EXCLUSIVO (CARGA BAJO DEMANDA) -->
         <div id="shantui3dContainer" class="hidden my-6 p-4 rounded-2xl bg-black/70 border border-amber-500/40 relative">
-          <!-- HUD Superior del Visor 3D -->
           <div class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-white/10">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
               <span class="text-xs font-extrabold text-amber-400 font-mono-tech tracking-wider uppercase">VISOR 3D INTERACTIVO • SHANTUI SG27-C5</span>
             </div>
             <div class="flex items-center gap-3 text-[11px] font-mono-tech text-neutral-400">
-              <span class="hidden sm:inline">ORIGEN: <strong class="text-white">shantui3d.glb (GitHub Release)</strong></span>
+              <span class="hidden sm:inline">ORIGEN: <strong class="text-white">shantui3d.glb</strong></span>
               <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold">ARRASTRA PARA GIRAR 360°</span>
             </div>
           </div>
 
-          <!-- Canvas 3D Model-Viewer vinculado con tu archivo .glb -->
           <div class="relative w-full h-[360px] sm:h-[480px] rounded-xl overflow-hidden bg-gradient-to-b from-[#0e1320] to-[#04060a] border border-white/10 flex items-center justify-center">
+            <!-- Nota: src se inyecta dinámicamente con JS al seleccionarla para evitar que congele la web al inicio -->
             <model-viewer
               id="shantuiModel"
-              src="https://github.com/jesusdavidchacons-png/CONSTRUVENIMPORT/releases/download/v1.0.0/shantui3d.glb"
               alt="Motoniveladora Shantui SG27-C5 2026 3D"
               auto-rotate
               rotation-per-second="18deg"
@@ -557,14 +524,12 @@
               camera-orbit="45deg 75deg 105%"
               class="w-full h-full"
             >
-              <!-- Pantalla de carga mientras se descarga el modelo -->
               <div slot="poster" class="flex flex-col items-center justify-center h-full text-center p-4">
                 <div class="w-10 h-10 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-3"></div>
                 <span class="text-xs font-mono-tech text-amber-300">Cargando modelo 3D Shantui SG27-C5...</span>
               </div>
             </model-viewer>
 
-            <!-- HUD Inferior -->
             <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 text-[10px] font-mono-tech text-neutral-300 pointer-events-none flex items-center gap-2">
               <svg class="w-3.5 h-3.5 text-amber-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
               <span>Control Orbital 3D Activo</span>
@@ -613,7 +578,7 @@
           </div>
 
           <div id="tabContentArea" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-mono-tech">
-            <!-- Rellenado con JavaScript -->
+            <!-- Rellenado por JS -->
           </div>
         </div>
 
@@ -689,15 +654,12 @@
     </div>
   </footer>
 
-  <!-- ===============================================================
-       JAVASCRIPT: MÓDULOS TOTALMENTE OPERATIVOS
-       =============================================================== -->
+  <!-- JAVASCRIPT CORREGIDO Y DESACOPLADO -->
   <script>
     const CONSTRUVEN_WHATSAPP_NUMBER = "584227170891";
+    const SHANTUI_GLB_URL = "https://github.com/jesusdavidchacons-png/CONSTRUVENIMPORT/releases/download/v1.0.0/shantui3d.glb";
 
-    // -------------------------------------------------------------
     // BASE DE DATOS DEL DOSSIER TÉCNICO (9 MÁQUINAS)
-    // -------------------------------------------------------------
     const MACHINES_DATABASE = {
       "FR220D": {
         brand: "LOVOL",
@@ -719,7 +681,6 @@
           { label: "Modelo de Motor", value: "Cummins QSB6.7 Turbocargado" },
           { label: "Potencia Neta", value: "119 kW (160 HP) a 2000 rpm" },
           { label: "Cilindrada", value: "6.7 Litros (6 Cilindros en línea)" },
-          { label: "Peso Medio Motor", value: "1,800 mm altura / soporte pesado" },
           { label: "Horas de Uso", value: "0.0 Horas (100% Nuevo en Patio)" },
           { label: "Año de Fabricación", value: "2026" }
         ],
@@ -727,23 +688,19 @@
           { label: "Tipo de Bomba", value: "Bomba de pistón axial de caudal variable" },
           { label: "Flujo Principal", value: "2 x 220 L/min" },
           { label: "Presión de Trabajo", value: "34.3 MPa (343 bar)" },
-          { label: "Mecanismo de Giro", value: "12.1 rpm con freno hidráulico" },
-          { label: "Válvula Principal", value: "Kawasaki con centro cerrado (Load Sensing)" }
+          { label: "Mecanismo de Giro", value: "12.1 rpm con freno hidráulico" }
         ],
         trabajo: [
           { label: "Profundidad Excavación", value: "6.73 m (6,730 mm)" },
           { label: "Longitud de Pluma", value: "5.7 metros (Brazo reforzado)" },
           { label: "Fuerza de Rotura", value: "159 kN" },
-          { label: "Tracción / Orugas", value: "Eslabones sellados y lubricados de 600 mm" },
-          { label: "Longitud de Track", value: "4.46 metros (Zapatas triples)" },
-          { label: "Velocidad de Avance", value: "Hidrostática 2 vel. (Máx 5.5 km/h)" }
+          { label: "Tracción / Orugas", value: "Eslabones sellados y lubricados de 600 mm" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "400 Litros" },
           { label: "Sistema Hidráulico", value: "240 Litros" },
           { label: "Ancho Transporte", value: "2.99 metros" },
-          { label: "Altura Transporte", value: "3.10 metros" },
-          { label: "Logística Nacional", value: "Despacho directo en plataforma Cama Baja" }
+          { label: "Altura Transporte", value: "3.10 metros" }
         ]
       },
 
@@ -767,29 +724,23 @@
           { label: "Modelo de Motor", value: "Cummins 6LTAA8.9" },
           { label: "Potencia Bruta", value: "225 kW (302 HP) a 2,000 rpm" },
           { label: "Torque Máximo", value: "1,230 N·m a 1,400 rpm" },
-          { label: "Cilindrada", value: "8.9 Litros" },
-          { label: "Nivel de Emisiones", value: "Stage III / Tier 3" },
-          { label: "Año / Estado", value: "2026 • 0 Horas" }
+          { label: "Cilindrada", value: "8.9 Litros" }
         ],
         hidraulica: [
           { label: "Sistema Hidráulico", value: "Centro Cerrado (Load Sensing)" },
           { label: "Bomba Principal", value: "2 x Caudal Variable Kawasaki" },
-          { label: "Caudal Máximo", value: "2 x 280 L/min" },
           { label: "Presión Máxima", value: "34.3 MPa (4,975 psi)" }
         ],
         trabajo: [
           { label: "Capacidad Cucharón", value: "2.10 m³ (Roca dura / Minería)" },
           { label: "Profundidad Máxima", value: "6,727 mm (6.72 m)" },
-          { label: "Alcance Máximo", value: "10,662 mm (10.66 m)" },
           { label: "Fuerza Cucharón", value: "208 kN" },
-          { label: "Fuerza Brazo (ISO)", value: "158 kN" },
-          { label: "Fuerza de Tracción", value: "257 kN (Hidrostática 2 vel. 5.6 / 3.5 km/h)" }
+          { label: "Fuerza de Tracción", value: "257 kN" }
         ],
         capacidades: [
           { label: "Peso Operativo", value: "33,250 kg" },
           { label: "Ancho Transporte", value: "3,200 mm" },
-          { label: "Altura Transporte", value: "3,415 mm" },
-          { label: "Disponibilidad", value: "Patio Central Valencia para entrega nacional" }
+          { label: "Altura Transporte", value: "3,415 mm" }
         ]
       },
 
@@ -812,26 +763,21 @@
         motor: [
           { label: "Modelo de Motor", value: "Weichai WD10G / Cummins QSB" },
           { label: "Potencia Bruta", value: "162 kW (220 HP)" },
-          { label: "Cilindrada", value: "9.8 Litros" },
-          { label: "Régimen Nominal", value: "1,800 - 2,000 rpm" },
-          { label: "Horas / Año", value: "0 Horas • Lote 2026" }
+          { label: "Cilindrada", value: "9.8 Litros" }
         ],
         hidraulica: [
           { label: "Presión de Alivio", value: "18 MPa (180 bar)" },
-          { label: "Ciclo Hidráulico Total", value: "9.5 - 10.5 segundos" },
-          { label: "Mecanismo Dirección", value: "Articulada hidráulica con bomba independiente" }
+          { label: "Ciclo Hidráulico Total", value: "9.5 - 10.5 segundos" }
         ],
         trabajo: [
           { label: "Varillaje", value: "Diseño en Z de alta fuerza de desprendimiento" },
           { label: "Capacidad de Balde", value: "3.0 metros cúbicos con dientes reforzados" },
-          { label: "Tracción", value: "4WD (Tracción Total en las 4 ruedas)" },
-          { label: "Mecanismo Giro", value: "Transmisión planetaria y ejes reforzados" }
+          { label: "Tracción", value: "4WD (Tracción Total)" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "300 Litros" },
           { label: "Aceite Hidráulico", value: "220 Litros" },
-          { label: "Ancho Transporte", value: "2.85 metros" },
-          { label: "Altura Transporte", value: "3.45 metros" }
+          { label: "Ancho Transporte", value: "2.85 metros" }
         ]
       },
 
@@ -853,30 +799,22 @@
         },
         motor: [
           { label: "Modelo de Motor", value: "Weichai WD10G240E21" },
-          { label: "Cilindros / Carrera", value: "6 cil - 126 x 130 mm" },
           { label: "Torque Máximo", value: "980 N·m" },
-          { label: "Velocidad Nominal", value: "2,200 rpm" },
           { label: "Cilindrada", value: "9.726 Litros" }
         ],
         hidraulica: [
           { label: "Presión de Trabajo", value: "18 MPa" },
-          { label: "Tiempo Elevación Pluma", value: "5.7 segundos" },
-          { label: "Tiempo Total de Ciclo", value: "11.0 segundos" },
-          { label: "Sistema de Dirección", value: "Hidráulico fijo y variable (Giro 38° ± 1°)" }
+          { label: "Tiempo Elevación Pluma", value: "5.7 segundos" }
         ],
         trabajo: [
           { label: "Carga Nominal", value: "6,000 kg (6 Toneladas)" },
-          { label: "Fuerza de Tracción", value: "175 kN" },
           { label: "Fuerza Desprendimiento", value: "185 kN" },
-          { label: "Altura Máx. Descarga", value: "3,150 mm (Alcance: 1,310 mm)" },
-          { label: "Transmisión", value: "Eje intermedio control electrónico (4 fwd / 3 rev)" },
           { label: "Velocidad Máxima", value: "38.0 km/h" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "364 Litros" },
           { label: "Tanque Hidráulico", value: "150 Litros" },
-          { label: "Dimensiones Máquina", value: "8,530 x 3,050 x 3,400 mm" },
-          { label: "Distancia entre Ejes", value: "3,400 mm (Trocha: 2,250 mm)" }
+          { label: "Distancia entre Ejes", value: "3,400 mm" }
         ]
       },
 
@@ -899,28 +837,20 @@
         motor: [
           { label: "Modelo de Motor", value: "Cummins QSNT-C345S31 (China-III)" },
           { label: "Potencia Bruta", value: "257 kW (345 HP) a 2000 rpm" },
-          { label: "Potencia Neta", value: "235 kW (320 HP) a 2000 rpm" },
-          { label: "Torque Máximo", value: "1,509 N·m a 1400 rpm" },
-          { label: "Diámetro x Carrera", value: "6 - 140 x 152 mm (14.0 Litros)" }
+          { label: "Torque Máximo", value: "1,509 N·m a 1400 rpm" }
         ],
         hidraulica: [
           { label: "Transmisión", value: "Torqflow planetaria hidráulica con lubricación forzada" },
-          { label: "Velocidades", value: "3 adelante (hasta 11.5 km/h) / 3 reversa (hasta 13.5 km/h)" },
-          { label: "Convertidor de Par", value: "3 elementos, 1 etapa, 1 fase" },
-          { label: "Mandos Finales", value: "Engranaje recto doble reducción por salpicadura" }
+          { label: "Mandos Finales", value: "Engranaje recto doble reducción" }
         ],
         trabajo: [
           { label: "Hoja Frontal", value: "Inclinación recta / Semi-U (7.2 a 9.0 m³)" },
-          { label: "Ancho de Hoja", value: "4,130 mm / 5,000 mm" },
           { label: "Escarificador (Ripper)", value: "1 Vástago Gigante (1,250 mm prof.) o 3 Vástagos" },
-          { label: "Zapatas", value: "Garra simple (560 a 710 mm) • 41 zapatas por lado" },
-          { label: "Despeje del Suelo", value: "500 mm libre sobre el suelo" }
+          { label: "Zapatas", value: "Garra simple (41 zapatas por lado)" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "640 Litros" },
-          { label: "Tanque Hidráulico", value: "97 Litros" },
-          { label: "Líquido Refrigerante", value: "79 Litros (Aceite Motor: 45 L)" },
-          { label: "Longitud Total", value: "6,610 mm con barra de tiro" }
+          { label: "Tanque Hidráulico", value: "97 Litros" }
         ]
       },
 
@@ -943,25 +873,20 @@
         motor: [
           { label: "Modelo de Motor", value: "Cummins NT 855-C280" },
           { label: "Rendimiento", value: "177 kW (237 HP) a 2,100 rpm" },
-          { label: "Cilindrada", value: "14.0 Litros" },
-          { label: "Emisión / Horas", value: "0 Horas • Fabricación 2026" }
+          { label: "Cilindrada", value: "14.0 Litros" }
         ],
         hidraulica: [
           { label: "Caudal de Bomba", value: "Aprox. 350 L/min" },
-          { label: "Presión de Trabajo", value: "280 bar (28 MPa)" },
-          { label: "Mecanismo Giro", value: "Hidrostático con transmisión final planetaria" }
+          { label: "Presión de Trabajo", value: "280 bar (28 MPa)" }
         ],
         trabajo: [
           { label: "Fuerza de Rotura", value: "Fuerza de tracción de hoja: 210 kN" },
-          { label: "Ancho de Hoja", value: "4.3 metros (Capacidad hasta 12.0 m³)" },
-          { label: "Cadena / Tracción", value: "Sellada y lubricada para servicio pesado" },
+          { label: "Ancho de Hoja", value: "4.3 metros" },
           { label: "Profundidad Ripeado", value: "Hasta 750 mm con escarificador trasero" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "600 Litros" },
-          { label: "Aceite de Motor", value: "35 Litros" },
-          { label: "Sistema Hidráulico", value: "120 Litros" },
-          { label: "Dimensiones Transporte", value: "Ancho: 2.65 m | Altura: 3.40 m" }
+          { label: "Sistema Hidráulico", value: "120 Litros" }
         ]
       },
 
@@ -982,27 +907,21 @@
           hydraulicDetail: "Flujo 200 - 250 L/min"
         },
         motor: [
-          { label: "Modelo de Motor", value: "Weichai WP4.1 (o WP4CG)" },
+          { label: "Modelo de Motor", value: "Weichai WP4.1" },
           { label: "Potencia Nominal", value: "94 - 100 HP (Hasta 142 kW según versión)" },
-          { label: "Cilindrada", value: "4.1 / 6.7 Litros según serie" },
           { label: "Régimen Motor", value: "2,000 rpm" }
         ],
         hidraulica: [
           { label: "Flujo del Sistema", value: "Aprox. 200 - 250 L/min" },
-          { label: "Presión de Alivio", value: "18 - 20 MPa (180 - 200 bar)" },
-          { label: "Velocidad de Giro", value: "10.5 rpm con amortiguación" }
+          { label: "Presión de Alivio", value: "18 - 20 MPa (180 - 200 bar)" }
         ],
         trabajo: [
           { label: "Tracción", value: "4x4 Tracción Total Hidrostática" },
-          { label: "Balde Frontal", value: "1.0 metro cúbico tipo multipropósito" },
-          { label: "Brazo Retroexcavador", value: "Longitud estándar monobloque con estabilizadores" },
-          { label: "Profundidad de Corte", value: "600 mm en hoja frontal" }
+          { label: "Balde Frontal", value: "1.0 metro cúbico" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "480 Litros" },
-          { label: "Aceite Hidráulico", value: "290 Litros" },
-          { label: "Ancho de Transporte", value: "3,190 mm" },
-          { label: "Altura de Transporte", value: "3,160 mm" }
+          { label: "Aceite Hidráulico", value: "290 Litros" }
         ]
       },
 
@@ -1023,29 +942,22 @@
           hydraulicDetail: "Bomba Pistón 75 ml/r"
         },
         motor: [
-          { label: "Modelo de Motor", value: "Cummins 6CTAA8.3-C215 (China-II)" },
-          { label: "Número de Cilindros", value: "6 en línea (114 x 135 mm)" },
+          { label: "Modelo de Motor", value: "Cummins 6CTAA8.3-C215" },
           { label: "Potencia Bruta", value: "160 kW (215 HP) a 2,200 rpm" },
-          { label: "Torque Máximo", value: "980 N·m a 1,500 rpm" },
-          { label: "Cilindrada", value: "8.3 Litros" }
+          { label: "Torque Máximo", value: "980 N·m a 1,500 rpm" }
         ],
         hidraulica: [
           { label: "Bomba Tándem", value: "Bomba de engranajes 32 ml/r + Bomba pistón 75 ml/r" },
-          { label: "Presión Alivio Trabajo", value: "18 MPa / 24 MPa" },
-          { label: "Presión Dirección/Freno", value: "16.5 MPa / 10 MPa" }
+          { label: "Presión Alivio Trabajo", value: "18 MPa / 24 MPa" }
         ],
         trabajo: [
           { label: "Hoja Vertedera", value: "3,965 mm o 4,270 mm x 620 mm (Giro 360°)" },
           { label: "Profundidad de Corte", value: "970 mm máx." },
-          { label: "Altura de Elevación", value: "480 mm" },
-          { label: "Tracción Máxima", value: "88 kN" },
-          { label: "Velocidades Avance", value: "6 marchas: 5.5 hasta 39.2 km/h (Retroceso: 3 marchas)" }
+          { label: "Tracción Máxima", value: "88 kN" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "360 Litros" },
-          { label: "Aceite Hidráulico", value: "85 Litros" },
-          { label: "Cárter / Refrigerante", value: "19 Litros / 33 Litros" },
-          { label: "Longitud Total", value: "9,270 mm (Hasta 11,140 mm c/ ambos aditamentos)" }
+          { label: "Aceite Hidráulico", value: "85 Litros" }
         ]
       },
 
@@ -1066,29 +978,24 @@
           hydraulicDetail: "Bomba Tándem 28 ml/r"
         },
         motor: [
-          { label: "Modelo de Motor", value: "Weichai WP7G270E302 Turbocargado Intercooler" },
+          { label: "Modelo de Motor", value: "Weichai WP7G270E302 Turbocargado" },
           { label: "Cilindros / Carrera", value: "6 cil - 108 x 136 mm" },
-          { label: "Cilindrada", value: "7.47 Litros" },
           { label: "Potencia Bruta", value: "199 kW (270 HP) a 2,200 rpm" },
           { label: "Torque Máximo", value: "1,100 N·m a 1,300 - 1,500 rpm" }
         ],
         hidraulica: [
           { label: "Bomba Tándem", value: "Bomba de engranajes 28 ml/r" },
-          { label: "Presión de Trabajo", value: "16 MPa" },
-          { label: "Sistema Eléctrico", value: "Batería 2x 12V 105Ah • Alternador 28V 70A" }
+          { label: "Presión de Trabajo", value: "16 MPa" }
         ],
         trabajo: [
-          { label: "Hoja Vertedera", value: "3,965 mm o 4,270 mm x 635 mm x 20 mm (Giro 360°)" },
-          { label: "Ángulo de Inclinación", value: "27° a 73° (Corte talud hasta 90°)" },
+          { label: "Hoja Vertedera", value: "3,965 mm o 4,270 mm x 635 mm (Giro 360°)" },
           { label: "Profundidad de Corte", value: "500 mm" },
-          { label: "Fuerza de Tracción", value: "97 kN" },
-          { label: "Despeje Libre Suelo", value: "500 mm" }
+          { label: "Fuerza de Tracción", value: "97 kN" }
         ],
         capacidades: [
           { label: "Tanque Combustible", value: "340 Litros" },
           { label: "Tanque Hidráulico", value: "110 Litros" },
-          { label: "Cárter de Motor", value: "19 Litros (Refrigerante: 33 L)" },
-          { label: "Longitud Total", value: "9,445 mm (Hasta 11,041 mm con Ripper y Hoja Frontal)" }
+          { label: "Longitud Total", value: "9,445 mm (Hasta 11,041 mm c/ aditamentos)" }
         ]
       }
     };
@@ -1096,7 +1003,6 @@
     let currentSelectedModel = "FR220D";
     let activeSpecTab = "motor";
 
-    // Navega al dossier sin interferir con el chat
     function goToDossier(modelKey) {
       renderMachineSpec(modelKey);
       const dossierEl = document.getElementById('dossierSection');
@@ -1105,12 +1011,10 @@
       }
     }
 
-    // Renderiza la máquina seleccionada
     function renderMachineSpec(modelKey) {
       if (!MACHINES_DATABASE[modelKey]) return;
       currentSelectedModel = modelKey;
 
-      // Actualizar botones de pestañas superiores de máquinas
       document.querySelectorAll('.model-nav-btn').forEach(btn => {
         btn.classList.remove('bg-amber-500', 'text-neutral-950', 'border-amber-500');
         btn.classList.add('bg-neutral-900', 'text-neutral-400', 'border-white/10');
@@ -1127,14 +1031,14 @@
       document.getElementById('specTitle').textContent = data.name;
       document.getElementById('specSubtitle').textContent = data.subtitle;
 
-      // Control del Visor 3D: Se muestra si es la Shantui SG27-C5
+      // CARGA BAJO DEMANDA DEL 3D (evita congelar la pestaña)
       const viewer3D = document.getElementById('shantui3dContainer');
       const modelViewer = document.getElementById('shantuiModel');
 
       if (data.has3D) {
         if (viewer3D) viewer3D.classList.remove('hidden');
         if (modelViewer && !modelViewer.getAttribute('src')) {
-          modelViewer.setAttribute('src', 'https://github.com/jesusdavidchacons-png/CONSTRUVENIMPORT/releases/download/v1.0.0/shantui3d.glb');
+          modelViewer.setAttribute('src', SHANTUI_GLB_URL);
         }
       } else {
         if (viewer3D) viewer3D.classList.add('hidden');
@@ -1207,10 +1111,38 @@
     // Inicialización al cargar la página
     window.addEventListener('DOMContentLoaded', () => {
       renderMachineSpec('FR220D');
+      
+      // Control de orientación limpio
+      checkOrientation();
+      window.addEventListener('resize', checkOrientation);
+      window.addEventListener('orientationchange', checkOrientation);
     });
 
+    function checkOrientation() {
+      const prompt = document.getElementById('rotatePrompt');
+      if (!prompt || prompt.classList.contains('is-dismissed')) return;
+      
+      const isPortrait = window.innerHeight > window.innerWidth && window.innerWidth <= 1024;
+      if (isPortrait) {
+        prompt.classList.add('active');
+        prompt.classList.remove('hidden');
+      } else {
+        prompt.classList.remove('active');
+        prompt.classList.add('hidden');
+      }
+    }
+
+    function dismissRotateOverlay() {
+      const el = document.getElementById('rotatePrompt');
+      if (el) {
+        el.classList.add('is-dismissed');
+        el.classList.remove('active');
+        el.classList.add('hidden');
+      }
+    }
+
     // -------------------------------------------------------------
-    // CHAT TOTALMENTE FUNCIONAL & INDEPENDIENTE (CARLOS MENDOZA)
+    // CHAT INDEPENDIENTE
     // -------------------------------------------------------------
     const leadState = {
       name: "",
@@ -1280,7 +1212,7 @@
       }
     }
 
-    function simulateTypingAndRespond(text, delay = 900, triggerWhatsApp = false) {
+    function simulateTypingAndRespond(text, delay = 800, triggerWhatsApp = false) {
       const indicator = document.getElementById("typingIndicator");
       if (indicator) indicator.style.display = "flex";
       const chatBox = document.getElementById("chatBox");
@@ -1292,7 +1224,7 @@
         if (triggerWhatsApp) {
           setTimeout(() => {
             appendWhatsAppCard(leadState.name, leadState.interest, leadState.location);
-          }, 350);
+          }, 300);
         }
       }, delay);
     }
@@ -1322,9 +1254,8 @@
     function processHumanResponse(input) {
       const lower = input.toLowerCase();
 
-      // Detección directa de solicitud de WhatsApp o teléfono
       if (lower.includes("whatsapp") || lower.includes("telefono") || lower.includes("número") || lower.includes("contacto")) {
-        simulateTypingAndRespond(`¡Con gusto! Te paso la línea directa de WhatsApp para coordinar la proforma:`, 600, true);
+        simulateTypingAndRespond(`¡Con gusto! Te paso la línea directa de WhatsApp para coordinar la proforma:`, 500, true);
         return;
       }
 
@@ -1352,21 +1283,14 @@
       if (leadState.stage === "ask_location") {
         leadState.location = input;
         leadState.stage = "finished";
-        simulateTypingAndRespond(`Excelente ${leadState.name}. Tenemos ruta continua de despacho hacia **${leadState.location}**. Ya tengo lista la proforma técnica y las fotos de patio:`, 700, true);
+        simulateTypingAndRespond(`Excelente ${leadState.name}. Tenemos ruta continua de despacho hacia **${leadState.location}**. Ya tengo lista la proforma técnica y las fotos de patio:`, 600, true);
         return;
       }
 
-      simulateTypingAndRespond(`Perfecto ${leadState.name}, pulsa el botón verde para recibir la información directa en tu WhatsApp.`, 600, true);
+      simulateTypingAndRespond(`Perfecto ${leadState.name}, pulsa el botón verde para recibir la información directa en tu WhatsApp.`, 500, true);
     }
 
-    // -------------------------------------------------------------
-    // CONTROLES DE INTERFAZ Y VIDEO HERO
-    // -------------------------------------------------------------
-    function dismissRotateOverlay() {
-      const el = document.getElementById('rotatePrompt');
-      if (el) el.classList.add('is-dismissed');
-    }
-
+    // CONTROLES DE VIDEO
     const heroVideo = document.getElementById("heroVideo");
 
     function togglePlayPause() {
