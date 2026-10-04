@@ -4,22 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela</title>
+  
   <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     :root {
       --bg: #07090e;
-      --card-bg: rgba(15, 18, 28, 0.82);
+      --card-bg: rgba(15, 18, 28, 0.85);
       --card-border: rgba(255, 255, 255, 0.08);
       --accent: #f59e0b;
       --accent-glow: rgba(245, 158, 11, 0.35);
-      --accent-soft: rgba(245, 158, 11, 0.12);
-      --chat-bot-bg: #131724;
-      --chat-user-bg: #f59e0b;
     }
 
     body {
@@ -32,11 +30,16 @@
         radial-gradient(circle at 90% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
     }
 
+    .font-impact-banner {
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
     .font-mono-tech {
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Subtle industrial scanline overlay for the cinematic banner */
+    /* Scanlines sutiles estilo visor militar/industrial */
     .hud-scanlines {
       background: repeating-linear-gradient(
         0deg,
@@ -48,10 +51,6 @@
       pointer-events: none;
     }
 
-    .video-glow-border {
-      box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.22), inset 0 0 60px rgba(0, 0, 0, 0.85);
-    }
-
     .glass-panel {
       background: var(--card-bg);
       backdrop-filter: blur(16px);
@@ -59,221 +58,216 @@
       border: 1px solid var(--card-border);
     }
 
-    @keyframes bounce {
-      0%, 80%, 100% { transform: scale(0); }
-      40% { transform: scale(1); }
+    /* Animación del giro del teléfono */
+    @keyframes phoneRotate {
+      0%, 15% { transform: rotate(0deg); }
+      50%, 85% { transform: rotate(90deg); }
+      100% { transform: rotate(0deg); }
     }
-    .typing-dot {
-      animation: bounce 1.4s infinite ease-in-out both;
+    .animate-rotate-phone {
+      animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
-    .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-    .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-    ::-webkit-scrollbar {
-      width: 6px;
+    /* Detección de orientación vertical en móviles/tablets */
+    @media screen and (orientation: portrait) and (max-width: 1024px) {
+      #rotatePrompt {
+        display: flex !important;
+      }
     }
-    ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(245, 158, 11, 0.35);
+
+    /* Botón píldora estilo Ford Automotive Reference */
+    .btn-pill-ford {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 0.55rem 2.2rem;
       border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--accent);
+    .btn-pill-ford:hover {
+      background: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    .btn-pill-ford:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes bounce-slow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    .animate-bounce-slow {
+      animation: bounce-slow 2s infinite ease-in-out;
     }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
-  <!-- Top Navigation Header -->
-  <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 md:px-10 py-3.5 flex justify-between items-center transition-all">
-    <div class="flex items-center gap-3.5">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center font-extrabold text-neutral-950 text-xl shadow-lg shadow-amber-500/20 ring-1 ring-amber-300/40">
-        C
-      </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="font-extrabold text-sm md:text-base tracking-tight text-white">CONSTRUVEN IMPORT</span>
-          <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-mono-tech border border-amber-500/30">VENEZUELA</span>
-        </div>
-        <span class="text-[11px] font-semibold tracking-widest text-amber-400 uppercase block">Distribuidor Autorizado Lovol & Shantui</span>
+  <!-- ===============================================================
+       MODAL OBLIGATORIO: GIRAR DISPOSITIVO (EN MODO VERTICAL)
+       =============================================================== -->
+  <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
+    <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
+      <div class="w-14 h-24 border-2 border-amber-400 rounded-2xl animate-rotate-phone relative flex items-center justify-center shadow-lg shadow-amber-500/20">
+        <div class="w-8 h-1 bg-amber-400/60 rounded-full absolute top-2"></div>
+        <div class="w-2.5 h-2.5 border border-amber-400 rounded-full absolute bottom-2"></div>
+        <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
       </div>
     </div>
+    
+    <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Cinematográfica</span>
+    <h2 class="text-2xl font-black text-white uppercase tracking-tight max-w-sm mb-3 font-impact-banner">
+      Gira tu dispositivo a horizontal
+    </h2>
+    <p class="text-xs text-neutral-400 max-w-xs leading-relaxed mb-8">
+      Para apreciar la escala, detalles técnicos y el video en alta resolución de la flota Construven, optimiza la pantalla en formato panorámico.
+    </p>
 
-    <!-- Live indicator badge -->
-    <div class="flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-full text-xs font-medium text-amber-300">
-      <span class="relative flex h-2.5 w-2.5">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 shadow-sm shadow-emerald-400"></span>
-      </span>
-      <span class="hidden sm:inline">Despacho Inmediato • Patio Central Valencia</span>
-      <span class="sm:hidden">Patio 0 Horas</span>
-    </div>
-  </header>
+    <button onclick="dismissRotateOverlay()" class="text-[11px] text-neutral-500 hover:text-white underline tracking-wider font-mono-tech uppercase">
+      Continuar en vertical de todos modos
+    </button>
+  </div>
 
-  <section class="max-w-[1340px] w-full mx-auto px-4 pt-6 pb-2">
-    <!-- CINEMATIC VIDEO BANNER (GIF-LIKE HIGH SPEED AUTOPLAY LOOP) -->
-    <div class="relative w-full rounded-2xl md:rounded-3xl overflow-hidden glass-panel video-glow-border border border-amber-500/30 bg-black group min-h-[320px] md:min-h-[470px] flex items-center justify-center">
+  <!-- ===============================================================
+       SECCIÓN 1: HERO BANNER PANTALLA COMPLETA (100VH) ESTILO FORD
+       =============================================================== -->
+  <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
+    
+    <!-- Background Video: construvenimport.mp4 -->
+    <video 
+      id="heroVideo"
+      class="absolute inset-0 w-full h-full object-cover z-0"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      poster="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=1920&q=80">
       
-      <!-- Video Element: configured for seamless GIF-style loop -->
-      <!-- Configured by default for: banner-construven.mp4 -->
-      <video 
-        id="heroVideo"
-        class="w-full h-[330px] md:h-[470px] object-cover scale-100 transition-transform duration-700 ease-out group-hover:scale-105"
-        autoplay
-        loop
-        muted
-        playsinline
-        preload="auto"
-        poster="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=1600&q=80">
-        
-        <!-- Priority 1: Named root file banner-construven.mp4 -->
-        <source src="banner-construven.mp4" type="video/mp4">
-        <!-- Priority 2: In assets folder ./assets/banner-construven.mp4 -->
-        <source src="./assets/banner-construven.mp4" type="video/mp4">
-        <!-- Priority 3: Online fallback streaming demo (will play while you upload your file) -->
-        <source id="fallbackSource" src="https://assets.mixkit.co/videos/preview/mixkit-excavator-working-at-a-construction-site-41270-large.mp4" type="video/mp4">
-        Tu navegador no soporta video HTML5.
-      </video>
+      <!-- Video solicitado en GitHub / local -->
+      <source src="construvenimport.mp4" type="video/mp4">
+      <source src="./assets/construvenimport.mp4" type="video/mp4">
+      <!-- Fallback demo mientras subes tu video a GitHub -->
+      <source id="fallbackSource" src="https://assets.mixkit.co/videos/preview/mixkit-excavator-working-at-a-construction-site-41270-large.mp4" type="video/mp4">
+      Tu navegador no soporta video HTML5.
+    </video>
 
-      <!-- Scanlines HUD texture -->
-      <div class="absolute inset-0 hud-scanlines pointer-events-none opacity-40"></div>
+    <!-- Scanlines y viñetas oscuras para contraste cinematográfico -->
+    <div class="absolute inset-0 hud-scanlines opacity-40 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-[#07090e] via-black/35 to-black/60 z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/40 z-10"></div>
 
-      <!-- Vignette and Dark Gradients for high contrast -->
-      <div class="absolute inset-0 bg-gradient-to-t from-[#07090e] via-black/45 to-black/30 pointer-events-none"></div>
-      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-transparent to-black/85 pointer-events-none"></div>
-
-      <!-- HUD Top Overlays: Live Specs and Source Indicator -->
-      <div class="absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none text-xs">
-        <div class="flex flex-wrap items-center gap-2">
-          <div class="bg-black/75 backdrop-blur-md border border-amber-500/40 text-amber-400 font-mono-tech px-2.5 py-1 rounded-md flex items-center gap-1.5 shadow-md">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
-            REC • FAENA Y PATIO 2026
-          </div>
-          <div id="videoSourceBadge" class="hidden sm:flex bg-black/60 backdrop-blur-md border border-white/10 text-neutral-300 font-mono-tech px-2.5 py-1 rounded-md items-center gap-1.5">
-            <span class="text-neutral-500">ARCHIVO:</span>
-            <span id="currentVideoLabel" class="text-amber-300 font-semibold">banner-construven.mp4</span>
-          </div>
+    <!-- TOP BAR DENTRO DEL BANNER: Identificador, HUD y Configuración -->
+    <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center font-black text-neutral-950 text-lg shadow-lg shadow-amber-500/20">
+          C
         </div>
-
-        <div class="flex items-center gap-2 pointer-events-auto">
-          <!-- Setup modal button -->
-          <button onclick="toggleGithubModal()" class="bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-lg shadow-amber-500/20 transition-all hover:scale-105 active:scale-95">
-            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            <span>Configurar / GitHub</span>
-          </button>
-          
-          <!-- Play / Pause toggle -->
-          <button id="playPauseBtn" onclick="togglePlayPause()" class="bg-black/70 hover:bg-neutral-800 text-white p-2 rounded-lg border border-white/20 transition-all text-xs" title="Pausar / Reproducir">
-            <svg id="pauseIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <svg id="playIcon" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </button>
+        <div class="flex flex-col">
+          <span class="font-black text-xs md:text-sm tracking-wider text-white uppercase font-impact-banner">CONSTRUVEN IMPORT</span>
+          <span class="text-[9px] text-amber-400 font-mono-tech tracking-widest uppercase">Venezuela • 0 Horas</span>
         </div>
       </div>
 
-      <!-- Banner Main Content (Center / Bottom Overlay) -->
-      <div class="absolute bottom-6 left-5 right-5 md:left-10 md:right-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div class="max-w-xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-semibold mb-2 backdrop-blur-md">
-            <span>⚡ EQUIPOS LISTOS EN PATIO</span>
-            <span class="text-neutral-400">•</span>
-            <span>GARANTÍA DIRECTA</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight drop-shadow-md">
-            Línea Amarilla de Alta Potencia <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500">en Venezuela</span>
-          </h2>
-          <p class="text-xs sm:text-sm text-neutral-300 mt-1 line-clamp-2 drop-shadow">
-            Unidades Lovol y Shantui con motorización Cummins y bombas hidráulicas Kawasaki de alto caudal diseñadas para canteras, minería y movimiento de tierra severo.
-          </p>
-        </div>
+      <div class="flex items-center gap-2">
+        <!-- Botón Configurar video GitHub -->
+        <button onclick="toggleGithubModal()" class="bg-black/60 hover:bg-black/90 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/20 backdrop-blur-md flex items-center gap-1.5 transition-all">
+          <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="hidden sm:inline">Configurar Video</span>
+        </button>
 
-        <!-- Real-time HUD Telemetry stats -->
-        <div class="flex items-center gap-3 self-start md:self-end">
-          <div class="bg-black/80 backdrop-blur-md border border-white/10 px-3 py-2 rounded-xl text-center min-w-[70px]">
-            <span class="text-[10px] text-neutral-400 block font-mono-tech uppercase">Horas</span>
-            <span class="text-base font-extrabold text-emerald-400 font-mono-tech">0.0</span>
-          </div>
-          <div class="bg-black/80 backdrop-blur-md border border-white/10 px-3 py-2 rounded-xl text-center min-w-[85px]">
-            <span class="text-[10px] text-neutral-400 block font-mono-tech uppercase">Presión</span>
-            <span class="text-base font-extrabold text-amber-400 font-mono-tech">34.3 MPa</span>
-          </div>
-          <div class="bg-black/80 backdrop-blur-md border border-white/10 px-3 py-2 rounded-xl text-center min-w-[85px]">
-            <span class="text-[10px] text-neutral-400 block font-mono-tech uppercase">Motor</span>
-            <span class="text-base font-extrabold text-white font-mono-tech">Cummins</span>
-          </div>
+        <!-- Toggle Play/Pause -->
+        <button onclick="togglePlayPause()" class="bg-black/60 hover:bg-black/90 text-white p-2 rounded-full border border-white/20 backdrop-blur-md">
+          <svg id="pauseIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <svg id="playIcon" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- TITULAR PRINCIPAL ALTO IMPACTO (CENTRO / SUPERIOR) -->
+    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto my-auto pt-6">
+      <span class="inline-block text-[11px] md:text-xs tracking-[0.3em] uppercase text-amber-400 font-mono-tech mb-2 bg-black/60 px-4 py-1 rounded-full border border-amber-500/30 backdrop-blur-sm">
+        Distribuidor Oficial • Patio Central Valencia
+      </span>
+      <h1 class="font-impact-banner text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white uppercase tracking-tight leading-[0.95] drop-shadow-2xl">
+        POTENCIA DIRECTA <br class="hidden sm:block"/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600">
+          EN CADA TONELADA
+        </span>
+      </h1>
+    </div>
+
+    <!-- INFERIOR BANNER: DISEÑO EXACTO A LA REFERENCIA FORD -->
+    <div class="relative z-20 w-full px-6 md:px-14 pb-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
+      
+      <!-- Zona Izquierda: Frase motivadora + Botón de Píldora COTIZAR -->
+      <div class="flex flex-col items-start max-w-lg">
+        <!-- Frase solicitada -->
+        <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug drop-shadow-lg mb-4">
+          Imposible es solo falta de potencia
+        </h3>
+
+        <!-- Botón píldora como el de la referencia "Adelante" -->
+        <div class="flex flex-col items-start gap-2">
+          <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, deseo solicitar una cotización formal.')" class="btn-pill-ford group">
+            <span>COTIZAR</span>
+            <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+          <span class="text-[11px] text-neutral-400 font-mono-tech tracking-wide ml-2">
+            Disponibilidad Inmediata • Despacho Nacional en Cama Baja
+          </span>
         </div>
       </div>
+
+      <!-- Zona Derecha: Marcas e indicador de scroll -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 self-start md:self-end">
+        <!-- Logos de marcas aliadas -->
+        <div class="flex items-center gap-4 bg-black/50 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-md">
+          <div class="text-right">
+            <span class="text-[9px] text-neutral-400 uppercase font-mono-tech block">Tecnología</span>
+            <span class="text-xs font-black text-amber-400 tracking-wider">LOVOL</span>
+          </div>
+          <div class="h-6 w-px bg-white/20"></div>
+          <div>
+            <span class="text-[9px] text-neutral-400 uppercase font-mono-tech block">Empuje</span>
+            <span class="text-xs font-black text-white tracking-wider">SHANTUI</span>
+          </div>
+        </div>
+
+        <!-- Indicador Deslizar -->
+        <a href="#catalogo" class="hidden lg:flex flex-col items-center text-neutral-400 hover:text-amber-400 transition-colors animate-bounce-slow">
+          <span class="text-[10px] font-mono-tech uppercase tracking-widest mb-1">Explorar Catálogo</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+          </svg>
+        </a>
+      </div>
+
     </div>
   </section>
 
-  <!-- MODAL: GitHub Video Config & File Instructions -->
-  <div id="githubModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-amber-500/40 relative shadow-2xl shadow-amber-500/10">
-      <button onclick="toggleGithubModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
-      
-      <div class="flex items-center gap-3 mb-4">
-        <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-        </div>
-        <div>
-          <h3 class="text-lg font-bold text-white">Configuración del Banner GIF / Video</h3>
-          <p class="text-xs text-neutral-400">El nombre predeterminado es: <code class="text-amber-300 font-mono-tech">banner-construven.mp4</code></p>
-        </div>
-      </div>
-
-      <div class="space-y-4 text-sm">
-        <div class="bg-neutral-900/90 border border-white/10 p-3.5 rounded-xl text-xs space-y-2">
-          <div class="font-semibold text-amber-400 flex items-center gap-1.5">
-            <span>📌 Nombre asignado al video:</span>
-          </div>
-          <div class="font-mono-tech bg-black/60 p-2 rounded border border-amber-500/30 text-amber-200 select-all">
-            banner-construven.mp4
-          </div>
-          <p class="text-neutral-400 leading-relaxed text-[11px]">
-            Sube tu video a tu repositorio con ese nombre en la raíz o dentro de la carpeta <code class="text-white">assets/banner-construven.mp4</code>.
-          </p>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-neutral-300 mb-1.5">O pega aquí el enlace directo de tu GitHub:</label>
-          <div class="flex gap-2">
-            <input 
-              type="text" 
-              id="customVideoInput" 
-              placeholder="https://github.com/tu-usuario/tu-repo/blob/main/banner-construven.mp4" 
-              class="flex-1 bg-neutral-900 border border-white/20 rounded-xl px-3.5 py-2.5 text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400 font-mono-tech"
-            >
-          </div>
-          <p class="text-[11px] text-amber-300/80 mt-1.5">
-            Auto-conversión activa: Si pegas el enlace normal de GitHub, se convertirá a enlace directo de streaming RAW automáticamente.
-          </p>
-        </div>
-
-        <!-- Quick actions -->
-        <div class="flex flex-wrap gap-2 text-xs pt-1">
-          <button onclick="restoreDefaultFile()" class="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-white/10 font-mono-tech">
-            ↺ Usar banner-construven.mp4 local
-          </button>
-          <button onclick="loadPresetVideo('https://assets.mixkit.co/videos/preview/mixkit-excavator-working-at-a-construction-site-41270-large.mp4', 'Demo Streaming Excavadora')" class="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-white/10">
-            🚜 Ver Demo Streaming
-          </button>
-        </div>
-
-        <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
-          <button onclick="toggleGithubModal()" class="px-4 py-2 rounded-xl text-neutral-400 hover:text-white text-xs">Cerrar</button>
-          <button onclick="applyCustomVideo()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs shadow-lg shadow-amber-500/20">
-            Cargar en el Banner
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN LAYOUT: Catalog + Live Technical Sales Advisor -->
-  <main class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <!-- ===============================================================
+       SECCIÓN 2: CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO
+       =============================================================== -->
+  <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
-    <!-- LEFT COLUMN: Product Catalog & Action Cards -->
+    <!-- COLUMNA IZQUIERDA: Tarjetas de Maquinaria -->
     <div class="lg:col-span-6 flex flex-col gap-6">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
@@ -281,101 +275,101 @@
           <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
           <span>ENTREGA EN CAMA BAJA</span>
         </div>
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-          Equipos 2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> para entrega en Venezuela
-        </h1>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
+          Equipos 2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> en Patio
+        </h2>
         <p class="text-sm md:text-base text-neutral-300 mt-3 leading-relaxed">
-          Línea directa con nuestra gerencia técnica de ventas. Consulta disponibilidad de excavadoras, payloaders, bulldozers y motoniveladoras con respaldo técnico directo en patio y stock de repuestos genuinos.
+          Haz clic en cualquier unidad para iniciar la cotización técnica con nuestra gerencia comercial en Valencia. Respaldo de repuestos y asistencia mecánica garantizada.
         </p>
       </div>
 
-      <!-- Quick Action Machine Cards -->
+      <!-- Grid de Equipos -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         
         <!-- FR220D -->
-        <div onclick="quickAsk('Hola, me interesa saber sobre la excavadora FR220D')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="quickAsk('Hola Carlos, me interesa cotizar la excavadora Lovol FR220D')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Excavadora Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FR220D (21.9t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 160 HP • 0 Horas</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400/90 font-medium">
-            <span>Consultar disponibilidad</span>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 160 HP • Bomba Kawasaki</div>
+          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
+            <span>Cotizar este equipo</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- FL955K -->
-        <div onclick="quickAsk('Buenas tardes, busco información de un cargador de 3 metros')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="quickAsk('Buenas tardes, solicito disponibilidad y precio del payloader FL955K')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Payloader Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FL955K (17.2t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Balde 3.0 m³ • Cummins/Weichai</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400/90 font-medium">
-            <span>Consultar disponibilidad</span>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Balde 3.0 m³ • Motor Weichai/Cummins</div>
+          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
+            <span>Cotizar este equipo</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- FD320 -->
-        <div onclick="quickAsk('Tienen disponible el bulldozer FD320?')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="quickAsk('Tienen disponible en patio el bulldozer FD320 con ripper?')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Bulldozer Lovol</span>
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">EN PATIO</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FD320 (34.5t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Con Ripper</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400/90 font-medium">
-            <span>Consultar disponibilidad</span>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Con Ripper Gigante</div>
+          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
+            <span>Cotizar este equipo</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- SG21-B6 -->
-        <div onclick="quickAsk('Quisiera consultar por la motoniveladora Shantui SG21')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="quickAsk('Quisiera cotizar la motoniveladora Shantui SG21-B6')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">Shantui SG21-B6</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Hoja 4.27m</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400/90 font-medium">
-            <span>Consultar disponibilidad</span>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Vertedera 4.27m</div>
+          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
+            <span>Cotizar este equipo</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Trust Badges -->
+      <!-- Badges de confianza técnica -->
       <div class="grid grid-cols-3 gap-3 pt-2">
         <div class="text-center p-3 rounded-xl bg-neutral-900/50 border border-white/5">
-          <span class="text-lg font-extrabold text-amber-400 block font-mono-tech">100%</span>
+          <span class="text-lg font-black text-amber-400 block font-mono-tech">100%</span>
           <span class="text-[11px] text-neutral-400">Nuevos 0 Horas</span>
         </div>
         <div class="text-center p-3 rounded-xl bg-neutral-900/50 border border-white/5">
-          <span class="text-lg font-extrabold text-amber-400 block font-mono-tech">+12.000</span>
+          <span class="text-lg font-black text-amber-400 block font-mono-tech">+12.000</span>
           <span class="text-[11px] text-neutral-400">Repuestos Stock</span>
         </div>
         <div class="text-center p-3 rounded-xl bg-neutral-900/50 border border-white/5">
-          <span class="text-lg font-extrabold text-amber-400 block font-mono-tech">24/48h</span>
-          <span class="text-[11px] text-neutral-400">Despacho Nacional</span>
+          <span class="text-lg font-black text-amber-400 block font-mono-tech">24/48h</span>
+          <span class="text-[11px] text-neutral-400">Flete Cama Baja</span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT COLUMN: Asesor Comercial Chat Interface -->
+    <!-- COLUMNA DERECHA: Asesor Técnico y Cotizador en Vivo -->
     <div class="lg:col-span-6 w-full">
-      <div class="glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden shadow-2xl flex flex-col h-[620px] bg-[#0c0f18]/85">
+      <div class="glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden shadow-2xl flex flex-col h-[620px] bg-[#0c0f18]/90">
         
-        <!-- Chat Header -->
+        <!-- Encabezado del Asesor -->
         <div class="px-5 py-4 border-b border-white/10 bg-[#121624] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="relative">
-              <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-bold text-neutral-950 text-sm shadow ring-2 ring-amber-500/50">
+              <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center font-bold text-neutral-950 text-sm ring-2 ring-amber-500/50">
                 CM
               </div>
               <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-500 border-2 border-[#121624]"></span>
@@ -385,38 +379,37 @@
                 <h3 class="font-bold text-white text-sm">Carlos Mendoza</h3>
                 <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">Asesor Senior</span>
               </div>
-              <p class="text-xs text-neutral-400">Asesor Comercial Senior • Construven</p>
+              <p class="text-xs text-neutral-400">Gerencia de Cotizaciones • Construven Import</p>
             </div>
           </div>
 
           <div class="hidden sm:block text-right">
             <span class="text-[11px] font-mono-tech text-emerald-400 block">EN LÍNEA</span>
-            <span class="text-[10px] text-neutral-500">Respuesta inmediata</span>
+            <span class="text-[10px] text-neutral-500">Respuesta Inmediata</span>
           </div>
         </div>
 
-        <!-- Chat Message Area -->
+        <!-- Área de Mensajes -->
         <div id="chatBox" class="flex-1 overflow-y-auto p-4 md:p-5 flex flex-col gap-3.5 scroll-smooth">
-          <!-- Initial Welcome Message from Carlos Mendoza -->
           <div class="self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed">
-            Buenas tardes, un gusto saludarte. Mi nombre es <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico acá en <strong>Construven Import</strong>.<br><br>
-            Estamos recibiendo lotes 2026 con 0 horas de uso. ¿Con quién tengo el placer de hablar hoy?
+            Buenas tardes, un gusto saludarte. Mi nombre es <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>.<br><br>
+            Tenemos lotes 2026 de maquinaria pesada 0 horas en patio listos para facturación y despacho. ¿Con quién tengo el gusto de hablar hoy?
           </div>
         </div>
 
-        <!-- Typing Indicator -->
+        <!-- Indicador de Escritura -->
         <div id="typingIndicator" class="hidden self-start mx-5 my-2 bg-[#141824] border border-white/10 px-4 py-2.5 rounded-xl rounded-tl-sm flex items-center gap-1.5">
-          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full typing-dot"></div>
-          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full typing-dot"></div>
-          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full typing-dot"></div>
+          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
+          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
+          <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
         </div>
 
-        <!-- Chat Input Form -->
+        <!-- Input de Chat -->
         <div class="p-3.5 border-t border-white/10 bg-[#0f121d] flex items-center gap-2">
           <input 
             type="text" 
             id="userInput" 
-            placeholder="Escribe tu mensaje..." 
+            placeholder="Escribe tu mensaje o consulta de equipo..." 
             class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all"
             onkeydown="handleKey(event)"
           >
@@ -432,7 +425,56 @@
     </div>
   </main>
 
-  <!-- Footer -->
+  <!-- MODAL: GITHUB VIDEO CONFIG -->
+  <div id="githubModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-amber-500/40 relative shadow-2xl">
+      <button onclick="toggleGithubModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
+      
+      <div class="flex items-center gap-3 mb-4">
+        <div class="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Configuración del Video GitHub</h3>
+          <p class="text-xs text-neutral-400">Nombre de archivo configurado: <code class="text-amber-300 font-mono-tech">construvenimport.mp4</code></p>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-sm">
+        <div class="bg-neutral-900/90 border border-white/10 p-3.5 rounded-xl text-xs space-y-2">
+          <div class="font-semibold text-amber-400">📌 Archivo vinculado por defecto:</div>
+          <div class="font-mono-tech bg-black/60 p-2 rounded border border-amber-500/30 text-amber-200 select-all">
+            construvenimport.mp4
+          </div>
+          <p class="text-neutral-400 leading-relaxed text-[11px]">
+            Sube tu video con ese nombre en la raíz de tu repositorio o dentro de <code class="text-white">./assets/construvenimport.mp4</code>.
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-neutral-300 mb-1.5">O pega la URL directa de GitHub:</label>
+          <input 
+            type="text" 
+            id="customVideoInput" 
+            placeholder="https://github.com/usuario/repo/blob/main/construvenimport.mp4" 
+            class="w-full bg-neutral-900 border border-white/20 rounded-xl px-3.5 py-2.5 text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400 font-mono-tech"
+          >
+          <p class="text-[11px] text-amber-300/80 mt-1.5">
+            Auto-conversión a RAW streaming activa al guardar.
+          </p>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
+          <button onclick="toggleGithubModal()" class="px-4 py-2 rounded-xl text-neutral-400 hover:text-white text-xs">Cerrar</button>
+          <button onclick="applyCustomVideo()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs shadow-lg shadow-amber-500/20">
+            Cargar en el Banner
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <footer class="mt-auto border-t border-white/10 py-6 px-4 text-center text-xs text-neutral-500">
     <div class="max-w-[1340px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
       <div>
@@ -447,7 +489,12 @@
   </footer>
 
   <script>
-    // State management for lead qualification flow
+    // Manejo de giro de pantalla en móvil
+    function dismissRotateOverlay() {
+      document.getElementById('rotatePrompt').style.display = 'none';
+    }
+
+    // Estado del asistente comercial
     const leadState = {
       name: "",
       interest: "",
@@ -455,13 +502,12 @@
       stage: "ask_name"
     };
 
-    // Chat functionality
     function appendMessage(text, sender) {
       const chatBox = document.getElementById("chatBox");
       const msgDiv = document.createElement("div");
       
       if (sender === 'user') {
-        msgDiv.className = "self-end max-w-[85%] bg-amber-500 text-neutral-950 font-medium text-sm p-3.5 rounded-2xl rounded-tr-sm shadow-md leading-relaxed";
+        msgDiv.className = "self-end max-w-[85%] bg-amber-500 text-neutral-950 font-bold text-sm p-3.5 rounded-2xl rounded-tr-sm shadow-md leading-relaxed";
       } else {
         msgDiv.className = "self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed";
       }
@@ -469,6 +515,14 @@
       msgDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-400">$1</strong>');
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function openChatPrompt(message) {
+      const chatElement = document.getElementById("userInput");
+      if (chatElement) {
+        chatElement.value = message;
+        setTimeout(() => sendMessage(), 400);
+      }
     }
 
     function quickAsk(text) {
@@ -480,7 +534,7 @@
       if (e.key === 'Enter') sendMessage();
     }
 
-    function simulateTypingAndRespond(text, delay = 1100) {
+    function simulateTypingAndRespond(text, delay = 1000) {
       const indicator = document.getElementById("typingIndicator");
       indicator.style.display = "flex";
       const chatBox = document.getElementById("chatBox");
@@ -499,20 +553,14 @@
 
       appendMessage(text, 'user');
       input.value = "";
-
       processHumanResponse(text);
     }
 
     function extractCleanName(rawText) {
-      let cleaned = rawText.replace(
-        /^(hola|buenas|buenos\s*días|buenas\s*tardes|buenas\s*noches|saludos|mucho\s*gusto)[,.]?\s*/gi, ""
-      );
-      cleaned = cleaned.replace(
-        /(hablas\s+con|te\s+habla|por\s+acá|por\s+aca|de\s+parte\s+de|con|me\s+llamo|mi\s+nombre\s+es|soy\s+el\s+ing[.]?|soy\s+el\s+sr[.]?|soy)\s+/gi, ""
-      );
+      let cleaned = rawText.replace(/^(hola|buenas|buenos\s*días|buenas\s*tardes|saludos|mucho\s*gusto)[,.]?\s*/gi, "");
+      cleaned = cleaned.replace(/(hablas\s+con|te\s+habla|por\s+acá|mi\s+nombre\s+es|soy\s+el\s+ing[.]?|soy)\s+/gi, "");
       cleaned = cleaned.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").trim();
       const words = cleaned.split(/\s+/).filter(w => w.length > 1);
-      
       if (words.length > 0) {
         return words.slice(0, 2).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
       }
@@ -522,80 +570,38 @@
     function processHumanResponse(input) {
       const lower = input.toLowerCase();
 
-      // Rule for Pricing / Quotation
-      if (lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto vale") || lower.includes("cotiz")) {
+      if (lower.includes("cotiz") || lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto")) {
         const persona = leadState.name ? `${leadState.name}` : "amigo";
-        simulateTypingAndRespond(`Mira ${persona}, los números exactos te los paso por proforma formal porque varían un poco dependiendo de si requieres flete directo a patio o mina y los aditamentos. Pero con gusto te la armo hoy mismo. ¿Para qué estado de Venezuela sería el traslado?`);
+        simulateTypingAndRespond(`Con mucho gusto ${persona}. Te preparo la proforma oficial con especificaciones de motor y entrega en plataforma cama baja. ¿Para qué estado o municipio de Venezuela sería el traslado?`);
         leadState.stage = "ask_location";
         return;
       }
 
-      // STAGE 1: Name Extraction
       if (leadState.stage === "ask_name") {
         leadState.name = extractCleanName(input);
         leadState.stage = "ask_job_or_machine";
-        
-        simulateTypingAndRespond(`Mucho gusto, ${leadState.name}. Cuéntame, ¿estás buscando un equipo puntual (como excavadora, cargador, motoniveladora o bulldozer) o tienes una faena específica que necesitas cubrir ahora mismo?`);
+        simulateTypingAndRespond(`Un placer ${leadState.name}. ¿Tienes interés en un modelo específico (excavadora, cargador, bulldozer, motoniveladora) o buscas para una faena puntual de cantera o movimiento de tierra?`);
         return;
       }
 
-      // STAGE 2: Machine Matching
-      if (leadState.stage === "ask_job_or_machine" || !leadState.interest) {
-        if (lower.includes("220") || (lower.includes("excavador") && (lower.includes("20") || lower.includes("22") || lower.includes("mediana")))) {
-          leadState.interest = "Excavadora Lovol FR220D";
-          leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Excelente equipo, ${leadState.name}. La **Lovol FR220D** viene con motor Cummins QSB6.7 de 160 HP, bomba de caudal variable y 21.9 toneladas de peso operativo. Es una máquina muy noble y rendidora en combustible para movimiento de tierra.<br><br>¿En qué parte o estado del país tienen la obra para revisar la logística de entrega?`);
-          return;
-        }
-
-        if (lower.includes("335") || lower.includes("cantera") || lower.includes("mineria") || lower.includes("minería") || lower.includes("grande")) {
-          leadState.interest = "Excavadora Lovol FR335F";
-          leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Para trabajo severo en cantera o minería la indicada es la **Lovol FR335F**. Son 33 toneladas con balde de 2.1 m³ y motor Cummins 8.9 de 302 HP. Esa máquina tiene una fuerza de desprendimiento tremenda.<br><br>${leadState.name}, ¿en qué estado operarían la máquina?`);
-          return;
-        }
-
-        if (lower.includes("955") || lower.includes("966") || lower.includes("cargador") || lower.includes("payloader") || lower.includes("arenera")) {
-          leadState.interest = "Payloader Lovol";
-          leadState.stage = "ask_location";
-          simulateTypingAndRespond(`De payloaders tenemos en patio el **FL955K** con balde de 3 metros cúbicos (el caballo de batalla para areneras y plantas de asfalto) y el **FL966H** de 6 toneladas de carga útil.<br><br>¿Hacia qué zona del país tendríamos que coordinar el transporte?`);
-          return;
-        }
-
-        if (lower.includes("fd320") || lower.includes("fd220") || lower.includes("bulldozer") || lower.includes("tractor") || lower.includes("trocha")) {
-          leadState.interest = "Bulldozer Lovol";
-          leadState.stage = "ask_location";
-          simulateTypingAndRespond(`Tenemos el **FD220** (23.5 ton) para desmonte y banqueo general, y el **FD320** (34.5 ton con Cummins 345 HP) si requieres empuje masivo y ripper gigante en roca dura.<br><br>¿En qué zona de Venezuela tienen proyectado meter el tractor?`);
-          return;
-        }
-
-        if (lower.includes("shantui") || lower.includes("motoniveladora") || lower.includes("patrol") || lower.includes("vial")) {
-          leadState.interest = "Motoniveladora Shantui";
-          leadState.stage = "ask_location";
-          simulateTypingAndRespond(`En línea vial tenemos las **Shantui SG21-B6** con motor Cummins y vertedera de más de 4 metros, completamente operativas 0 horas.<br><br>¿Para qué estado sería el traslado de la máquina?`);
-          return;
-        }
-
-        leadState.interest = "Maquinaria general";
+      if (leadState.stage === "ask_job_or_machine") {
         leadState.stage = "ask_location";
-        simulateTypingAndRespond(`Entendido, ${leadState.name}. Por lo que me comentas tenemos un par de configuraciones que se ajustan perfecto a esa labor. Para chequear inventario en patio y tema de flete, ¿en qué estado del país está ubicada la faena?`);
+        simulateTypingAndRespond(`Entendido ${leadState.name}. Tenemos esas configuraciones 0 horas disponibles con entrega inmediata. ¿En qué zona u obra de Venezuela operarían el equipo para calcular la logística?`);
         return;
       }
 
-      // STAGE 3: Closure & WhatsApp Hand-off
-      if (leadState.stage === "ask_location" || leadState.stage === "close_handoff") {
+      if (leadState.stage === "ask_location") {
         leadState.location = input;
         leadState.stage = "finished";
-        simulateTypingAndRespond(`Perfecto ${leadState.name}, para esa zona tenemos ruta de despacho directa en cama baja sin problema.<br><br>Déjame por acá tu número de WhatsApp directo para enviarte de inmediato la ficha técnica en PDF y la proforma desglosada. ¿Prefieres que te echemos una llamada rápida o te escribimos por mensaje?`);
+        simulateTypingAndRespond(`Excelente ${leadState.name}. Tenemos ruta continua de cama baja hacia esa zona. Déjame tu número de **WhatsApp directo** para hacerte llegar la ficha técnica y la proforma sellada por gerencia técnica.`);
         return;
       }
 
-      simulateTypingAndRespond(`Excelente ${leadState.name}, tomo nota de tus datos. En breves minutos te comparto la documentación por WhatsApp para que la revises con calma.`);
+      simulateTypingAndRespond(`Anotado ${leadState.name}, te contactamos de inmediato vía WhatsApp para darte toda la información de entrega.`);
     }
 
-    // Video Banner Logic and GitHub URL Formatter
+    // Video Banner Controls
     const heroVideo = document.getElementById("heroVideo");
-    const currentVideoLabel = document.getElementById("currentVideoLabel");
 
     function togglePlayPause() {
       const pauseIcon = document.getElementById("pauseIcon");
@@ -617,11 +623,9 @@
       modal.classList.toggle("hidden");
     }
 
-    // Automatically converts standard GitHub web view URLs into raw streaming links
     function formatGitHubUrl(url) {
       let trimmed = url.trim();
       if (!trimmed) return "";
-
       if (trimmed.includes("github.com") && trimmed.includes("/blob/")) {
         trimmed = trimmed
           .replace("https://github.com/", "https://raw.githubusercontent.com/")
@@ -634,31 +638,13 @@
     function applyCustomVideo() {
       const input = document.getElementById("customVideoInput");
       const rawUrl = formatGitHubUrl(input.value);
+      if (!rawUrl) return;
 
-      if (!rawUrl) {
-        simulateTypingAndRespond("*Aviso:* Por favor escribe o pega un enlace de video de GitHub.", 300);
-        return;
-      }
-
-      loadPresetVideo(rawUrl, "GitHub: " + rawUrl.split('/').pop());
-      toggleGithubModal();
-    }
-
-    function restoreDefaultFile() {
-      loadPresetVideo("banner-construven.mp4", "banner-construven.mp4");
-      toggleGithubModal();
-    }
-
-    function loadPresetVideo(videoUrl, label) {
       heroVideo.pause();
-      heroVideo.src = videoUrl;
+      heroVideo.src = rawUrl;
       heroVideo.load();
-      heroVideo.play().catch(err => {
-        console.warn("Autoplay notice:", err);
-      });
-      if (label && currentVideoLabel) {
-        currentVideoLabel.textContent = label;
-      }
+      heroVideo.play().catch(e => console.warn(e));
+      toggleGithubModal();
     }
   </script>
 </body>
