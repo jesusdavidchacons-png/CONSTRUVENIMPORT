@@ -14,6 +14,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Google Model Viewer (3D Engine) -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
   <style>
     :root {
       --bg: #07090e;
@@ -110,6 +113,15 @@
     .pulse-whatsapp {
       animation: pulseGlow 2s infinite;
     }
+
+    /* Estilo de la barra de desplazamiento horizontal */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
@@ -142,7 +154,7 @@
   </div>
 
   <!-- ===============================================================
-       HERO BANNER A PANTALLA COMPLETA (100VH) LIMPIO
+       CAPA 1: HERO BANNER A PANTALLA COMPLETA (100VH)
        =============================================================== -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     
@@ -150,9 +162,9 @@
     <video 
       id="heroVideo"
       class="absolute inset-0 w-full h-full object-cover z-0"
-      autoplay
-      loop
-      muted
+      autoplay 
+      loop 
+      muted 
       playsinline
       preload="auto"
       poster="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=1920&q=80">
@@ -178,8 +190,13 @@
         >
       </a>
 
-      <!-- Controles sutiles de video -->
+      <!-- Controles y Enlaces Rápidos -->
       <div class="flex items-center gap-2">
+        <a href="#showroom3d" class="hidden sm:flex bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 px-3.5 py-1.5 rounded-full text-xs font-mono-tech border border-amber-500/30 backdrop-blur-md items-center gap-1.5 transition-all">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          <span>VISOR 3D</span>
+        </a>
+
         <button onclick="toggleGithubModal()" class="bg-black/50 hover:bg-black/80 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/15 backdrop-blur-md flex items-center gap-1.5 transition-all">
           <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
           <span class="hidden sm:inline">Fuente de Video</span>
@@ -192,8 +209,6 @@
       </div>
     </div>
 
-    <!-- EL CENTRO DEL VIDEO QUEDA COMPLETAMENTE LIMPIO -->
-
     <!-- BASE INFERIOR: Frase abajo a la izquierda + Botón COTIZAR -->
     <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div class="flex flex-col items-start max-w-xl">
@@ -201,12 +216,15 @@
           Imposible es solo falta de potencia
         </h2>
 
-        <div>
+        <div class="flex flex-wrap items-center gap-3">
           <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, solicito cotización formal de maquinaria.')" class="btn-pill-ford group">
             <span>COTIZAR</span>
             <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
+          </a>
+          <a href="#showroom3d" class="px-5 py-2.5 rounded-full border border-white/20 hover:border-amber-400 bg-white/5 hover:bg-white/10 text-xs font-mono-tech uppercase tracking-wider text-white transition-all backdrop-blur-md">
+            Ver Modelos 3D ↓
           </a>
         </div>
       </div>
@@ -222,7 +240,7 @@
   </section>
 
   <!-- ===============================================================
-       CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO
+       CAPA 2: CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO
        =============================================================== -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
@@ -246,57 +264,57 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         
         <!-- FR220D -->
-        <div onclick="quickAsk('Hola Carlos, me interesa cotizar la excavadora Lovol FR220D')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="selectAndScroll3D('fr220d')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Excavadora Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FR220D (21.9t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 160 HP • Bomba Kawasaki</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
-            <span>Cotizar este equipo</span>
+          <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
+            <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- FL955K -->
-        <div onclick="quickAsk('Buenas tardes, solicito disponibilidad y precio del payloader FL955K')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="selectAndScroll3D('fl955k')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Payloader Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FL955K (17.2t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Balde 3.0 m³ • Motor Weichai/Cummins</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
-            <span>Cotizar este equipo</span>
+          <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
+            <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- FD320 -->
-        <div onclick="quickAsk('Tienen disponible en patio el bulldozer FD320 con ripper?')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="selectAndScroll3D('fd320')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Bulldozer Lovol</span>
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">EN PATIO</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FD320 (34.5t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Ripper Gigante</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
-            <span>Cotizar este equipo</span>
+          <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
+            <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
 
         <!-- SG21-B6 -->
-        <div onclick="quickAsk('Quisiera cotizar la motoniveladora Shantui SG21-B6')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="selectAndScroll3D('sg21b6')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">Shantui SG21-B6</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Vertedera 4.27m</div>
-          <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
-            <span>Cotizar este equipo</span>
+          <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
+            <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
           </div>
         </div>
@@ -380,6 +398,153 @@
     </div>
   </main>
 
+  <!-- ===============================================================
+       CAPA 3: SHOWROOM VIRTUAL 3D & INGENIERÍA TÉCNICA OFICIAL
+       =============================================================== -->
+  <section id="showroom3d" class="w-full border-t border-white/10 bg-black/60 backdrop-blur-md py-16 px-4 md:px-8 relative scroll-mt-6">
+    <div class="max-w-[1340px] mx-auto space-y-10">
+      
+      <!-- Encabezado de la Tercera Capa -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span>CAPA 3 • INTERACCIÓN Y MODELADO 3D 360°</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+            Showroom 3D & <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">Fichas Técnicas</span>
+          </h2>
+          <p class="text-neutral-400 text-sm sm:text-base max-w-2xl mt-2 leading-relaxed">
+            Inspecciona la maquinaria pesada en tiempo real. Rota el modelo con el cursor, verifica cotas y consulta la configuración de fábrica extraída del catálogo oficial.
+          </p>
+        </div>
+
+        <div class="text-xs font-mono-tech text-neutral-400 bg-neutral-900/80 border border-white/10 px-4 py-2.5 rounded-xl self-start md:self-auto flex items-center gap-2">
+          <svg class="w-4 h-4 text-amber-400 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>Usa el ratón para rotar 360° • Zoom con rueda</span>
+        </div>
+      </div>
+
+      <!-- Barra de Selección de Máquinas (Filtros del PDF) -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 pt-1" id="machinesTabs">
+        <!-- Renderizado dinámico vía JavaScript -->
+      </div>
+
+      <!-- Contenedor Principal: Visor 3D (Izquierda) + Ficha Técnica (Derecha) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        <!-- Visor 3D con model-viewer -->
+        <div class="lg:col-span-7 glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden relative min-h-[460px] md:min-h-[580px] flex flex-col bg-gradient-to-b from-[#0b0e17] to-[#04060a] shadow-2xl">
+          
+          <!-- HUD Superior del Visor -->
+          <div class="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none">
+            <div class="bg-black/75 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span id="viewerModelTitle" class="text-white font-bold tracking-wider">SHANTUI SG21-B6</span>
+            </div>
+            <div class="bg-black/75 backdrop-blur-md border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded-xl text-[10px] font-mono-tech uppercase">
+              Modelado GLB Activo
+            </div>
+          </div>
+
+          <!-- Model Viewer 3D Oficial de Google -->
+          <model-viewer 
+            id="main3DViewer"
+            src="https://github.com/jesusdavidchacons-png/CONSTRUVENIMPORT/releases/download/v1.0.0/shantui3d.glb" 
+            alt="Maquinaria Lovol y Shantui 3D"
+            camera-controls 
+            auto-rotate 
+            rotation-per-second="18deg"
+            shadow-intensity="2"
+            environment-image="neutral"
+            exposure="1.0"
+            ar
+            style="width: 100%; height: 100%; min-height: 460px; background: transparent; cursor: grab;">
+          </model-viewer>
+
+          <!-- Barra de Control Inferior del Visor -->
+          <div class="p-4 border-t border-white/10 bg-black/60 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2 text-neutral-400 font-mono-tech text-[11px]">
+              <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10">0 HORAS</span>
+              <span>•</span>
+              <span>PATIO VALENCIA</span>
+              <span>•</span>
+              <span class="text-amber-400">GARANTÍA FÁBRICA</span>
+            </div>
+            <button onclick="resetCamera3D()" class="text-amber-400 hover:text-white font-mono-tech text-[11px] underline flex items-center gap-1 transition-colors">
+              Reiniciar Vista
+            </button>
+          </div>
+        </div>
+
+        <!-- Ficha Técnica Oficial (Extraída del PDF) -->
+        <div class="lg:col-span-5 glass-panel rounded-2xl md:rounded-3xl border border-white/10 p-6 md:p-8 flex flex-col justify-between shadow-2xl bg-[#0d101a]/90">
+          
+          <div class="space-y-6">
+            <!-- Header de la Ficha -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span id="specBrandBadge" class="text-xs font-mono-tech font-extrabold text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-md">SHANTUI</span>
+                <span class="text-xs font-mono-tech text-neutral-400">AÑO 2026 • 0 HORAS</span>
+              </div>
+              <h3 id="specTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Motoniveladora SG21-B6</h3>
+              <p id="specCategory" class="text-xs text-neutral-400 mt-1 uppercase tracking-wider font-mono-tech">Maquinaria Pesada para Vialidad y Movimiento de Tierra</p>
+            </div>
+
+            <!-- Resumen Rápido en Bloques -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="bg-neutral-900/80 border border-white/5 p-3 rounded-xl">
+                <span class="text-[10px] text-neutral-500 uppercase font-mono-tech block">Potencia / Motor</span>
+                <span id="specQuickPower" class="text-sm font-bold text-white block mt-0.5">Cummins 215 HP</span>
+              </div>
+              <div class="bg-neutral-900/80 border border-white/5 p-3 rounded-xl">
+                <span class="text-[10px] text-neutral-500 uppercase font-mono-tech block">Peso Operativo</span>
+                <span id="specQuickWeight" class="text-sm font-bold text-white block mt-0.5">16,800 - 19,000 kg</span>
+              </div>
+            </div>
+
+            <!-- Tabla de Especificaciones Detalladas del Manual -->
+            <div>
+              <h4 class="text-xs font-mono-tech text-amber-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                <span>Especificaciones Técnicas Certificadas</span>
+              </h4>
+              <div id="specsList" class="space-y-2 text-xs divide-y divide-white/5 max-h-[260px] overflow-y-auto pr-2">
+                <!-- Se llena dinámicamente con JavaScript -->
+              </div>
+            </div>
+          </div>
+
+            <!-- Botones de Acción Comercial -->
+          <div class="pt-6 border-t border-white/10 space-y-3">
+            <button 
+              id="btnQuoteShowroom"
+              onclick="quoteSelectedMachine()"
+              class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2">
+              <span>Cotizar con Asesor Carlos Mendoza</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+
+            <a 
+              id="btnWhatsAppShowroom"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-3 px-4 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+              <span>Solicitar Proforma en WhatsApp</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- MODAL DE CONFIGURACIÓN DE VIDEO GITHUB -->
   <div id="githubModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-amber-500/40 relative shadow-2xl">
@@ -449,12 +614,304 @@
   </footer>
 
   <!-- ===============================================================
-       JAVASCRIPT: ASESOR & CONEXIÓN CON WHATSAPP
+       JAVASCRIPT: ASESOR, CONEXIÓN CON WHATSAPP Y SHOWROOM 3D
        =============================================================== -->
   <script>
-    // NÚMERO OFICIAL DE CONSTRUVEN IMPORT CONFIGURADO:
+    // NÚMERO OFICIAL DE CONSTRUVEN IMPORT:
     const CONSTRUVEN_WHATSAPP_NUMBER = "584227170891";
 
+    // URL BASE COMPARTIDA DEL MODELO 3D (Se suplantará luego para cada una)
+    const BASE_3D_MODEL_URL = "https://github.com/jesusdavidchacons-png/CONSTRUVENIMPORT/releases/download/v1.0.0/shantui3d.glb";
+
+    // ===============================================================
+    // BASE DE DATOS DE MAQUINARIA DEL CATÁLOGO PDF (LOVOL Y SHANTUI)
+    // ===============================================================
+    const CATALOG_MACHINES = {
+      "sg21b6": {
+        brand: "SHANTUI",
+        model: "SG21-B6",
+        category: "Motoniveladora de Alta Precisión",
+        quickPower: "Cummins 215 HP (160 kW)",
+        quickWeight: "16,800 - 19,000 kg",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Cummins 6CTAA8.3-C215 (6 Cilindros, 8.3L, Turbo)" },
+          { label: "Potencia Bruta", value: "160 kW @ 2,200 rpm" },
+          { label: "Torque Máximo", value: "980 N·m @ 1,500 rpm" },
+          { label: "Tracción Máxima", value: "88 kN" },
+          { label: "Hoja Vertedera", value: "Rotación 360° • Ancho: 3,965 / 4,270 mm" },
+          { label: "Corte y Elevación", value: "Prof. Corte: 970 mm • Elevación: 480 mm" },
+          { label: "Velocidad Máxima", value: "Avance 39.2 km/h (6 vel) • Retroceso 26.1 km/h" },
+          { label: "Capacidad Tanques", value: "Combustible 360 L • Aceite Hidráulico 85 L" },
+          { label: "Dimensiones", value: "Longitud 9,270 mm • Altura Cabina: 3,400 mm" }
+        ]
+      },
+      "fl966h": {
+        brand: "LOVOL",
+        model: "FL966H",
+        category: "Payloader / Cargador Frontal Gigante",
+        quickPower: "Weichai 980 N·m (2200 rpm)",
+        quickWeight: "Carga Nominal: 6,000 kg",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Weichai WD10G240E21 (6 Cilindros, 9.726L)" },
+          { label: "Torque Máximo", value: "980 N·m @ 2,200 rpm" },
+          { label: "Carga Nominal", value: "6,000 kg (6 Toneladas)" },
+          { label: "Fuerza Desprendimiento", value: "185 kN • Fuerza Tracción: 175 kN" },
+          { label: "Descarga Máxima", value: "Altura 3,150 mm • Alcance 1,310 mm" },
+          { label: "Transmisión", value: "Eje intermedio control electrónico (4 fwd / 3 rev)" },
+          { label: "Sistema Hidráulico", value: "Presión de Trabajo: 18 MPa • Ciclo Total: 11.0 s" },
+          { label: "Capacidades Tanques", value: "Combustible 364 L • Hidráulico 150 L" },
+          { label: "Dimensiones", value: "8,530 × 3,050 × 3,400 mm • Trocha: 2,250 mm" }
+        ]
+      },
+      "fl955k": {
+        brand: "LOVOL",
+        model: "FL955K",
+        category: "Payloader / Cargador Frontal 17.2t",
+        quickPower: "Weichai / Cummins 220 HP",
+        quickWeight: "17,200 kg (Balde 3.0 m³)",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Weichai WD10G / Cummins (9.8 Litros)" },
+          { label: "Potencia Bruta", value: "162 kW (220 HP) @ 1,800-2,000 rpm" },
+          { label: "Peso Operativo", value: "17,200 kg" },
+          { label: "Capacidad Balde", value: "3.0 m³ (Varillaje en Z)" },
+          { label: "Tracción", value: "4WD Total con mando final planetario" },
+          { label: "Sistema Hidráulico", value: "Presión Alivio: 18 MPa • Ciclo: 9.5 - 10.5 s" },
+          { label: "Capacidades Tanques", value: "Combustible 300 L • Aceite Hidráulico 220 L" },
+          { label: "Dimensiones Transporte", value: "Ancho 2.85 m • Altura 3.45 m" }
+        ]
+      },
+      "fd320": {
+        brand: "LOVOL",
+        model: "FD320",
+        category: "Bulldozer de Gran Minería 34.5t",
+        quickPower: "Cummins QSNT 345 HP",
+        quickWeight: "34,500 kg (Ripper Gigante)",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Cummins QSNT-C345S31 (14.0 L, China-III)" },
+          { label: "Potencia Bruta", value: "257 kW (345 HP) @ 2,000 rpm" },
+          { label: "Torque Máximo", value: "1,509 N·m @ 1,400 rpm" },
+          { label: "Transmisión", value: "Torqflow planetaria hidráulica (3 fwd / 3 rev)" },
+          { label: "Hoja de Empuje", value: "Semi-U / Recta (7.2 / 9.0 m³) • Ancho: 4,130 mm" },
+          { label: "Escarificador (Ripper)", value: "Gigante 1 Vástago (Profundidad máx: 1,250 mm)" },
+          { label: "Zapatas y Orugas", value: "Garra simple • Ancho zapata: 560 mm • Trocha: 2,140 mm" },
+          { label: "Tanque Combustible", value: "640 Litros • Hidráulico: 97 L" }
+        ]
+      },
+      "fd220": {
+        brand: "LOVOL",
+        model: "FD220",
+        category: "Bulldozer de Empuje 23.5t",
+        quickPower: "Cummins NT855 237 HP",
+        quickWeight: "23,500 kg",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Cummins NT 855-C280 (14.0 Litros)" },
+          { label: "Potencia Neta", value: "177 kW (237 HP) @ 2,100 rpm" },
+          { label: "Fuerza de Tracción", value: "210 kN" },
+          { label: "Tren de Rodaje", value: "Cadena sellada y lubricada para servicio pesado" },
+          { label: "Hoja (Blade)", value: "Inclinación hidráulica • Capacidad: 6.4 - 12.0 m³" },
+          { label: "Capacidades Tanques", value: "Combustible 600 L • Hidráulico 120 L • Aceite: 35 L" },
+          { label: "Dimensiones Transporte", value: "Ancho 2.65 m • Altura 3.40 m" }
+        ]
+      },
+      "fb878m": {
+        brand: "LOVOL",
+        model: "FB878M",
+        category: "Retroexcavadora 4x4",
+        quickPower: "Weichai 94 - 142 HP",
+        quickWeight: "8,000 - 8,400 kg",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Weichai WP4.1 / WPACG (4 Cilindros)" },
+          { label: "Rendimiento", value: "142 kW (190 HP máx) @ 2,000 rpm" },
+          { label: "Tracción", value: "4x4 Tracción Total Hidrostática" },
+          { label: "Balde Frontal", value: "Estándar 1.0 m³ de carga general" },
+          { label: "Pluma de Retro", value: "Monobloque de 6,000 mm • Balde reforzado" },
+          { label: "Flujo Hidráulico", value: "200 - 250 L/min • Presión: 18-20 MPa" },
+          { label: "Capacidad Combustible", value: "480 Litros • Hidráulico: 290 L" },
+          { label: "Dimensiones", value: "Ancho: 3,190 mm • Altura: 3,160 mm" }
+        ]
+      },
+      "sg27c5": {
+        brand: "SHANTUI",
+        model: "SG27-C5",
+        category: "Motoniveladora Pesada de Gran Escala",
+        quickPower: "Weichai WP7G 270 HP",
+        quickWeight: "18,500 - 19,400 kg",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Weichai WP7G270E302 (6 Cil, 7.47 L, Intercooler)" },
+          { label: "Potencia Bruta", value: "199 kW (270 HP) @ 2,200 rpm" },
+          { label: "Torque Máximo", value: "1,100 N·m @ 1,300-1,500 rpm" },
+          { label: "Tracción Máxima", value: "97 kN" },
+          { label: "Hoja Vertedera", value: "Rotación 360° • Ancho: 3,965 / 4,270 mm • Alto: 635 mm" },
+          { label: "Profundidad de Corte", value: "500 mm • Elevación: 440 mm" },
+          { label: "Capacidades Tanques", value: "Combustible 340 L • Hidráulico 110 L" },
+          { label: "Dimensiones", value: "Longitud 9,445 - 11,041 mm (con Ripper) • Trocha: 2,270 mm" }
+        ]
+      },
+      "fr335f": {
+        brand: "LOVOL",
+        model: "FR335F",
+        category: "Excavadora de Oruga 33.2t",
+        quickPower: "Cummins 6LTAA 302 HP",
+        quickWeight: "33,250 kg (Balde 2.1 m³)",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Cummins 6LTAA8.9 (8.9 Litros, Tier 3)" },
+          { label: "Potencia Bruta", value: "225 kW (302 HP) @ 2,000 rpm" },
+          { label: "Torque Máximo", value: "1,230 N·m @ 1,400 rpm" },
+          { label: "Capacidad Cucharón", value: "2.10 m³ para roca y cantera" },
+          { label: "Alcance / Profundidad", value: "Alcance Máx: 10,662 mm • Profundidad: 6,727 mm" },
+          { label: "Fuerza Cucharón", value: "208 kN • Fuerza Brazo: 158 kN" },
+          { label: "Sistema Hidráulico", value: "Load Sensing • 2x Bombas de 280 L/min (34.3 MPa)" },
+          { label: "Dimensiones Transporte", value: "Ancho: 3,200 mm • Altura: 3,415 mm" }
+        ]
+      },
+      "fr220d": {
+        brand: "LOVOL",
+        model: "FR220D",
+        category: "Excavadora de Oruga 21.9t",
+        quickPower: "Cummins QSB 160 HP",
+        quickWeight: "21,900 kg (Pluma 5.7m)",
+        glbUrl: BASE_3D_MODEL_URL,
+        specs: [
+          { label: "Motor", value: "Cummins QSB6.7 (6.7 Litros, 6 Cilindros)" },
+          { label: "Rendimiento Motor", value: "119 kW (160 HP) @ 2,000 rpm" },
+          { label: "Profundidad Excavación", value: "6.73 m • Pluma: 5.7 m" },
+          { label: "Fuerza de Rotura", value: "159 kN" },
+          { label: "Bomba Principal", value: "Pistón caudal variable 2 × 220 L/min" },
+          { label: "Orugas / Track", value: "Eslabones sellados 600 mm triples • Longitud: 4.46 m" },
+          { label: "Capacidades Tanques", value: "Combustible 400 L • Sistema Hidráulico 240 L" },
+          { label: "Dimensiones Transporte", value: "Ancho: 2.99 m • Altura: 3.10 m" }
+        ]
+      }
+    };
+
+    let currentSelectedMachineId = "sg21b6";
+
+    // Inicializador del Showroom 3D
+    function initShowroom3D() {
+      const tabsContainer = document.getElementById("machinesTabs");
+      if (!tabsContainer) return;
+
+      tabsContainer.innerHTML = "";
+      Object.keys(CATALOG_MACHINES).forEach(key => {
+        const item = CATALOG_MACHINES[key];
+        const btn = document.createElement("button");
+        btn.id = `tab-${key}`;
+        btn.onclick = () => select3DMachine(key);
+        btn.className = `px-4 py-2 rounded-xl text-xs font-mono-tech whitespace-nowrap transition-all border ${
+          key === currentSelectedMachineId 
+            ? 'bg-amber-500 text-black font-extrabold border-amber-400 shadow-md shadow-amber-500/20' 
+            : 'bg-neutral-900/80 text-neutral-300 hover:text-white border-white/10 hover:border-white/30'
+        }`;
+        btn.innerHTML = `<span class="opacity-70 text-[10px]">${item.brand}</span> <strong>${item.model}</strong>`;
+        tabsContainer.appendChild(btn);
+      });
+
+      renderMachineSpecs(currentSelectedMachineId);
+    }
+
+    function select3DMachine(machineKey) {
+      if (!CATALOG_MACHINES[machineKey]) return;
+      currentSelectedMachineId = machineKey;
+      const data = CATALOG_MACHINES[machineKey];
+
+      // Actualizar estilos de tabs
+      Object.keys(CATALOG_MACHINES).forEach(key => {
+        const tab = document.getElementById(`tab-${key}`);
+        if (tab) {
+          if (key === machineKey) {
+            tab.className = "px-4 py-2 rounded-xl text-xs font-mono-tech whitespace-nowrap transition-all border bg-amber-500 text-black font-extrabold border-amber-400 shadow-md shadow-amber-500/20";
+          } else {
+            tab.className = "px-4 py-2 rounded-xl text-xs font-mono-tech whitespace-nowrap transition-all border bg-neutral-900/80 text-neutral-300 hover:text-white border-white/10 hover:border-white/30";
+          }
+        }
+      });
+
+      // Actualizar visor 3D
+      const viewer = document.getElementById("main3DViewer");
+      const titleTag = document.getElementById("viewerModelTitle");
+      if (viewer) {
+        viewer.src = data.glbUrl;
+        viewer.dismissPoster();
+      }
+      if (titleTag) {
+        titleTag.textContent = `${data.brand}${data.model}`;
+      }
+
+      renderMachineSpecs(machineKey);
+    }
+
+    function renderMachineSpecs(machineKey) {
+      const data = CATALOG_MACHINES[machineKey];
+      if (!data) return;
+
+      document.getElementById("specBrandBadge").textContent = data.brand;
+      document.getElementById("specTitle").textContent = `${data.model}`;
+      document.getElementById("specCategory").textContent = data.category;
+      document.getElementById("specQuickPower").textContent = data.quickPower;
+      document.getElementById("specQuickWeight").textContent = data.quickWeight;
+
+      const listContainer = document.getElementById("specsList");
+      listContainer.innerHTML = "";
+      data.specs.forEach(s => {
+        const item = document.createElement("div");
+        item.className = "pt-2 flex justify-between items-start gap-4";
+        item.innerHTML = `
+          <span class="text-neutral-400 font-mono-tech text-[11px]">${s.label}</span>
+          <span class="text-white font-semibold text-right text-[11px]">${s.value}</span>
+        `;
+        listContainer.appendChild(item);
+      });
+
+      // Actualizar link de WhatsApp directo
+      const waBtn = document.getElementById("btnWhatsAppShowroom");
+      const prefilledWa = `Hola Carlos, estuve revisando el modelo 3D y especificaciones del equipo ${data.brand}${data.model} 2026 en Construven Import. Deseo solicitar la cotización formal y disponibilidad de patio.`;
+      waBtn.href = `https://wa.me/${CONSTRUVEN_WHATSAPP_NUMBER}?text=${encodeURIComponent(prefilledWa)}`;
+    }
+
+    function selectAndScroll3D(machineKey) {
+      select3DMachine(machineKey);
+      const section = document.getElementById("showroom3d");
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    function resetCamera3D() {
+      const viewer = document.getElementById("main3DViewer");
+      if (viewer) {
+        viewer.cameraOrbit = "0deg 75deg 105%";
+        viewer.fieldOfView = "auto";
+      }
+    }
+
+    function quoteSelectedMachine() {
+      const data = CATALOG_MACHINES[currentSelectedMachineId];
+      const query = `Hola Carlos, me interesa la cotización formal con ficha técnica del ${data.brand}${data.model} año 2026.`;
+      
+      // Scroll al asesor y envía mensaje
+      const catalogoSection = document.getElementById("catalogo");
+      catalogoSection.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => {
+        openChatPrompt(query);
+      }, 500);
+    }
+
+    // Inicializa la Capa 3 al cargar
+    window.addEventListener("DOMContentLoaded", () => {
+      initShowroom3D();
+    });
+
+    // ===============================================================
+    // LÓGICA DE ASESOR TÉCNICO & ROTACIÓN DE PANTALLA
+    // ===============================================================
     function dismissRotateOverlay() {
       document.getElementById('rotatePrompt').style.display = 'none';
     }
@@ -481,7 +938,6 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Genera tarjeta directa a WhatsApp con el número 584227170891
     function appendWhatsAppCard(name, interest, location) {
       const chatBox = document.getElementById("chatBox");
       const cardDiv = document.createElement("div");
@@ -579,7 +1035,6 @@
     function processHumanResponse(input) {
       const lower = input.toLowerCase();
 
-      // Detección directa de solicitud de WhatsApp o teléfono
       if (lower.includes("whatsapp") || lower.includes("telefono") || lower.includes("número") || lower.includes("contacto")) {
         simulateTypingAndRespond(`¡Con gusto! Te paso la línea directa de WhatsApp para coordinar la proforma:`, 700, true);
         return;
@@ -592,7 +1047,6 @@
         return;
       }
 
-      // ETAPA 1: Nombre
       if (leadState.stage === "ask_name") {
         leadState.name = extractCleanName(input);
         leadState.stage = "ask_job_or_machine";
@@ -600,7 +1054,6 @@
         return;
       }
 
-      // ETAPA 2: Máquina o Faena
       if (leadState.stage === "ask_job_or_machine") {
         leadState.interest = input;
         leadState.stage = "ask_location";
@@ -608,7 +1061,6 @@
         return;
       }
 
-      // ETAPA 3: Ubicación y Cierre -> DISPARA TARJETA DE WHATSAPP
       if (leadState.stage === "ask_location") {
         leadState.location = input;
         leadState.stage = "finished";
@@ -616,7 +1068,6 @@
         return;
       }
 
-      // Respuestas posteriores
       simulateTypingAndRespond(`Perfecto ${leadState.name}, pulsa el botón verde para recibir la información directa en tu WhatsApp.`, 700, true);
     }
 
