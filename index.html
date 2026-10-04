@@ -180,7 +180,7 @@
   </div>
 
   <!-- ===============================================================
-       HERO BANNER A PANTALLA COMPLETA (100VH) LIMPIO
+       SECCIÓN 1: HERO BANNER PANTALLA COMPLETA (100VH)
        =============================================================== -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     
@@ -201,13 +201,12 @@
       Tu navegador no soporta video HTML5.
     </video>
 
-    <!-- Scanlines y sombras sutiles -->
+    <!-- Scanlines y sombras sutiles (centro limpio) -->
     <div class="absolute inset-0 hud-scanlines opacity-25 z-10 pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 z-10 pointer-events-none"></div>
 
     <!-- TOP HEADER: Logo Construven Oficial + Configuración -->
     <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
-      <!-- Logo Oficial -->
       <a href="#" class="flex items-center gap-3 group">
         <img 
           src="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png" 
@@ -230,7 +229,7 @@
       </div>
     </div>
 
-    <!-- EL CENTRO QUEDA LIMPIO -->
+    <!-- EL CENTRO QUEDA COMPLETAMENTE VACÍO PARA EL VIDEO -->
 
     <!-- BASE INFERIOR: Frase abajo a la izquierda + Botón COTIZAR -->
     <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -240,7 +239,7 @@
         </h2>
 
         <div>
-          <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, solicito cotización formal de maquinaria.')" class="btn-pill-ford group">
+          <a href="#catalogo" class="btn-pill-ford group">
             <span>COTIZAR</span>
             <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -260,11 +259,11 @@
   </section>
 
   <!-- ===============================================================
-       CATÁLOGO PRINCIPAL Y CHAT
+       SECCIÓN 2: CATÁLOGO RESUMIDO & ASESOR TÉCNICO (CHAT INDEPENDIENTE)
        =============================================================== -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
-    <!-- COLUMNA IZQUIERDA: Selector Rápido de Equipos -->
+    <!-- COLUMNA IZQUIERDA: Catálogo de Equipos -->
     <div class="lg:col-span-6 flex flex-col gap-6">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
@@ -276,15 +275,15 @@
           Línea Amarilla <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> en Venezuela
         </h2>
         <p class="text-sm md:text-base text-neutral-300 mt-3 leading-relaxed">
-          Haz clic en cualquier unidad para desplegar su <strong>Dossier Técnico Completo</strong> abajo e iniciar la cotización con la gerencia comercial.
+          Unidades listas para entrega inmediata. Para ver especificaciones completas de cualquier equipo, consulta el <strong>Dossier Técnico</strong> ubicado en la sección inferior.
         </p>
       </div>
 
-      <!-- Grid de Equipos Rápidos -->
+      <!-- Tarjetas de Equipos (Navegan al Dossier Técnico sin tocar el Chat) -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         
         <!-- FR220D -->
-        <div onclick="selectMachine('FR220D')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('FR220D')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Excavadora Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS</span>
@@ -292,13 +291,13 @@
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FR220D (21.9t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins QSB6.7 • 160 HP</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
         <!-- FR335F -->
-        <div onclick="selectMachine('FR335F')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('FR335F')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Excavadora Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS</span>
@@ -306,13 +305,13 @@
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FR335F (33.2t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 8.9L • Balde 2.1m³</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
         <!-- FL955K -->
-        <div onclick="selectMachine('FL955K')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('FL955K')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Payloader Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS</span>
@@ -320,13 +319,13 @@
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FL955K (17.2t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Balde 3.0 m³ • 220 HP</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
         <!-- FL966H -->
-        <div onclick="selectMachine('FL966H')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('FL966H')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Payloader Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS</span>
@@ -334,13 +333,13 @@
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FL966H (6.0t Carga)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Weichai 9.7L • 980 N·m</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
         <!-- FD320 -->
-        <div onclick="selectMachine('FD320')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('FD320')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Bulldozer Lovol</span>
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">PATIO VALENCIA</span>
@@ -348,22 +347,22 @@
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FD320 (34.5t)</div>
           <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Con Ripper</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
         <!-- SG21-B6 -->
-        <div onclick="selectMachine('SG21-B6')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div onclick="goToDossier('SG21-B6')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">Shantui SG21-B6</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Vertedera 4.27m</div>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Hoja 4.27m</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
-            <span>Ver Ficha y Cotizar</span>
-            <span class="group-hover:translate-x-1 transition-transform">→</span>
+            <span>Ver Ficha Técnica</span>
+            <span class="group-hover:translate-x-1 transition-transform">↓</span>
           </div>
         </div>
 
@@ -386,7 +385,7 @@
       </div>
     </div>
 
-    <!-- COLUMNA DERECHA: Asesor Técnico y Chat Directo -->
+    <!-- COLUMNA DERECHA: Asesor Comercial Independiente (Carlos Mendoza) -->
     <div class="lg:col-span-6 w-full">
       <div class="glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden shadow-2xl flex flex-col h-[620px] bg-[#0c0f18]/90">
         
@@ -430,7 +429,7 @@
           <input 
             type="text" 
             id="userInput" 
-            placeholder="Escribe tu consulta o requerimiento técnico..." 
+            placeholder="Escribe tu mensaje aquí..." 
             class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all"
             onkeydown="handleKey(event)"
           >
@@ -447,9 +446,9 @@
   </main>
 
   <!-- ===============================================================
-       DOSSIER TÉCNICO INTERACTIVO & TELEMETRÍA (9 MODELOS)
+       SECCIÓN 3: DOSSIER TÉCNICO ALTERNO (INDEPENDIENTE)
        =============================================================== -->
-  <section id="dossierSection" class="max-w-[1340px] w-full mx-auto px-4 py-10 scroll-mt-6">
+  <section id="dossierSection" class="max-w-[1340px] w-full mx-auto px-4 py-12 scroll-mt-6">
     <div class="border-t border-white/10 pt-10">
       
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -457,34 +456,33 @@
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-2">
             <span>DOSSIER TÉCNICO OFICIAL 2026</span>
             <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-            <span>FICHA HOMOLOGADA</span>
+            <span>CATÁLOGO DE INGENIERÍA</span>
           </div>
           <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Especificaciones y Telemetría <span class="text-amber-400 font-mono-tech">0 Horas</span>
           </h2>
           <p class="text-xs sm:text-sm text-neutral-400 mt-1">
-            Selecciona cualquier modelo para cargar la ingeniería de motorización, ciclos de trabajo y capacidades de carga.
+            Consulta los datos técnicos completos de motorización, ciclos hidráulicos y capacidades de carga.
           </p>
         </div>
 
+        <!-- Botones Selectores de Máquinas (9 Modelos) -->
         <div class="flex items-center gap-1.5 overflow-x-auto pb-2 custom-scrollbar">
-          <button onclick="selectMachine('FR220D')" id="tab-FR220D" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-amber-500 bg-amber-500 text-neutral-950 transition-all">FR220D</button>
-          <button onclick="selectMachine('FR335F')" id="tab-FR335F" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FR335F</button>
-          <button onclick="selectMachine('FL955K')" id="tab-FL955K" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FL955K</button>
-          <button onclick="selectMachine('FL966H')" id="tab-FL966H" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FL966H</button>
-          <button onclick="selectMachine('FD320')" id="tab-FD320" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FD320</button>
-          <button onclick="selectMachine('FD220')" id="tab-FD220" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FD220</button>
-          <button onclick="selectMachine('FB878M')" id="tab-FB878M" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FB878M</button>
-          <button onclick="selectMachine('SG21-B6')" id="tab-SG21-B6" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">SG21-B6</button>
-          <button onclick="selectMachine('SG27-C5')" id="tab-SG27-C5" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">SG27-C5</button>
+          <button onclick="renderMachineSpec('FR220D')" id="tab-FR220D" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-amber-500 bg-amber-500 text-neutral-950 transition-all">FR220D</button>
+          <button onclick="renderMachineSpec('FR335F')" id="tab-FR335F" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FR335F</button>
+          <button onclick="renderMachineSpec('FL955K')" id="tab-FL955K" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FL955K</button>
+          <button onclick="renderMachineSpec('FL966H')" id="tab-FL966H" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FL966H</button>
+          <button onclick="renderMachineSpec('FD320')" id="tab-FD320" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FD320</button>
+          <button onclick="renderMachineSpec('FD220')" id="tab-FD220" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FD220</button>
+          <button onclick="renderMachineSpec('FB878M')" id="tab-FB878M" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">FB878M</button>
+          <button onclick="renderMachineSpec('SG21-B6')" id="tab-SG21-B6" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">SG21-B6</button>
+          <button onclick="renderMachineSpec('SG27-C5')" id="tab-SG27-C5" class="model-nav-btn px-3 py-1.5 rounded-lg text-xs font-mono-tech font-bold border border-white/10 bg-neutral-900 text-neutral-400 hover:text-white transition-all">SG27-C5</button>
         </div>
       </div>
 
-      <!-- Tarjeta del Dossier Dinámico -->
+      <!-- Tarjeta Principal del Dossier -->
       <div class="glass-panel rounded-3xl border border-amber-500/30 p-6 md:p-8 bg-[#0b0e17]/95 shadow-2xl relative overflow-hidden">
         
-        <div class="absolute -right-20 -top-20 w-80 h-80 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-white/10">
           <div>
             <div class="flex items-center gap-2.5 mb-1.5">
@@ -500,8 +498,9 @@
             </p>
           </div>
 
+          <!-- Botón de WhatsApp Directo de la Ficha Técnica -->
           <div class="flex items-center gap-3">
-            <button id="specWhatsappBtn" onclick="quoteCurrentSpec()" class="pulse-whatsapp px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs md:text-sm rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
+            <button onclick="quoteCurrentSpec()" class="pulse-whatsapp px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-black text-xs md:text-sm rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
               <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
               <span>COTIZAR ESTA UNIDAD POR WHATSAPP</span>
             </button>
@@ -535,7 +534,7 @@
           </div>
         </div>
 
-        <!-- Desglose de Pestañas Técnicas -->
+        <!-- Pestañas Técnicas Tabuladas -->
         <div class="pt-6">
           <div class="flex items-center gap-2 border-b border-white/10 pb-3 mb-6 overflow-x-auto custom-scrollbar">
             <button onclick="switchSpecTab('motor')" id="btnTabMotor" class="spec-tab-btn text-xs font-bold font-mono-tech px-4 py-2 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-500/40">1. Motor & Rendimiento</button>
@@ -622,11 +621,14 @@
   </footer>
 
   <!-- ===============================================================
-       BASE DE DATOS TÉCNICA Y LÓGICA INTERACTIVA
+       JAVASCRIPT: MÓDULOS TOTALMENTE DESACOPLADOS
        =============================================================== -->
   <script>
     const CONSTRUVEN_WHATSAPP_NUMBER = "584227170891";
 
+    // -------------------------------------------------------------
+    // BASE DE DATOS DEL DOSSIER TÉCNICO (INDEPENDIENTE)
+    // -------------------------------------------------------------
     const MACHINES_DATABASE = {
       "FR220D": {
         brand: "LOVOL",
@@ -1016,10 +1018,21 @@
     let currentSelectedModel = "FR220D";
     let activeSpecTab = "motor";
 
-    function selectMachine(modelKey) {
+    // Función que lleva al Dossier desde el catálogo SIN TOCAR EL CHAT
+    function goToDossier(modelKey) {
+      renderMachineSpec(modelKey);
+      const dossierEl = document.getElementById('dossierSection');
+      if (dossierEl) {
+        dossierEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Renderiza la máquina en el Dossier Técnico de forma 100% aislada
+    function renderMachineSpec(modelKey) {
       if (!MACHINES_DATABASE[modelKey]) return;
       currentSelectedModel = modelKey;
 
+      // Actualizar estilo visual de los botones de máquina
       document.querySelectorAll('.model-nav-btn').forEach(btn => {
         btn.classList.remove('bg-amber-500', 'text-neutral-950', 'border-amber-500');
         btn.classList.add('bg-neutral-900', 'text-neutral-400', 'border-white/10');
@@ -1030,6 +1043,7 @@
         activeBtn.classList.remove('bg-neutral-900', 'text-neutral-400', 'border-white/10');
       }
 
+      // Volcar datos al DOM del Dossier
       const data = MACHINES_DATABASE[modelKey];
       document.getElementById('specBrandBadge').textContent = data.brand;
       document.getElementById('specCategoryBadge').textContent = data.category;
@@ -1046,14 +1060,6 @@
       document.getElementById('statHydraulicDetail').textContent = data.stats.hydraulicDetail;
 
       renderTabContent();
-
-      leadState.interest = `${data.brand}${modelKey}`;
-      openChatPrompt(`Hola Carlos, estoy revisando la ficha técnica de la ${data.name}. Deseo consultar disponibilidad y proforma.`);
-      
-      const dossierEl = document.getElementById('dossierSection');
-      if (dossierEl) {
-        dossierEl.scrollIntoView({ behavior: 'smooth' });
-      }
     }
 
     function switchSpecTab(tabKey) {
@@ -1093,26 +1099,25 @@
       `).join('');
     }
 
+    // Botón de WhatsApp desde el Dossier (NO pasa por el chat de la web)
     function quoteCurrentSpec() {
       const machine = MACHINES_DATABASE[currentSelectedModel];
-      const buyerName = leadState.name && leadState.name !== "amigo" ? leadState.name : "un cliente";
-      const message = `Hola Carlos Mendoza, soy ${buyerName}. Estoy viendo en la web el Dossier Técnico de la ${machine.name} (Año 2026, 0 Horas) y requiero la proforma oficial con traslado en cama baja.`;
+      const message = `Hola Carlos Mendoza, estuve consultando el Dossier Técnico de Construven Import y solicito cotización formal de la ${machine.name} (Año 2026, 0 Horas) con entrega en cama baja.`;
       const waUrl = `https://wa.me/${CONSTRUVEN_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(waUrl, '_blank');
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      selectMachine('FR220D');
+      renderMachineSpec('FR220D');
     });
 
-    function dismissRotateOverlay() {
-      document.getElementById('rotatePrompt').style.display = 'none';
-    }
-
+    // -------------------------------------------------------------
+    // CHAT INDEPENDIENTE: ASESOR COMERCIAL (CARLOS MENDOZA)
+    // -------------------------------------------------------------
     const leadState = {
       name: "",
-      interest: "Maquinaria Pesada 0 Horas",
-      location: "Venezuela",
+      interest: "",
+      location: "",
       stage: "ask_name"
     };
 
@@ -1137,7 +1142,7 @@
       cardDiv.className = "self-start max-w-[90%] sm:max-w-[85%] bg-gradient-to-b from-[#16202c] to-[#0f1420] border border-emerald-500/40 p-4 rounded-2xl rounded-tl-sm shadow-xl space-y-3";
 
       const buyerName = name && name !== "amigo" ? name : "un cliente";
-      const prefilledText = `Hola Carlos, soy ${buyerName}. Estuve en la web de Construven Import y deseo cotizar formalmente: ${interest}${location ? ' para la faena en: ' + location : ''}.`;
+      const prefilledText = `Hola Carlos, soy ${buyerName}. Estuve en la web de Construven Import y deseo cotizar formalmente: ${interest \vert{}\vert{} 'Maquinaria Pesada 0 Horas'}${location ? ' para la faena en: ' + location : ''}.`;
       const waUrl = `https://wa.me/${CONSTRUVEN_WHATSAPP_NUMBER}?text=${encodeURIComponent(prefilledText)}`;
 
       cardDiv.innerHTML = `
@@ -1168,19 +1173,6 @@
 
       chatBox.appendChild(cardDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function openChatPrompt(message) {
-      const chatElement = document.getElementById("userInput");
-      if (chatElement) {
-        chatElement.value = message;
-        setTimeout(() => sendMessage(), 300);
-      }
-    }
-
-    function quickAsk(text) {
-      document.getElementById("userInput").value = text;
-      sendMessage();
     }
 
     function handleKey(e) {
@@ -1262,6 +1254,13 @@
       }
 
       simulateTypingAndRespond(`Perfecto ${leadState.name}, pulsa el botón verde para recibir la información directa en tu WhatsApp.`, 700, true);
+    }
+
+    // -------------------------------------------------------------
+    // CONTROLES DE INTERFAZ & VIDEO HERO
+    // -------------------------------------------------------------
+    function dismissRotateOverlay() {
+      document.getElementById('rotatePrompt').style.display = 'none';
     }
 
     const heroVideo = document.getElementById("heroVideo");
