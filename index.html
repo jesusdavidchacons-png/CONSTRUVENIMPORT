@@ -37,7 +37,7 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Scanlines industriales muy sutiles */
+    /* Scanlines industriales sutiles */
     .hud-scanlines {
       background: repeating-linear-gradient(
         0deg,
@@ -66,14 +66,14 @@
       animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Modal de rotación en móviles y tablets verticales */
+    /* Modal de rotación en móviles verticales */
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       #rotatePrompt {
         display: flex !important;
       }
     }
 
-    /* Botón píldora estilo referencia Ford */
+    /* Botón píldora estilo Ford */
     .btn-pill-ford {
       display: inline-flex;
       align-items: center;
@@ -100,6 +100,15 @@
     }
     .btn-pill-ford:active {
       transform: scale(0.96);
+    }
+
+    /* Pulsación del botón de WhatsApp */
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+    }
+    .pulse-whatsapp {
+      animation: pulseGlow 2s infinite;
     }
   </style>
 </head>
@@ -148,16 +157,13 @@
       preload="auto"
       poster="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=1920&q=80">
       
-      <!-- Prioridad 1: Nombre solicitado construvenimport.mp4 en raíz -->
       <source src="construvenimport.mp4" type="video/mp4">
-      <!-- Prioridad 2: En carpeta assets -->
       <source src="./assets/construvenimport.mp4" type="video/mp4">
-      <!-- Prioridad 3: Streaming fallback mientras subes el video -->
       <source id="fallbackSource" src="https://assets.mixkit.co/videos/preview/mixkit-excavator-working-at-a-construction-site-41270-large.mp4" type="video/mp4">
       Tu navegador no soporta video HTML5.
     </video>
 
-    <!-- Scanlines y viñetas optimizadas (no oscurecen el centro) -->
+    <!-- Scanlines y viñetas optimizadas (centro limpio) -->
     <div class="absolute inset-0 hud-scanlines opacity-25 z-10 pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 z-10 pointer-events-none"></div>
 
@@ -186,7 +192,7 @@
       </div>
     </div>
 
-    <!-- EL CENTRO QUEDA COMPLETAMENTE VACÍO PARA DEJAR LUCIR EL VIDEO -->
+    <!-- EL CENTRO DEL VIDEO QUEDA COMPLETAMENTE LIMPIO -->
 
     <!-- BASE INFERIOR: Frase abajo a la izquierda + Botón COTIZAR -->
     <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -205,7 +211,7 @@
         </div>
       </div>
 
-      <!-- Respaldo de marcas en la esquina derecha -->
+      <!-- Marcas en esquina inferior derecha -->
       <div class="hidden md:flex items-center gap-4 bg-black/45 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md">
         <span class="text-xs font-black text-amber-400 tracking-wider">LOVOL</span>
         <div class="h-4 w-px bg-white/20"></div>
@@ -232,7 +238,7 @@
           Línea Amarilla <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> en Venezuela
         </h2>
         <p class="text-sm md:text-base text-neutral-300 mt-3 leading-relaxed">
-          Haz clic en cualquier unidad para iniciar la cotización formal con nuestra gerencia técnica. Despacho nacional en cama baja y garantía de fábrica.
+          Haz clic en cualquier unidad para iniciar la cotización técnica con nuestra gerencia comercial en Valencia. Despacho nacional en cama baja y garantía de fábrica.
         </p>
       </div>
 
@@ -442,15 +448,21 @@
     </div>
   </footer>
 
+  <!-- ===============================================================
+       JAVASCRIPT: ASESOR & CONEXIÓN CON WHATSAPP
+       =============================================================== -->
   <script>
+    // NÚMERO OFICIAL DE CONSTRUVEN IMPORT CONFIGURADO:
+    const CONSTRUVEN_WHATSAPP_NUMBER = "584227170891";
+
     function dismissRotateOverlay() {
       document.getElementById('rotatePrompt').style.display = 'none';
     }
 
     const leadState = {
       name: "",
-      interest: "",
-      location: "",
+      interest: "Maquinaria Pesada 0 Horas",
+      location: "Venezuela",
       stage: "ask_name"
     };
 
@@ -466,6 +478,46 @@
 
       msgDiv.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-400">$1</strong>');
       chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Genera tarjeta directa a WhatsApp con el número 584227170891
+    function appendWhatsAppCard(name, interest, location) {
+      const chatBox = document.getElementById("chatBox");
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "self-start max-w-[90%] sm:max-w-[85%] bg-gradient-to-b from-[#16202c] to-[#0f1420] border border-emerald-500/40 p-4 rounded-2xl rounded-tl-sm shadow-xl space-y-3";
+
+      const buyerName = name && name !== "amigo" ? name : "un cliente";
+      const prefilledText = `Hola Carlos, soy ${buyerName}. Estuve en la web de Construven Import y deseo cotizar formalmente: ${interest}${location ? ' para la faena en: ' + location : ''}.`;
+      const waUrl = `https://wa.me/${CONSTRUVEN_WHATSAPP_NUMBER}?text=${encodeURIComponent(prefilledText)}`;
+
+      cardDiv.innerHTML = `
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white">Línea Directa de WhatsApp</div>
+            <div class="text-[10px] text-emerald-400 font-mono-tech">+58 422 717 0891 • Proforma PDF</div>
+          </div>
+        </div>
+
+        <p class="text-xs text-neutral-300 leading-relaxed">
+          Haz clic en el botón para abrir el chat con tu solicitud técnica precargada:
+        </p>
+
+        <a 
+          href="${waUrl}" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="pulse-whatsapp flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-extrabold text-xs sm:text-sm rounded-xl transition-all shadow-lg shadow-emerald-500/20 active:scale-95 text-center"
+        >
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+          <span>ABRIR WHATSAPP DIRECTO</span>
+        </a>
+      `;
+
+      chatBox.appendChild(cardDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
@@ -486,7 +538,7 @@
       if (e.key === 'Enter') sendMessage();
     }
 
-    function simulateTypingAndRespond(text, delay = 1000) {
+    function simulateTypingAndRespond(text, delay = 1000, triggerWhatsApp = false) {
       const indicator = document.getElementById("typingIndicator");
       indicator.style.display = "flex";
       const chatBox = document.getElementById("chatBox");
@@ -495,6 +547,11 @@
       setTimeout(() => {
         indicator.style.display = "none";
         appendMessage(text, 'bot');
+        if (triggerWhatsApp) {
+          setTimeout(() => {
+            appendWhatsAppCard(leadState.name, leadState.interest, leadState.location);
+          }, 400);
+        }
       }, delay);
     }
 
@@ -522,37 +579,48 @@
     function processHumanResponse(input) {
       const lower = input.toLowerCase();
 
-      if (lower.includes("cotiz") || lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto")) {
-        const persona = leadState.name ? `${leadState.name}` : "amigo";
-        simulateTypingAndRespond(`Con gusto ${persona}. Te preparo la proforma oficial con especificaciones técnicas y costo de traslado en plataforma cama baja. ¿Para qué estado o municipio de Venezuela sería la entrega?`);
-        leadState.stage = "ask_location";
+      // Detección directa de solicitud de WhatsApp o teléfono
+      if (lower.includes("whatsapp") || lower.includes("telefono") || lower.includes("número") || lower.includes("contacto")) {
+        simulateTypingAndRespond(`¡Con gusto! Te paso la línea directa de WhatsApp para coordinar la proforma:`, 700, true);
         return;
       }
 
+      if (lower.includes("cotiz") || lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto")) {
+        const persona = leadState.name ? `${leadState.name}` : "amigo";
+        leadState.stage = "ask_location";
+        simulateTypingAndRespond(`Con gusto ${persona}. Te preparo la proforma oficial con especificaciones de motor y entrega en plataforma cama baja. ¿Para qué estado o municipio de Venezuela sería el traslado?`);
+        return;
+      }
+
+      // ETAPA 1: Nombre
       if (leadState.stage === "ask_name") {
         leadState.name = extractCleanName(input);
         leadState.stage = "ask_job_or_machine";
-        simulateTypingAndRespond(`Un gusto saludarte ${leadState.name}. ¿Tienes interés en un modelo específico (excavadora, payloader, bulldozer o motoniveladora) o buscas para una faena puntual de cantera o movimiento de tierra?`);
+        simulateTypingAndRespond(`Un gusto saludarte, ${leadState.name}. ¿Tienes interés en un equipo específico (excavadora, payloader, bulldozer o motoniveladora) o buscas para una faena de cantera o movimiento de tierra?`);
         return;
       }
 
+      // ETAPA 2: Máquina o Faena
       if (leadState.stage === "ask_job_or_machine") {
+        leadState.interest = input;
         leadState.stage = "ask_location";
-        simulateTypingAndRespond(`Entendido ${leadState.name}. Esas configuraciones las tenemos 0 horas en patio central. ¿En qué estado u obra del país requerirán el equipo para calcular la logística de cama baja?`);
+        simulateTypingAndRespond(`Entendido ${leadState.name}. Disponemos de esas configuraciones 0 horas en patio central. ¿En qué estado u obra del país van a operar el equipo para calcular la logística de cama baja?`);
         return;
       }
 
+      // ETAPA 3: Ubicación y Cierre -> DISPARA TARJETA DE WHATSAPP
       if (leadState.stage === "ask_location") {
         leadState.location = input;
         leadState.stage = "finished";
-        simulateTypingAndRespond(`Perfecto ${leadState.name}. Tenemos ruta continua de despacho hacia esa zona. Déjame por favor tu número de **WhatsApp directo** para enviarte de inmediato la ficha técnica sellada y la proforma formal.`);
+        simulateTypingAndRespond(`Excelente ${leadState.name}. Tenemos ruta continua de despacho hacia **${leadState.location}**. Ya tengo lista la proforma técnica y las fotos de patio:`, 900, true);
         return;
       }
 
-      simulateTypingAndRespond(`Anotado ${leadState.name}, coordinamos la ficha técnica y la proforma vía WhatsApp.`);
+      // Respuestas posteriores
+      simulateTypingAndRespond(`Perfecto ${leadState.name}, pulsa el botón verde para recibir la información directa en tu WhatsApp.`, 700, true);
     }
 
-    // Video Controls & GitHub Formatter
+    // Video Hero Controls
     const heroVideo = document.getElementById("heroVideo");
 
     function togglePlayPause() {
