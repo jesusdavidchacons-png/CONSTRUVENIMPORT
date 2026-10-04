@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela</title>
   
+  <!-- Favicon con Logo -->
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png">
+
   <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -30,21 +33,16 @@
         radial-gradient(circle at 90% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
     }
 
-    .font-impact-banner {
-      font-family: 'Oswald', sans-serif;
-      letter-spacing: 0.04em;
-    }
-
     .font-mono-tech {
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Scanlines sutiles estilo visor militar/industrial */
+    /* Scanlines industriales muy sutiles */
     .hud-scanlines {
       background: repeating-linear-gradient(
         0deg,
-        rgba(0, 0, 0, 0.18),
-        rgba(0, 0, 0, 0.18) 1px,
+        rgba(0, 0, 0, 0.12),
+        rgba(0, 0, 0, 0.12) 1px,
         transparent 1px,
         transparent 2px
       );
@@ -58,7 +56,7 @@
       border: 1px solid var(--card-border);
     }
 
-    /* Animación del giro del teléfono */
+    /* Animación de rotación de teléfono */
     @keyframes phoneRotate {
       0%, 15% { transform: rotate(0deg); }
       50%, 85% { transform: rotate(90deg); }
@@ -68,23 +66,23 @@
       animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Detección de orientación vertical en móviles/tablets */
+    /* Modal de rotación en móviles y tablets verticales */
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       #rotatePrompt {
         display: flex !important;
       }
     }
 
-    /* Botón píldora estilo Ford Automotive Reference */
+    /* Botón píldora estilo referencia Ford */
     .btn-pill-ford {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 1.5px solid rgba(255, 255, 255, 0.85);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
       background: rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(8px);
       color: #ffffff;
-      padding: 0.55rem 2.2rem;
+      padding: 0.6rem 2.4rem;
       border-radius: 9999px;
       font-size: 0.875rem;
       font-weight: 700;
@@ -103,20 +101,12 @@
     .btn-pill-ford:active {
       transform: scale(0.96);
     }
-
-    @keyframes bounce-slow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
-    .animate-bounce-slow {
-      animation: bounce-slow 2s infinite ease-in-out;
-    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
   <!-- ===============================================================
-       MODAL OBLIGATORIO: GIRAR DISPOSITIVO (EN MODO VERTICAL)
+       MODAL DE OBLIGACIÓN DE GIRO DE PANTALLA (PORTRAIT)
        =============================================================== -->
   <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
     <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
@@ -129,25 +119,25 @@
       </div>
     </div>
     
-    <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Cinematográfica</span>
-    <h2 class="text-2xl font-black text-white uppercase tracking-tight max-w-sm mb-3 font-impact-banner">
-      Gira tu dispositivo a horizontal
+    <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Panorámica</span>
+    <h2 class="text-2xl font-black text-white uppercase tracking-tight max-w-sm mb-3">
+      Gira tu teléfono a horizontal
     </h2>
     <p class="text-xs text-neutral-400 max-w-xs leading-relaxed mb-8">
-      Para apreciar la escala, detalles técnicos y el video en alta resolución de la flota Construven, optimiza la pantalla en formato panorámico.
+      Diseñado para visualizar en formato cine la maquinaria de alta potencia y las pruebas operativas en terreno.
     </p>
 
     <button onclick="dismissRotateOverlay()" class="text-[11px] text-neutral-500 hover:text-white underline tracking-wider font-mono-tech uppercase">
-      Continuar en vertical de todos modos
+      Continuar en vertical
     </button>
   </div>
 
   <!-- ===============================================================
-       SECCIÓN 1: HERO BANNER PANTALLA COMPLETA (100VH) ESTILO FORD
+       HERO BANNER A PANTALLA COMPLETA (100VH) LIMPIO
        =============================================================== -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     
-    <!-- Background Video: construvenimport.mp4 -->
+    <!-- Video de fondo: construvenimport.mp4 -->
     <video 
       id="heroVideo"
       class="absolute inset-0 w-full h-full object-cover z-0"
@@ -158,128 +148,91 @@
       preload="auto"
       poster="https://images.unsplash.com/photo-1579829366248-204fe8413f31?auto=format&fit=crop&w=1920&q=80">
       
-      <!-- Video solicitado en GitHub / local -->
+      <!-- Prioridad 1: Nombre solicitado construvenimport.mp4 en raíz -->
       <source src="construvenimport.mp4" type="video/mp4">
+      <!-- Prioridad 2: En carpeta assets -->
       <source src="./assets/construvenimport.mp4" type="video/mp4">
-      <!-- Fallback demo mientras subes tu video a GitHub -->
+      <!-- Prioridad 3: Streaming fallback mientras subes el video -->
       <source id="fallbackSource" src="https://assets.mixkit.co/videos/preview/mixkit-excavator-working-at-a-construction-site-41270-large.mp4" type="video/mp4">
       Tu navegador no soporta video HTML5.
     </video>
 
-    <!-- Scanlines y viñetas oscuras para contraste cinematográfico -->
-    <div class="absolute inset-0 hud-scanlines opacity-40 z-10"></div>
-    <div class="absolute inset-0 bg-gradient-to-t from-[#07090e] via-black/35 to-black/60 z-10"></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/40 z-10"></div>
+    <!-- Scanlines y viñetas optimizadas (no oscurecen el centro) -->
+    <div class="absolute inset-0 hud-scanlines opacity-25 z-10 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 z-10 pointer-events-none"></div>
 
-    <!-- TOP BAR DENTRO DEL BANNER: Identificador, HUD y Configuración -->
+    <!-- TOP HEADER: Logo Construven Oficial + Configuración -->
     <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-700 flex items-center justify-center font-black text-neutral-950 text-lg shadow-lg shadow-amber-500/20">
-          C
-        </div>
-        <div class="flex flex-col">
-          <span class="font-black text-xs md:text-sm tracking-wider text-white uppercase font-impact-banner">CONSTRUVEN IMPORT</span>
-          <span class="text-[9px] text-amber-400 font-mono-tech tracking-widest uppercase">Venezuela • 0 Horas</span>
-        </div>
-      </div>
+      <!-- Logo Oficial -->
+      <a href="#" class="flex items-center gap-3 group">
+        <img 
+          src="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png" 
+          alt="Construven Import Logo" 
+          class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-transform duration-300 group-hover:scale-105"
+        >
+      </a>
 
+      <!-- Controles sutiles de video -->
       <div class="flex items-center gap-2">
-        <!-- Botón Configurar video GitHub -->
-        <button onclick="toggleGithubModal()" class="bg-black/60 hover:bg-black/90 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/20 backdrop-blur-md flex items-center gap-1.5 transition-all">
+        <button onclick="toggleGithubModal()" class="bg-black/50 hover:bg-black/80 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/15 backdrop-blur-md flex items-center gap-1.5 transition-all">
           <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          <span class="hidden sm:inline">Configurar Video</span>
+          <span class="hidden sm:inline">Fuente de Video</span>
         </button>
 
-        <!-- Toggle Play/Pause -->
-        <button onclick="togglePlayPause()" class="bg-black/60 hover:bg-black/90 text-white p-2 rounded-full border border-white/20 backdrop-blur-md">
+        <button onclick="togglePlayPause()" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full border border-white/15 backdrop-blur-md">
           <svg id="pauseIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <svg id="playIcon" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
         </button>
       </div>
     </div>
 
-    <!-- TITULAR PRINCIPAL ALTO IMPACTO (CENTRO / SUPERIOR) -->
-    <div class="relative z-20 text-center px-4 max-w-5xl mx-auto my-auto pt-6">
-      <span class="inline-block text-[11px] md:text-xs tracking-[0.3em] uppercase text-amber-400 font-mono-tech mb-2 bg-black/60 px-4 py-1 rounded-full border border-amber-500/30 backdrop-blur-sm">
-        Distribuidor Oficial • Patio Central Valencia
-      </span>
-      <h1 class="font-impact-banner text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white uppercase tracking-tight leading-[0.95] drop-shadow-2xl">
-        POTENCIA DIRECTA <br class="hidden sm:block"/>
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600">
-          EN CADA TONELADA
-        </span>
-      </h1>
-    </div>
+    <!-- EL CENTRO QUEDA COMPLETAMENTE VACÍO PARA DEJAR LUCIR EL VIDEO -->
 
-    <!-- INFERIOR BANNER: DISEÑO EXACTO A LA REFERENCIA FORD -->
-    <div class="relative z-20 w-full px-6 md:px-14 pb-10 flex flex-col md:flex-row md:items-end justify-between gap-8">
-      
-      <!-- Zona Izquierda: Frase motivadora + Botón de Píldora COTIZAR -->
-      <div class="flex flex-col items-start max-w-lg">
-        <!-- Frase solicitada -->
-        <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug drop-shadow-lg mb-4">
+    <!-- BASE INFERIOR: Frase abajo a la izquierda + Botón COTIZAR -->
+    <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div class="flex flex-col items-start max-w-xl">
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug drop-shadow-xl mb-4">
           Imposible es solo falta de potencia
-        </h3>
+        </h2>
 
-        <!-- Botón píldora como el de la referencia "Adelante" -->
-        <div class="flex flex-col items-start gap-2">
-          <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, deseo solicitar una cotización formal.')" class="btn-pill-ford group">
+        <div>
+          <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, solicito cotización formal de maquinaria.')" class="btn-pill-ford group">
             <span>COTIZAR</span>
             <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
           </a>
-          <span class="text-[11px] text-neutral-400 font-mono-tech tracking-wide ml-2">
-            Disponibilidad Inmediata • Despacho Nacional en Cama Baja
-          </span>
         </div>
       </div>
 
-      <!-- Zona Derecha: Marcas e indicador de scroll -->
-      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 self-start md:self-end">
-        <!-- Logos de marcas aliadas -->
-        <div class="flex items-center gap-4 bg-black/50 border border-white/10 px-4 py-2.5 rounded-2xl backdrop-blur-md">
-          <div class="text-right">
-            <span class="text-[9px] text-neutral-400 uppercase font-mono-tech block">Tecnología</span>
-            <span class="text-xs font-black text-amber-400 tracking-wider">LOVOL</span>
-          </div>
-          <div class="h-6 w-px bg-white/20"></div>
-          <div>
-            <span class="text-[9px] text-neutral-400 uppercase font-mono-tech block">Empuje</span>
-            <span class="text-xs font-black text-white tracking-wider">SHANTUI</span>
-          </div>
-        </div>
-
-        <!-- Indicador Deslizar -->
-        <a href="#catalogo" class="hidden lg:flex flex-col items-center text-neutral-400 hover:text-amber-400 transition-colors animate-bounce-slow">
-          <span class="text-[10px] font-mono-tech uppercase tracking-widest mb-1">Explorar Catálogo</span>
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-          </svg>
-        </a>
+      <!-- Respaldo de marcas en la esquina derecha -->
+      <div class="hidden md:flex items-center gap-4 bg-black/45 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md">
+        <span class="text-xs font-black text-amber-400 tracking-wider">LOVOL</span>
+        <div class="h-4 w-px bg-white/20"></div>
+        <span class="text-xs font-black text-white tracking-wider">SHANTUI</span>
       </div>
-
     </div>
+
   </section>
 
   <!-- ===============================================================
-       SECCIÓN 2: CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO
+       CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO
        =============================================================== -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
-    <!-- COLUMNA IZQUIERDA: Tarjetas de Maquinaria -->
+    <!-- COLUMNA IZQUIERDA: Catálogo de Maquinaria -->
     <div class="lg:col-span-6 flex flex-col gap-6">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
           <span>CATÁLOGO NACIONAL 2026</span>
           <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-          <span>ENTREGA EN CAMA BAJA</span>
+          <span>DISPONIBILIDAD EN VALENCIA</span>
         </div>
         <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-          Equipos 2026 <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> en Patio
+          Línea Amarilla <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300">0 Horas</span> en Venezuela
         </h2>
         <p class="text-sm md:text-base text-neutral-300 mt-3 leading-relaxed">
-          Haz clic en cualquier unidad para iniciar la cotización técnica con nuestra gerencia comercial en Valencia. Respaldo de repuestos y asistencia mecánica garantizada.
+          Haz clic en cualquier unidad para iniciar la cotización formal con nuestra gerencia técnica. Despacho nacional en cama baja y garantía de fábrica.
         </p>
       </div>
 
@@ -321,7 +274,7 @@
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">EN PATIO</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FD320 (34.5t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Con Ripper Gigante</div>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Ripper Gigante</div>
           <div class="mt-3 flex items-center gap-1 text-xs text-amber-400 font-semibold">
             <span>Cotizar este equipo</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
@@ -344,7 +297,7 @@
 
       </div>
 
-      <!-- Badges de confianza técnica -->
+      <!-- Indicadores de confianza B2B -->
       <div class="grid grid-cols-3 gap-3 pt-2">
         <div class="text-center p-3 rounded-xl bg-neutral-900/50 border border-white/5">
           <span class="text-lg font-black text-amber-400 block font-mono-tech">100%</span>
@@ -361,11 +314,10 @@
       </div>
     </div>
 
-    <!-- COLUMNA DERECHA: Asesor Técnico y Cotizador en Vivo -->
+    <!-- COLUMNA DERECHA: Asesor Técnico -->
     <div class="lg:col-span-6 w-full">
       <div class="glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden shadow-2xl flex flex-col h-[620px] bg-[#0c0f18]/90">
         
-        <!-- Encabezado del Asesor -->
         <div class="px-5 py-4 border-b border-white/10 bg-[#121624] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="relative">
@@ -379,7 +331,7 @@
                 <h3 class="font-bold text-white text-sm">Carlos Mendoza</h3>
                 <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">Asesor Senior</span>
               </div>
-              <p class="text-xs text-neutral-400">Gerencia de Cotizaciones • Construven Import</p>
+              <p class="text-xs text-neutral-400">Gerencia Comercial • Construven Import</p>
             </div>
           </div>
 
@@ -389,27 +341,24 @@
           </div>
         </div>
 
-        <!-- Área de Mensajes -->
         <div id="chatBox" class="flex-1 overflow-y-auto p-4 md:p-5 flex flex-col gap-3.5 scroll-smooth">
           <div class="self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed">
             Buenas tardes, un gusto saludarte. Mi nombre es <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>.<br><br>
-            Tenemos lotes 2026 de maquinaria pesada 0 horas en patio listos para facturación y despacho. ¿Con quién tengo el gusto de hablar hoy?
+            Tenemos unidades 2026 de maquinaria pesada 0 horas listas para entrega inmediata en patio. ¿Con quién tengo el gusto de hablar hoy?
           </div>
         </div>
 
-        <!-- Indicador de Escritura -->
         <div id="typingIndicator" class="hidden self-start mx-5 my-2 bg-[#141824] border border-white/10 px-4 py-2.5 rounded-xl rounded-tl-sm flex items-center gap-1.5">
           <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
           <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
           <div class="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></div>
         </div>
 
-        <!-- Input de Chat -->
         <div class="p-3.5 border-t border-white/10 bg-[#0f121d] flex items-center gap-2">
           <input 
             type="text" 
             id="userInput" 
-            placeholder="Escribe tu mensaje o consulta de equipo..." 
+            placeholder="Escribe tu consulta o requerimiento técnico..." 
             class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all"
             onkeydown="handleKey(event)"
           >
@@ -425,7 +374,7 @@
     </div>
   </main>
 
-  <!-- MODAL: GITHUB VIDEO CONFIG -->
+  <!-- MODAL DE CONFIGURACIÓN DE VIDEO GITHUB -->
   <div id="githubModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="glass-panel w-full max-w-lg rounded-2xl p-6 border border-amber-500/40 relative shadow-2xl">
       <button onclick="toggleGithubModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
@@ -435,24 +384,24 @@
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
         </div>
         <div>
-          <h3 class="text-lg font-bold text-white">Configuración del Video GitHub</h3>
-          <p class="text-xs text-neutral-400">Nombre de archivo configurado: <code class="text-amber-300 font-mono-tech">construvenimport.mp4</code></p>
+          <h3 class="text-lg font-bold text-white">Fuente de Video Hero</h3>
+          <p class="text-xs text-neutral-400">Archivo por defecto: <code class="text-amber-300 font-mono-tech">construvenimport.mp4</code></p>
         </div>
       </div>
 
       <div class="space-y-4 text-sm">
         <div class="bg-neutral-900/90 border border-white/10 p-3.5 rounded-xl text-xs space-y-2">
-          <div class="font-semibold text-amber-400">📌 Archivo vinculado por defecto:</div>
+          <div class="font-semibold text-amber-400">📌 Archivo asignado:</div>
           <div class="font-mono-tech bg-black/60 p-2 rounded border border-amber-500/30 text-amber-200 select-all">
             construvenimport.mp4
           </div>
           <p class="text-neutral-400 leading-relaxed text-[11px]">
-            Sube tu video con ese nombre en la raíz de tu repositorio o dentro de <code class="text-white">./assets/construvenimport.mp4</code>.
+            Sube tu clip con este nombre en la raíz de tu repo o dentro de la carpeta <code class="text-white">./assets/construvenimport.mp4</code>.
           </p>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-neutral-300 mb-1.5">O pega la URL directa de GitHub:</label>
+          <label class="block text-xs font-semibold text-neutral-300 mb-1.5">O introduce la URL directa de GitHub:</label>
           <input 
             type="text" 
             id="customVideoInput" 
@@ -460,14 +409,14 @@
             class="w-full bg-neutral-900 border border-white/20 rounded-xl px-3.5 py-2.5 text-white placeholder-neutral-500 text-xs focus:outline-none focus:border-amber-400 font-mono-tech"
           >
           <p class="text-[11px] text-amber-300/80 mt-1.5">
-            Auto-conversión a RAW streaming activa al guardar.
+            Conversión automática a RAW streaming al cargar.
           </p>
         </div>
 
         <div class="flex justify-end gap-2 pt-3 border-t border-white/10">
           <button onclick="toggleGithubModal()" class="px-4 py-2 rounded-xl text-neutral-400 hover:text-white text-xs">Cerrar</button>
           <button onclick="applyCustomVideo()" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs shadow-lg shadow-amber-500/20">
-            Cargar en el Banner
+            Cargar al Banner
           </button>
         </div>
       </div>
@@ -475,10 +424,15 @@
   </div>
 
   <!-- FOOTER -->
-  <footer class="mt-auto border-t border-white/10 py-6 px-4 text-center text-xs text-neutral-500">
-    <div class="max-w-[1340px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div>
-        © 2026 Construven Import C.A. • RIF J-30982341-0 • Representante Técnico Lovol & Shantui en Venezuela.
+  <footer class="mt-auto border-t border-white/10 py-6 px-4 text-xs text-neutral-500">
+    <div class="max-w-[1340px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img 
+          src="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png" 
+          alt="Construven Logo Footer" 
+          class="h-6 w-auto opacity-70 grayscale hover:grayscale-0 transition-all"
+        >
+        <span>© 2026 Construven Import C.A. • RIF J-30982341-0 • Distribuidor Autorizado Lovol & Shantui.</span>
       </div>
       <div class="flex items-center gap-4 text-neutral-400 font-mono-tech">
         <span>Patio Central: Valencia, Edo. Carabobo</span>
@@ -489,12 +443,10 @@
   </footer>
 
   <script>
-    // Manejo de giro de pantalla en móvil
     function dismissRotateOverlay() {
       document.getElementById('rotatePrompt').style.display = 'none';
     }
 
-    // Estado del asistente comercial
     const leadState = {
       name: "",
       interest: "",
@@ -521,7 +473,7 @@
       const chatElement = document.getElementById("userInput");
       if (chatElement) {
         chatElement.value = message;
-        setTimeout(() => sendMessage(), 400);
+        setTimeout(() => sendMessage(), 300);
       }
     }
 
@@ -572,7 +524,7 @@
 
       if (lower.includes("cotiz") || lower.includes("precio") || lower.includes("costo") || lower.includes("cuanto")) {
         const persona = leadState.name ? `${leadState.name}` : "amigo";
-        simulateTypingAndRespond(`Con mucho gusto ${persona}. Te preparo la proforma oficial con especificaciones de motor y entrega en plataforma cama baja. ¿Para qué estado o municipio de Venezuela sería el traslado?`);
+        simulateTypingAndRespond(`Con gusto ${persona}. Te preparo la proforma oficial con especificaciones técnicas y costo de traslado en plataforma cama baja. ¿Para qué estado o municipio de Venezuela sería la entrega?`);
         leadState.stage = "ask_location";
         return;
       }
@@ -580,27 +532,27 @@
       if (leadState.stage === "ask_name") {
         leadState.name = extractCleanName(input);
         leadState.stage = "ask_job_or_machine";
-        simulateTypingAndRespond(`Un placer ${leadState.name}. ¿Tienes interés en un modelo específico (excavadora, cargador, bulldozer, motoniveladora) o buscas para una faena puntual de cantera o movimiento de tierra?`);
+        simulateTypingAndRespond(`Un gusto saludarte ${leadState.name}. ¿Tienes interés en un modelo específico (excavadora, payloader, bulldozer o motoniveladora) o buscas para una faena puntual de cantera o movimiento de tierra?`);
         return;
       }
 
       if (leadState.stage === "ask_job_or_machine") {
         leadState.stage = "ask_location";
-        simulateTypingAndRespond(`Entendido ${leadState.name}. Tenemos esas configuraciones 0 horas disponibles con entrega inmediata. ¿En qué zona u obra de Venezuela operarían el equipo para calcular la logística?`);
+        simulateTypingAndRespond(`Entendido ${leadState.name}. Esas configuraciones las tenemos 0 horas en patio central. ¿En qué estado u obra del país requerirán el equipo para calcular la logística de cama baja?`);
         return;
       }
 
       if (leadState.stage === "ask_location") {
         leadState.location = input;
         leadState.stage = "finished";
-        simulateTypingAndRespond(`Excelente ${leadState.name}. Tenemos ruta continua de cama baja hacia esa zona. Déjame tu número de **WhatsApp directo** para hacerte llegar la ficha técnica y la proforma sellada por gerencia técnica.`);
+        simulateTypingAndRespond(`Perfecto ${leadState.name}. Tenemos ruta continua de despacho hacia esa zona. Déjame por favor tu número de **WhatsApp directo** para enviarte de inmediato la ficha técnica sellada y la proforma formal.`);
         return;
       }
 
-      simulateTypingAndRespond(`Anotado ${leadState.name}, te contactamos de inmediato vía WhatsApp para darte toda la información de entrega.`);
+      simulateTypingAndRespond(`Anotado ${leadState.name}, coordinamos la ficha técnica y la proforma vía WhatsApp.`);
     }
 
-    // Video Banner Controls
+    // Video Controls & GitHub Formatter
     const heroVideo = document.getElementById("heroVideo");
 
     function togglePlayPause() {
