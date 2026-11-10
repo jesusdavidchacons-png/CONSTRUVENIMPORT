@@ -121,15 +121,6 @@
       transform: scale(0.96);
     }
 
-    /* Pulsación del botón de WhatsApp */
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-      50% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-    }
-    .pulse-whatsapp {
-      animation: pulseGlow 2s infinite;
-    }
-
     /* Barra de desplazamiento horizontal oculta */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
@@ -443,7 +434,7 @@
         </div>
       </div>
 
-      <!-- Barra de Selección de Máquinas -->
+      <!-- Barra de Selección de Máquinas (CON TODAS LAS MÁQUINAS ORIGINALES) -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 pt-1" id="machinesTabs">
         <!-- Renderizado dinámico vía JavaScript -->
       </div>
@@ -533,7 +524,7 @@
             </div>
           </div>
 
-          <!-- Botones de Acción Comercial (Incluyendo "Ver Video" con enlace de YouTube) -->
+          <!-- Botones de Acción Comercial (Dynamic Action Grid) -->
           <div class="pt-5 border-t border-white/10 space-y-2.5">
             <button 
               id="btnQuoteShowroom"
@@ -543,26 +534,8 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>
 
-            <div class="grid grid-cols-2 gap-2">
-              <a 
-                id="btnWhatsAppShowroom"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="py-2.5 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
-                <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
-                <span>Solicitar Proforma</span>
-              </a>
-
-              <a 
-                id="btnWatchVideo"
-                href="https://youtu.be/-ZPi0QhVVK0"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="py-2.5 px-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 hover:border-blue-500 text-blue-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
-                <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Ver Video</span>
-              </a>
+            <div id="actionButtonsGrid" class="grid grid-cols-1 gap-2">
+              <!-- JS insertará el botón de 'Ver Video' únicamente en la máquina que lo tenga configurado (FB878M) -->
             </div>
           </div>
         </div>
@@ -572,7 +545,7 @@
 
   <!-- Scripts de Control -->
   <script>
-    // Base de datos de maquinaria del Showroom 3D
+    // Base de datos completa con TODAS las máquinas originales
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -591,6 +564,109 @@
         ],
         phoneText: 'Hola Carlos, estoy interesado en la Motoniveladora Shantui SG21-B6 (0 Horas). Solicito proforma y disponibilidad en patio Valencia.'
       },
+      'fl966h': {
+        brand: 'LOVOL',
+        title: 'Payloader Lovol FL966H',
+        category: 'Cargador Frontal de Ruedas Pesado • Minería y Canteras',
+        power: 'Weichai WP10G 240 HP',
+        weight: '19,500 kg (19.5t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Weichai WP10G220E343' },
+          { label: 'Potencia Bruta', value: '240 HP @ 2200 rpm' },
+          { label: 'Capacidad de Balde', value: '3.5 m³ estándar' },
+          { label: 'Carga Útil Nominal', value: '6,000 kg' },
+          { label: 'Fuerza de Desprendimiento', value: '185 kN' }
+        ],
+        phoneText: 'Hola Carlos, solicito cotización para el Payloader Lovol FL966H de 3.5 m³.'
+      },
+      'fl955k': {
+        brand: 'LOVOL',
+        title: 'Payloader / Pala Cargadora FL955K',
+        category: 'Cargador Frontal de Ruedas • Movimiento de Agregados',
+        power: 'Weichai / Cummins 220 HP',
+        weight: '17,200 kg (17.2t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Weichai / Cummins Turbo' },
+          { label: 'Potencia Nominal', value: '220 HP (162 kW)' },
+          { label: 'Capacidad de Balde', value: '3.0 m³ estándar' },
+          { label: 'Carga Útil Nominal', value: '5,000 kg' },
+          { label: 'Fuerza de Desprendimiento', value: '165 kN' }
+        ],
+        phoneText: 'Hola Carlos, me interesa la Pala Cargadora Lovol FL955K (3.0 m³). Por favor envíeme proforma técnica.'
+      },
+      'fd328': {
+        brand: 'LOVOL',
+        title: 'Bulldozer Lovol FD328',
+        category: 'Tractor de Oruga Pesado • Movimiento de Tierra Masivo',
+        power: 'Cummins 320 HP',
+        weight: '32,000 kg (32.0t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Cummins NTA855-C360' },
+          { label: 'Potencia Neta', value: '320 HP (235 kW)' },
+          { label: 'Tipo de Hoja', value: 'Straight Tilt / U-Blade' },
+          { label: 'Capacidad de Hoja', value: '9.2 m³' },
+          { label: 'Tren de Rodaje', value: 'Heavy Duty' }
+        ],
+        phoneText: 'Hola Carlos, requiero información sobre el Bulldozer Lovol FD328.'
+      },
+      'fd220': {
+        brand: 'LOVOL',
+        title: 'Bulldozer Lovol FD220',
+        category: 'Tractor de Oruga Mediano • Construcción y Vialidad',
+        power: 'Weichai 220 HP',
+        weight: '23,500 kg (23.5t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Weichai WD10G220E23' },
+          { label: 'Potencia Neta', value: '220 HP (162 kW)' },
+          { label: 'Tipo de Hoja', value: 'Straight Tilt Blade' },
+          { label: 'Capacidad de Hoja', value: '6.4 m³' }
+        ],
+        phoneText: 'Hola Carlos, me interesa el Bulldozer Lovol FD220 de 23.5 toneladas.'
+      },
+      'fb878m': {
+        brand: 'LOVOL',
+        title: 'Retroexcavadora Lovol FB878M',
+        category: 'Retroexcavadora 4x4 0 Horas • Obras Urbanas y Agrícolas',
+        power: 'Weichai WP4.1 100 HP',
+        weight: '8,400 kg (8.4t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Weichai WP4.1 Turbo' },
+          { label: 'Potencia', value: '100 HP (75 kW)' },
+          { label: 'Profundidad de Excavación', value: '4,530 mm' },
+          { label: 'Tracción', value: '4x4 Sincronizada' },
+          { label: 'Estado', value: '0 Horas • Disponible en Patio' }
+        ],
+        phoneText: 'Hola Carlos, estoy interesado en la Retroexcavadora Lovol FB878M (0 Horas). Solicito proforma y video demostrativo.',
+        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0' // Enlace de YouTube exclusivo para esta máquina
+      },
+      'shantuic5': {
+        brand: 'SHANTUI',
+        title: 'Motoniveladora Shantui SG27-C5',
+        category: 'Motoniveladora Heavy Duty • Minería y Grandes Proyectos',
+        power: 'Weichai WP7G 270 HP',
+        weight: '18,500 kg (18.5t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Weichai WP7G270E302' },
+          { label: 'Potencia Bruta', value: '270 HP (199 kW) @ 2200 rpm' },
+          { label: 'Ancho de Hoja', value: '3,965 / 4,270 mm' },
+          { label: 'Rotación de Hoja', value: '360°' }
+        ],
+        phoneText: 'Hola Carlos, estoy cotizando la Motoniveladora Shantui SG27-C5 de 270 HP.'
+      },
+      'fr335f': {
+        brand: 'LOVOL',
+        title: 'Excavadora Lovol FR335F',
+        category: 'Excavadora de Oruga Pesada • Minería y Canteras',
+        power: 'Cummins 275 HP',
+        weight: '33,500 kg (33.5t)',
+        specs: [
+          { label: 'Modelo de Motor', value: 'Cummins QSL9' },
+          { label: 'Potencia Neta', value: '275 HP (205 kW)' },
+          { label: 'Capacidad de Balde', value: '1.6 m³' },
+          { label: 'Profundidad de Excavación', value: '7,320 mm' }
+        ],
+        phoneText: 'Hola Carlos, necesito información de la Excavadora Lovol FR335F en patio.'
+      },
       'fr220d': {
         brand: 'LOVOL',
         title: 'Excavadora Hidráulica FR220D',
@@ -606,38 +682,6 @@
           { label: 'Fuerza de Excavación', value: '142 kN' }
         ],
         phoneText: 'Hola Carlos, requiero cotización y disponibilidad inmediata de la Excavadora Lovol FR220D (21.9t) en Valencia.'
-      },
-      'fl955k': {
-        brand: 'LOVOL',
-        title: 'Payloader / Pala Cargadora FL955K',
-        category: 'Cargador Frontal de Ruedas • Movimiento de Agregados',
-        power: 'Weichai / Cummins 220 HP',
-        weight: '17,200 kg (17.2t)',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai / Cummins Turbo' },
-          { label: 'Potencia Nominal', value: '220 HP (162 kW)' },
-          { label: 'Capacidad de Balde', value: '3.0 m³ estándar' },
-          { label: 'Carga Útil Nominal', value: '5,000 kg' },
-          { label: 'Fuerza de Desprendimiento', value: '165 kN' },
-          { label: 'Tiempo de Ciclo Hidráulico', value: '9.8 segundos' }
-        ],
-        phoneText: 'Hola Carlos, me interesa la Pala Cargadora Lovol FL955K (3.0 m³). Por favor envíeme proforma técnica.'
-      },
-      'fd320': {
-        brand: 'LOVOL',
-        title: 'Bulldozer de Oruga FD320',
-        category: 'Tractor de Oruga Pesado • Minería y Obras Civiles',
-        power: 'Cummins 345 HP',
-        weight: '34,500 kg (34.5t)',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Cummins KTTA8.3-C345' },
-          { label: 'Potencia Neta', value: '345 HP (257 kW)' },
-          { label: 'Tipo de Hoja', value: 'Semi-U de alta capacidad' },
-          { label: 'Capacidad de Hoja', value: '10.4 m³' },
-          { label: 'Ripper Trasero', value: 'Multiripper de 3 vástagos' },
-          { label: 'Tren de Rodaje', value: 'Heavy Duty de alta durabilidad' }
-        ],
-        phoneText: 'Hola Carlos, solicito información y cotización del Bulldozer Lovol FD320 (34.5t) disponible en patio.'
       }
     };
 
@@ -676,9 +720,44 @@
       document.getElementById('specQuickWeight').innerText = m.weight;
       document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
 
-      // Botón de WhatsApp
-      const waBtn = document.getElementById('btnWhatsAppShowroom');
-      waBtn.href = `https://wa.me/584247780942?text=${encodeURIComponent(m.phoneText)}`;
+      // Control dinámico de botones de acción
+      const actionGrid = document.getElementById('actionButtonsGrid');
+      if (m.videoUrl) {
+        actionGrid.className = 'grid grid-cols-2 gap-2';
+        actionGrid.innerHTML = `
+          <a 
+            id="btnWhatsAppShowroom"
+            href="https://wa.me/584247780942?text=${encodeURIComponent(m.phoneText)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-2.5 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
+            <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+            <span>Proforma</span>
+          </a>
+          <a 
+            id="btnWatchVideo"
+            href="${m.videoUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="py-2.5 px-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 hover:border-blue-500 text-blue-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>Ver Video</span>
+          </a>
+        `;
+      } else {
+        actionGrid.className = 'grid grid-cols-1 gap-2';
+        actionGrid.innerHTML = `
+          <a 
+            id="btnWhatsAppShowroom"
+            href="https://wa.me/584247780942?text=${encodeURIComponent(m.phoneText)}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full py-2.5 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
+            <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
+            <span>Solicitar Proforma en WhatsApp</span>
+          </a>
+        `;
+      }
 
       // Renderizar tabla de especificaciones
       const listContainer = document.getElementById('specsList');
