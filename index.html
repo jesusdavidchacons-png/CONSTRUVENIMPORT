@@ -567,7 +567,7 @@
 
         <div>
           <label class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Número de WhatsApp</label>
-          <input type="tel" id="leadPhone" required placeholder="Ej. +58 412 0000000" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
+          <input type="tel" id="leadPhone" required placeholder="Ej. +58 422 7170891" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
         </div>
 
         <input type="hidden" id="leadMachine" value="Maquinaria General">
@@ -807,7 +807,7 @@
         }
       }
 
-      const empresaWhatsApp = '584120000000'; // Reemplaza con tu número real
+      const empresaWhatsApp = '584227170891'; // Número corporativo configurado
       const mensaje = `Hola, mi nombre es *${name}*. Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
       const urlWhatsApp = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
@@ -854,7 +854,7 @@
             }).catch(err => console.error(err));
           }
 
-          const empresaWhatsApp = '584120000000'; 
+          const empresaWhatsApp = '584227170891'; 
           const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
           const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
 
