@@ -585,7 +585,7 @@
     // URL DE GOOGLE APPS SCRIPT CONFIGURADA
     const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwQPZeLeJZeXnOYAUQy-ibjixSPvC25DpWc7aSf9pry7wu8lom27W5_8ct_BhWpg91G/exec';
 
-    // Base de datos de maquinaria
+    // Base de datos oficial de maquinaria de la página
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -715,6 +715,7 @@
 
     function switchMachine(key) {
       activeMachineKey = key;
+      userDetectedMachine = machinesData[key].title; // Al hacer clic en una máquina, se asigna automáticamente
       initShowroom();
     }
 
@@ -817,18 +818,18 @@
       }, 1000);
     }
 
-    // DETECTOR DE MÁQUINAS EN EL TEXTO DEL CHAT
+    // DETECTOR AMPLIO Y PRECISO DE MÁQUINAS EN EL TEXTO DEL CHAT
     function detectMachineInText(text) {
       const t = text.toLowerCase();
-      if (t.includes('fr220') || t.includes('excavadora')) return 'Excavadora Lovol FR220D';
-      if (t.includes('fl955') || t.includes('payloader') || t.includes('cargador')) return 'Payloader Lovol FL955K';
-      if (t.includes('fb878') || t.includes('retroexcavadora')) return 'Retroexcavadora Lovol FB878M';
-      if (t.includes('sg21') || t.includes('sg21-b6')) return 'Motoniveladora Shantui SG21-B6';
-      if (t.includes('sg27') || t.includes('sg27-c5') || t.includes('mineria')) return 'Motoniveladora Shantui SG27-C5';
+      if (t.includes('fr220') || t.includes('fr 220') || t.includes('excavadora')) return 'Excavadora Hidráulica FR220D';
+      if (t.includes('fl955') || t.includes('fl 955') || t.includes('payloader') || t.includes('cargador')) return 'Payloader / Cargador FL955K';
+      if (t.includes('fb878') || t.includes('fb 878') || t.includes('retroexcavadora')) return 'Retroexcavadora FB878M';
+      if (t.includes('sg21') || t.includes('sg 21') || t.includes('sg21-b6')) return 'Motoniveladora SG21-B6';
+      if (t.includes('sg27') || t.includes('sg 27') || t.includes('sg27-c5') || t.includes('mineria')) return 'Motoniveladora SG27-C5';
       return null;
     }
 
-    // CHAT INTERACTIVO CON DETECTO DE MÁQUINA E INTELIGENCIA DE DATOS
+    // CHAT INTERACTIVO CON DETECTOR DE MÁQUINAS Y DATOS
     let userQuestionCount = 0;
     let waitingForLeadData = false;
 
@@ -837,7 +838,7 @@
       const messageText = inputField.value.trim();
       if (!messageText) return;
 
-      // Revisar si en este mensaje mencionó alguna máquina
+      // Detectar si el usuario mencionó alguna máquina en su texto
       const foundMachine = detectMachineInText(messageText);
       if (foundMachine) {
         userDetectedMachine = foundMachine;
@@ -871,7 +872,7 @@
           waitingForLeadData = false;
           const contactoInfo = messageText;
           
-          // Extraer número de teléfono y nombre limpiamente
+          // Extraer número de teléfono limpio y nombre
           const phoneMatch = contactoInfo.match(/[\d\+\-\s\(\)]{7,}/);
           const extractedPhone = phoneMatch ? phoneMatch[0].trim() : 'No especificado';
           const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.-]/g, '').trim() || 'Cliente Chat';
@@ -891,10 +892,10 @@
           }
 
           const empresaWhatsApp = '584227170891'; 
-          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}. Estoy interesado en: ${userDetectedMachine}.`;
+          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}. Estoy interesado en la unidad: ${userDetectedMachine}.`;
           const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
 
-          appendMessage(`¡Datos y equipo registradas con éxito! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
+          appendMessage(`¡Datos y equipo "${userDetectedMachine}" registrados con éxito en la base de datos! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
           setTimeout(() => {
             window.location.href = urlWA;
           }, 2000);
@@ -902,8 +903,8 @@
         }
 
         let botReply = "Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.";
-        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz')) {
-          botReply = "Con gusto preparamos la cotización formal. ¿Te interesa alguna unidad en específico de nuestro catálogo (Lovol o Shantui)?";
+        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz') || messageText.toLowerCase().includes('cuanto')) {
+          botReply = "Con gusto preparamos la cotización formal. ¿Qué unidad específica de nuestro catálogo (Lovol o Shantui) requiere para su obra?";
         } else if (messageText.toLowerCase().includes('repuesto') || messageText.toLowerCase().includes('garantia')) {
           botReply = "Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.";
         }
