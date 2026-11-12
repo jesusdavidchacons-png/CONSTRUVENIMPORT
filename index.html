@@ -782,7 +782,7 @@
       openLeadModal(m.title);
     }
 
-    // ENVÍO DE DATOS A GOOGLE SHEETS Y WHATSAPP
+    // ENVÍO DE DATOS A GOOGLE SHEETS Y WHATSAPP DESDE EL MODAL
     async function submitLeadForm(event) {
       event.preventDefault();
 
@@ -807,8 +807,8 @@
         }
       }
 
-      const empresaWhatsApp = '584227170891'; // Número corporativo configurado
-      const mensaje = `Hola, mi nombre es *${name}*. Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
+      const empresaWhatsApp = '584227170891'; 
+      const mensaje = `Hola, mi nombre es *${name}* (Tel: ${phone}). Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
       const urlWhatsApp = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
       setTimeout(() => {
@@ -816,7 +816,7 @@
       }, 1000);
     }
 
-    // Chat Interactivo
+    // CHAT INTERACTIVO CON OBLIGATORIEDAD DE NOMBRE Y TELÉFONO
     let userQuestionCount = 0;
     let waitingForLeadData = false;
 
@@ -834,14 +834,25 @@
       setTimeout(() => {
         hideTypingIndicator();
 
-        if (userQuestionCount === 3) {
-          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, indícanos por favor:<br><br>1️⃣ **Tu Nombre o Empresa:**<br>2️⃣ **Tu número de WhatsApp:**`;
+        // En la pregunta 2 del usuario, el chat exige formalmente los datos de contacto
+        if (userQuestionCount === 2) {
+          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, por favor indícanos en tu siguiente mensaje:<br><br>👉 **Tu Nombre y tu Teléfono o WhatsApp**<br><span class="text-xs text-amber-400 font-mono-tech">(Ej: Juan Pérez, 0414-1234567)</span>`;
           appendMessage(promptMsg, 'assistant');
           waitingForLeadData = true;
           return;
         }
 
+        // Si está esperando los datos, verificamos que incluya al menos números de teléfono
         if (waitingForLeadData) {
+          // Expresión regular sencilla para detectar números de teléfono en el texto
+          const hasPhoneNumbers = /\d{7,}/.test(messageText);
+
+          if (!hasPhoneNumbers) {
+            appendMessage(`⚠️ Por favor, asegúrate de incluir tu **número de teléfono o WhatsApp** en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.`, 'assistant');
+            userQuestionCount--; // Mantiene el estado de espera activo
+            return;
+          }
+
           waitingForLeadData = false;
           const contactoInfo = messageText;
           
@@ -850,15 +861,15 @@
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nombre: contactoInfo, telefono: 'Vía Chat Web', maquina: 'Consulta General Chat', fecha: new Date().toLocaleString() })
+              body: JSON.stringify({ nombre: contactoInfo, telefono: 'Extraído del Chat', maquina: 'Consulta General Chat', fecha: new Date().toLocaleString() })
             }).catch(err => console.error(err));
           }
 
           const empresaWhatsApp = '584227170891'; 
-          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
+          const textoWA = `Hola Carlos, soy de la web. Mis datos de contacto son: ${contactoInfo}.`;
           const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
 
-          appendMessage(`¡Datos registrados con éxito! Te conectamos directamente al WhatsApp con Carlos Mendoza.`, 'assistant');
+          appendMessage(`¡Datos y teléfono registrados con éxito! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
           setTimeout(() => {
             window.location.href = urlWA;
           }, 2000);
@@ -905,7 +916,6 @@
       }
     }
 
-    // Función que permite desbloquear la vista en vertical sin alterar el resto del código
     function dismissRotateOverlay() {
       const prompt = document.getElementById('rotatePrompt');
       prompt.classList.add('user-dismissed');
