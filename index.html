@@ -298,14 +298,14 @@
           </div>
         </div>
 
-        <!-- FD320 -->
-        <div onclick="selectAndScroll3D('fd320')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <!-- FB878M (Retroexcavadora con 3D y Video) -->
+        <div onclick="selectAndScroll3D('fb878m')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
-            <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Bulldozer Lovol</span>
-            <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">EN PATIO</span>
+            <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Retroexcavadora Lovol</span>
+            <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS + 3D</span>
           </div>
-          <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FD320 (34.5t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 345 HP • Ripper Gigante</div>
+          <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">FB878M (8.4t)</div>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Weichai 100 HP • Con Video Demo</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
             <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
@@ -535,7 +535,7 @@
             </button>
 
             <div id="actionButtonsGrid" class="grid grid-cols-1 gap-2">
-              <!-- JS gestiona los botones de WhatsApp y Video exclusivo para FB878M -->
+              <!-- JS gestiona los botones de WhatsApp y Video exclusivo para FB878M y Shantui SG27-C5 -->
             </div>
           </div>
         </div>
@@ -545,7 +545,7 @@
 
   <!-- Scripts de Control -->
   <script>
-    // Base de datos con la ruta del nuevo archivo 'Lovol FB878M.glb'
+    // Base de datos de maquinaria con el modelo 3D 'Lovol FB878M.glb' y videos exclusivos conectados
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -634,7 +634,7 @@
         category: 'Retroexcavadora 4x4 0 Horas • Obras Urbanas y Agrícolas',
         power: 'Weichai WP4.1 100 HP',
         weight: '8,400 kg (8.4t)',
-        glbModel: './Lovol FB878M.glb', // <--- AQUÍ ESTÁ TU NUEVO MODELO 3D CONECTADO
+        glbModel: './Lovol FB878M.glb', // <--- MODELO 3D CONECTADO
         specs: [
           { label: 'Modelo de Motor', value: 'Weichai WP4.1 Turbo' },
           { label: 'Potencia', value: '100 HP (75 kW)' },
@@ -643,7 +643,7 @@
           { label: 'Estado', value: '0 Horas • Disponible en Patio' }
         ],
         phoneText: 'Hola Carlos, estoy interesado en la Retroexcavadora Lovol FB878M (0 Horas). Solicito proforma y video demostrativo.',
-        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0' // Video exclusivo
+        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0' // Video exclusivo conectado
       },
       'shantuic5': {
         brand: 'SHANTUI',
@@ -656,9 +656,11 @@
           { label: 'Modelo de Motor', value: 'Weichai WP7G270E302' },
           { label: 'Potencia Bruta', value: '270 HP (199 kW) @ 2200 rpm' },
           { label: 'Ancho de Hoja', value: '3,965 / 4,270 mm' },
-          { label: 'Rotación de Hoja', value: '360°' }
+          { label: 'Rotación de Hoja', value: '360° con Control Hidráulico' },
+          { label: 'Uso Principal', value: 'Minería, Infraestructura Vial y Gran Movimiento' }
         ],
-        phoneText: 'Hola Carlos, estoy cotizando la Motoniveladora Shantui SG27-C5 de 270 HP.'
+        phoneText: 'Hola Carlos, estoy interesado en la Motoniveladora Shantui SG27-C5 de 270 HP (0 Horas). Solicito proforma y video de operación.',
+        videoUrl: 'https://www.youtube.com/watch?v=e5Z7Wap8sGg' // <--- VIDEO SHANTUI SG27-C5 CONECTADO
       },
       'fr335f': {
         brand: 'LOVOL',
