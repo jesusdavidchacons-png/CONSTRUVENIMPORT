@@ -298,7 +298,7 @@
           </div>
         </div>
 
-        <!-- FB878M -->
+        <!-- FB878M (Retroexcavadora con 3D y Video) -->
         <div onclick="selectAndScroll3D('fb878m')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Retroexcavadora Lovol</span>
@@ -312,7 +312,7 @@
           </div>
         </div>
 
-        <!-- SG27-C5 -->
+        <!-- SG27-C5 (Motoniveladora con Video Shantui) -->
         <div onclick="selectAndScroll3D('shantuic5')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora Shantui</span>
@@ -524,7 +524,7 @@
             </div>
           </div>
 
-          <!-- Botones de Acción Comercial -->
+          <!-- Botones de Acción Comercial (Aquí se gestionan los botones de WhatsApp y Videos exclusivos) -->
           <div class="pt-5 border-t border-white/10 space-y-2.5">
             <button 
               id="btnQuoteShowroom"
@@ -534,8 +534,9 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>
 
+            <!-- Grid dinámico para botones adicionales (Videos exclusivos y WhatsApp de cada equipo) -->
             <div id="actionButtonsGrid" class="grid grid-cols-1 gap-2">
-              <!-- JS gestiona los botones de WhatsApp y Video exclusivo -->
+              <!-- Renderizado dinámico vía JS según la máquina -->
             </div>
           </div>
         </div>
@@ -581,7 +582,7 @@
 
   <!-- Scripts de Control y Lógica Integrada -->
   <script>
-    // Base de datos de maquinaria
+    // Base de datos de maquinaria incluyendo los videos originales (FB878M y Shantui)
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -590,6 +591,7 @@
         power: 'Cummins 215 HP',
         weight: '16,800 - 19,000 kg',
         glbModel: './shantui3dv2.glb',
+        videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Modelo de Motor', value: 'Cummins Tier 3' },
           { label: 'Potencia Neta', value: '215 HP (160 kW) @ 2200 rpm' },
@@ -606,7 +608,8 @@
         category: 'Excavación y Movimiento de Tierras • 0 Horas',
         power: 'Cummins 160 HP',
         weight: '21,900 kg (21.9t)',
-        glbModel: './shantui3dv2.glb', // Reemplazar con el archivo .glb propio si lo tienes
+        glbModel: './shantui3dv2.glb',
+        videoUrl: null,
         specs: [
           { label: 'Modelo de Motor', value: 'Cummins QSB6.7' },
           { label: 'Potencia del Motor', value: '160 HP @ 2000 rpm' },
@@ -622,6 +625,7 @@
         power: 'Weichai / Cummins 220 HP',
         weight: '17,200 kg (17.2t)',
         glbModel: './shantui3dv2.glb',
+        videoUrl: null,
         specs: [
           { label: 'Capacidad de Balde', value: '3.0 m³' },
           { label: 'Carga Útil Nominal', value: '5,000 kg (5 Toneladas)' },
@@ -636,6 +640,7 @@
         power: 'Weichai 100 HP',
         weight: '8,400 kg (8.4t)',
         glbModel: './shantui3dv2.glb',
+        videoUrl: 'https://youtu.be/7a21WVTfeaQ', // Video original de demo de la retroexcavadora
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
           { label: 'Tracción', value: '4x4 Asistida' },
@@ -649,6 +654,7 @@
         power: 'Weichai 270 HP',
         weight: '18,500 kg (18.5t)',
         glbModel: './shantui3dv2.glb',
+        videoUrl: 'https://youtu.be/7a21WVTfeaQ', // Video original Shantui
         specs: [
           { label: 'Potencia Neta', value: '270 HP' },
           { label: 'Ancho de Hoja', value: '4,400 mm' },
@@ -706,6 +712,18 @@
         row.innerHTML = `<span class="text-neutral-400">${s.label}</span><span class="font-mono-tech font-bold text-white">${s.value}</span>`;
         specsList.appendChild(row);
       });
+
+      // Renderizar botones de acción incluyendo el video original si lo tiene
+      const actionGrid = document.getElementById('actionButtonsGrid');
+      actionGrid.innerHTML = '';
+
+      if (m.videoUrl) {
+        actionGrid.innerHTML = `
+          <a href="${m.videoUrl}" target="_blank" class="w-full py-2.5 px-4 bg-neutral-900 hover:bg-neutral-800 text-amber-400 border border-amber-500/30 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2">
+            <span>Ver Video Demostrativo en Terreno ↗</span>
+          </a>
+        `;
+      }
     }
 
     function selectAndScroll3D(key) {
