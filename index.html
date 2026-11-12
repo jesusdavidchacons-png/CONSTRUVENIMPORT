@@ -85,9 +85,9 @@
       animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Modal de rotación en móviles verticales */
+    /* Modal de rotación en móviles verticales (Por defecto aparece si está en vertical y no se ha descartado) */
     @media screen and (orientation: portrait) and (max-width: 1024px) {
-      #rotatePrompt {
+      #rotatePrompt:not(.user-dismissed) {
         display: flex !important;
       }
     }
@@ -134,7 +134,7 @@
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
   <!-- ===============================================================
-       MODAL DE OBLIGACIÓN DE GIRO DE PANTALLA (PORTRAIT)
+       MODAL DE SUGERENCIA DE GIRO DE PANTALLA (CON OPCIÓN VERTICAL)
        =============================================================== -->
   <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
     <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
@@ -147,15 +147,15 @@
       </div>
     </div>
     
-    <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Panorámica</span>
+    <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Interactiva</span>
     <h2 class="text-2xl font-black text-white uppercase tracking-tight max-w-sm mb-3">
-      Gira tu teléfono a horizontal
+      Gira tu teléfono o continúa en vertical
     </h2>
     <p class="text-xs text-neutral-400 max-w-xs leading-relaxed mb-8">
-      Diseñado para visualizar en formato cine la maquinaria de alta potencia y las pruebas operativas en terreno.
+      Disfruta del catálogo, las fichas y el visor 3D en formato horizontal para una experiencia óptima, o explora cómodamente en vertical.
     </p>
 
-    <button onclick="dismissRotateOverlay()" class="text-[11px] text-neutral-500 hover:text-white underline tracking-wider font-mono-tech uppercase">
+    <button onclick="dismissRotateOverlay()" class="btn-pill-ford text-xs py-3 px-6">
       Continuar en vertical
     </button>
   </div>
@@ -165,7 +165,7 @@
        =============================================================== -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     
-    <!-- Video de fondo: construvenimport.mp4 (Sin poster de dron) -->
+    <!-- Video de fondo: construvenimport.mp4 -->
     <video 
       id="heroVideo"
       class="absolute inset-0 w-full h-full object-cover z-0 bg-black"
@@ -442,7 +442,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
         <!-- Visor 3D con model-viewer -->
-        <div class="lg:col-span-7 glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden relative min-h-[460px] md:min-h-[580px] flex flex-col bg-gradient-to-b from-[#0b0e17] to-[#04060a] shadow-2xl">
+        <div class="lg:col-span-7 glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden relative min-h-[420px] md:min-h-[580px] flex flex-col bg-gradient-to-b from-[#0b0e17] to-[#04060a] shadow-2xl">
           
           <!-- HUD Superior del Visor -->
           <div class="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none">
@@ -469,7 +469,7 @@
             camera-orbit="auto auto auto"
             field-of-view="auto"
             ar
-            style="width: 100%; height: 100%; min-height: 460px; background: transparent; cursor: grab;">
+            style="width: 100%; height: 100%; min-height: 420px; background: transparent; cursor: grab;">
           </model-viewer>
 
           <!-- Barra de Control Inferior del Visor -->
@@ -545,7 +545,7 @@
   </section>
 
   <!-- ===============================================================
-       MODAL DE CAPTURA DE LEAD PARA WHATSAPP & AIRTABLE
+       MODAL DE CAPTURA DE LEAD PARA WHATSAPP & GOOGLE SHEETS
        =============================================================== -->
   <div id="leadModal" class="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl hidden items-center justify-center p-4">
     <div class="glass-panel max-w-md w-full p-6 md:p-8 rounded-3xl border border-amber-500/40 relative shadow-2xl bg-[#0c0f18]">
@@ -573,7 +573,7 @@
         <input type="hidden" id="leadMachine" value="Maquinaria General">
 
         <button type="submit" id="btnSubmitLead" class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2">
-          <span>Abrir WhatsApp y Cotizar</span>
+          <span>Guardar y Abrir WhatsApp</span>
           <svg class="w-4 h-4 fill-none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </form>
@@ -582,6 +582,9 @@
 
   <!-- Scripts de Control y Lógica Integrada -->
   <script>
+    // URL de tu Google Apps Script Web App
+    const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/TU_WEBHOOK_ID_AQUÍ/exec';
+
     // Base de datos de maquinaria con el archivo 3D exacto "Lovol FB878M.glb"
     const machinesData = {
       'sg21b6': {
@@ -670,7 +673,6 @@
 
     let activeMachineKey = 'sg21b6';
 
-    // Manejador de errores y auto-encuadre para model-viewer
     document.addEventListener('DOMContentLoaded', () => {
       const viewer = document.getElementById('main3DViewer');
       if (viewer) {
@@ -689,7 +691,6 @@
       }
     });
 
-    // Inicializar Showroom y Pestañas
     function initShowroom() {
       const tabsContainer = document.getElementById('machinesTabs');
       tabsContainer.innerHTML = '';
@@ -761,7 +762,7 @@
       viewer.fieldOfView = 'auto';
     }
 
-    // Funciones del Modal de Leads
+    // Modal Lead Control
     function openLeadModal(machineName) {
       if (machineName) {
         document.getElementById('modalSubtext').innerText = `Estás solicitando información sobre: ${machineName}`;
@@ -781,6 +782,7 @@
       openLeadModal(m.title);
     }
 
+    // ENVÍO DE DATOS A GOOGLE SHEETS Y WHATSAPP
     async function submitLeadForm(event) {
       event.preventDefault();
 
@@ -790,133 +792,28 @@
       const btn = document.getElementById('btnSubmitLead');
 
       btn.disabled = true;
-      btn.innerText = 'Registrando...';
+      btn.innerText = 'Guardando en Base de Datos...';
 
-      const webhookURL = ''; 
-
-      if (webhookURL) {
+      if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
         try {
-          await fetch(webhookURL, {
+          await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
             method: 'POST',
+            mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: name, whatsapp: phone, maquina: machine, fecha: new Date().toISOString() })
+            body: JSON.stringify({ nombre: name, telefono: phone, maquina: machine, fecha: new Date().toLocaleString() })
           });
         } catch (e) {
-          console.error('Error al enviar Webhook:', e);
+          console.error('Error al registrar en Google Sheets:', e);
         }
       }
 
       const empresaWhatsApp = '584120000000'; // Reemplaza con tu número real
-      const mensaje = `Hola, mi nombre es *${name}*. Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la máquina: *${machine}*.`;
+      const mensaje = `Hola, mi nombre es *${name}*. Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
       const urlWhatsApp = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(mensaje)}`;
 
-      window.location.href = urlWhatsApp;
-    }
-
-    // Lógica del Chat Interactivo (Pide datos en la 3era pregunta)
-    let userQuestionCount = 0;
-    let waitingForLeadData = false;
-
-    function sendMessage() {
-      const inputField = document.getElementById('userInput');
-      const messageText = inputField.value.trim();
-      if (!messageText) return;
-
-      appendMessage(messageText, 'user');
-      inputField.value = '';
-      userQuestionCount++;
-
-      showTypingIndicator();
-
       setTimeout(() => {
-        hideTypingIndicator();
-
-        if (userQuestionCount === 3) {
-          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, indícanos por favor:<br><br>1️⃣ **Tu Nombre o Empresa:**<br>2️⃣ **Tu número de WhatsApp:**`;
-          appendMessage(promptMsg, 'assistant');
-          waitingForLeadData = true;
-          return;
-        }
-
-        if (waitingForLeadData) {
-          waitingForLeadData = false;
-          const contactoInfo = messageText;
-          const empresaWhatsApp = '584120000000'; // Reemplaza con tu número
-          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
-          const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
-
-          appendMessage(`¡Perfecto! Registrando tus datos... Te conectaremos directamente al WhatsApp con Carlos Mendoza.`, 'assistant');
-          setTimeout(() => {
-            window.location.href = urlWA;
-          }, 2000);
-          return;
-        }
-
-        let botReply = "Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.";
-        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz')) {
-          botReply = "Con gusto preparamos la cotización formal. ¿Te interesa alguna unidad en específico de nuestro catálogo (Lovol o Shantui)?";
-        } else if (messageText.toLowerCase().includes('repuesto') || messageText.toLowerCase().includes('garantia')) {
-          botReply = "Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.";
-        }
-
-        appendMessage(botReply, 'assistant');
+        window.location.href = urlWhatsApp;
       }, 1000);
     }
 
-    function appendMessage(text, sender) {
-      const chatBox = document.getElementById('chatBox');
-      const messageDiv = document.createElement('div');
-      
-      if (sender === 'user') {
-        messageDiv.className = 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md font-medium leading-relaxed';
-      } else {
-        messageDiv.className = 'self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed';
-      }
-      
-      messageDiv.innerHTML = text;
-      chatBox.appendChild(messageDiv);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function showTypingIndicator() {
-      document.getElementById('typingIndicator').classList.remove('hidden');
-    }
-
-    function hideTypingIndicator() {
-      document.getElementById('typingIndicator').classList.add('hidden');
-    }
-
-    function handleKey(event) {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
-    }
-
-    function dismissRotateOverlay() {
-      document.getElementById('rotatePrompt').style.display = 'none';
-    }
-
-    function togglePlayPause() {
-      const video = document.getElementById('heroVideo');
-      const pauseIcon = document.getElementById('pauseIcon');
-      const playIcon = document.getElementById('playIcon');
-      if (video.paused) {
-        video.play();
-        pauseIcon.classList.remove('hidden');
-        playIcon.classList.add('hidden');
-      } else {
-        video.pause();
-        pauseIcon.classList.add('hidden');
-        playIcon.classList.remove('hidden');
-      }
-    }
-
-    function toggleGithubModal() {
-      alert('Construven Import • Sistema comercial configurado para Venezuela.');
-    }
-
-    // Ejecutar inicialización al cargar la página
-    window.onload = initShowroom;
-  </script>
-</body>
-</html>
+    // Chat Interactivo
