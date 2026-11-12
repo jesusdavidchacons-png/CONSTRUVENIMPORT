@@ -224,12 +224,12 @@
         </h2>
 
         <div class="flex flex-wrap items-center gap-3">
-          <a href="#catalogo" onclick="openChatPrompt('Hola Carlos, solicito cotización formal de maquinaria.')" class="btn-pill-ford group">
+          <button onclick="openLeadModal('Maquinaria General')" class="btn-pill-ford group">
             <span>COTIZAR</span>
             <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
             </svg>
-          </a>
+          </button>
           <a href="#showroom3d" class="px-5 py-2.5 rounded-full border border-white/20 hover:border-amber-400 bg-white/5 hover:bg-white/10 text-xs font-mono-tech uppercase tracking-wider text-white transition-all backdrop-blur-md">
             Ver Modelos 3D ↓
           </a>
@@ -298,7 +298,7 @@
           </div>
         </div>
 
-        <!-- FB878M (Retroexcavadora con 3D y Video) -->
+        <!-- FB878M -->
         <div onclick="selectAndScroll3D('fb878m')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Retroexcavadora Lovol</span>
@@ -312,7 +312,7 @@
           </div>
         </div>
 
-        <!-- SG27-C5 (Motoniveladora con Video Shantui) -->
+        <!-- SG27-C5 -->
         <div onclick="selectAndScroll3D('shantuic5')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora Shantui</span>
@@ -543,9 +543,45 @@
     </div>
   </section>
 
-  <!-- Scripts de Control -->
+  <!-- ===============================================================
+       MODAL DE CAPTURA DE LEAD PARA WHATSAPP & AIRTABLE
+       =============================================================== -->
+  <div id="leadModal" class="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl hidden items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full p-6 md:p-8 rounded-3xl border border-amber-500/40 relative shadow-2xl bg-[#0c0f18]">
+      
+      <!-- Botón Cerrar -->
+      <button onclick="closeLeadModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
+
+      <div class="text-center mb-6">
+        <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase block mb-1">Construven Import • Ventas</span>
+        <h3 class="text-2xl font-black text-white uppercase tracking-tight">Solicitar Cotización</h3>
+        <p id="modalSubtext" class="text-xs text-neutral-400 mt-2">Ingresa tus datos para registrar la unidad y conectarte de inmediato con Carlos Mendoza vía WhatsApp.</p>
+      </div>
+
+      <form id="whatsappLeadForm" onsubmit="submitLeadForm(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Tu Nombre / Empresa</label>
+          <input type="text" id="leadName" required placeholder="Ej. Ing. Roberto Sánchez" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
+        </div>
+
+        <div>
+          <label class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Número de WhatsApp</label>
+          <input type="tel" id="leadPhone" required placeholder="Ej. +58 412 0000000" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
+        </div>
+
+        <input type="hidden" id="leadMachine" value="Maquinaria General">
+
+        <button type="submit" id="btnSubmitLead" class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2">
+          <span>Abrir WhatsApp y Cotizar</span>
+          <svg class="w-4 h-4 fill-none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts de Control y Lógica Integrada -->
   <script>
-    // Base de datos de maquinaria con modelo Lovol FB878M.glb y video Shantui actualizado (https://youtu.be/7a21WVTfeaQ)
+    // Base de datos de maquinaria
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -562,270 +598,259 @@
           { label: 'Velocidades', value: '6 Avances / 3 Reversas' },
           { label: 'Tracción', value: 'Tandem Drive con Diferencial No-Spin' },
           { label: 'Sistema Hidráulico', value: 'Centro Cerrado con Bomba de Pistones' }
-        ],
-        phoneText: 'Hola Carlos, estoy interesado en la Motoniveladora Shantui SG21-B6 (0 Horas). Solicito proforma y disponibilidad en patio Valencia.'
-      },
-      'fl966h': {
-        brand: 'LOVOL',
-        title: 'Payloader Lovol FL966H',
-        category: 'Cargador Frontal de Ruedas Pesado • Minería y Canteras',
-        power: 'Weichai WP10G 240 HP',
-        weight: '19,500 kg (19.5t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai WP10G220E343' },
-          { label: 'Potencia Bruta', value: '240 HP @ 2200 rpm' },
-          { label: 'Capacidad de Balde', value: '3.5 m³ estándar' },
-          { label: 'Carga Útil Nominal', value: '6,000 kg' },
-          { label: 'Fuerza de Desprendimiento', value: '185 kN' }
-        ],
-        phoneText: 'Hola Carlos, solicito cotización para el Payloader Lovol FL966H de 3.5 m³.'
-      },
-      'fl955k': {
-        brand: 'LOVOL',
-        title: 'Payloader / Pala Cargadora FL955K',
-        category: 'Cargador Frontal de Ruedas • Movimiento de Agregados',
-        power: 'Weichai / Cummins 220 HP',
-        weight: '17,200 kg (17.2t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai / Cummins Turbo' },
-          { label: 'Potencia Nominal', value: '220 HP (162 kW)' },
-          { label: 'Capacidad de Balde', value: '3.0 m³ estándar' },
-          { label: 'Carga Útil Nominal', value: '5,000 kg' },
-          { label: 'Fuerza de Desprendimiento', value: '165 kN' }
-        ],
-        phoneText: 'Hola Carlos, me interesa la Pala Cargadora Lovol FL955K (3.0 m³). Por favor envíeme proforma técnica.'
-      },
-      'fd328': {
-        brand: 'LOVOL',
-        title: 'Bulldozer Lovol FD328',
-        category: 'Tractor de Oruga Pesado • Movimiento de Tierra Masivo',
-        power: 'Cummins 320 HP',
-        weight: '32,000 kg (32.0t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Cummins NTA855-C360' },
-          { label: 'Potencia Neta', value: '320 HP (235 kW)' },
-          { label: 'Tipo de Hoja', value: 'Straight Tilt / U-Blade' },
-          { label: 'Capacidad de Hoja', value: '9.2 m³' },
-          { label: 'Tren de Rodaje', value: 'Heavy Duty' }
-        ],
-        phoneText: 'Hola Carlos, requiero información sobre el Bulldozer Lovol FD328.'
-      },
-      'fd220': {
-        brand: 'LOVOL',
-        title: 'Bulldozer Lovol FD220',
-        category: 'Tractor de Oruga Mediano • Construcción y Vialidad',
-        power: 'Weichai 220 HP',
-        weight: '23,500 kg (23.5t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai WD10G220E23' },
-          { label: 'Potencia Neta', value: '220 HP (162 kW)' },
-          { label: 'Tipo de Hoja', value: 'Straight Tilt Blade' },
-          { label: 'Capacidad de Hoja', value: '6.4 m³' }
-        ],
-        phoneText: 'Hola Carlos, me interesa el Bulldozer Lovol FD220 de 23.5 toneladas.'
-      },
-      'fb878m': {
-        brand: 'LOVOL',
-        title: 'Retroexcavadora Lovol FB878M',
-        category: 'Retroexcavadora 4x4 0 Horas • Obras Urbanas y Agrícolas',
-        power: 'Weichai WP4.1 100 HP',
-        weight: '8,400 kg (8.4t)',
-        glbModel: './Lovol FB878M.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai WP4.1 Turbo' },
-          { label: 'Potencia', value: '100 HP (75 kW)' },
-          { label: 'Profundidad de Excavación', value: '4,530 mm' },
-          { label: 'Tracción', value: '4x4 Sincronizada' },
-          { label: 'Estado', value: '0 Horas • Disponible en Patio' }
-        ],
-        phoneText: 'Hola Carlos, estoy interesado en la Retroexcavadora Lovol FB878M (0 Horas). Solicito proforma y video demostrativo.',
-        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0'
-      },
-      'shantuic5': {
-        brand: 'SHANTUI',
-        title: 'Motoniveladora Shantui SG27-C5',
-        category: 'Motoniveladora Heavy Duty • Minería y Grandes Proyectos',
-        power: 'Weichai WP7G 270 HP',
-        weight: '18,500 kg (18.5t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Weichai WP7G270E302' },
-          { label: 'Potencia Bruta', value: '270 HP (199 kW) @ 2200 rpm' },
-          { label: 'Ancho de Hoja', value: '3,965 / 4,270 mm' },
-          { label: 'Rotación de Hoja', value: '360° con Control Hidráulico' },
-          { label: 'Uso Principal', value: 'Minería, Infraestructura Vial y Gran Movimiento' }
-        ],
-        phoneText: 'Hola Carlos, estoy interesado en la Motoniveladora Shantui SG27-C5 de 270 HP (0 Horas). Solicito proforma y video de operación.',
-        videoUrl: 'https://youtu.be/7a21WVTfeaQ'
-      },
-      'fr335f': {
-        brand: 'LOVOL',
-        title: 'Excavadora Lovol FR335F',
-        category: 'Excavadora de Oruga Pesada • Minería y Canteras',
-        power: 'Cummins 275 HP',
-        weight: '33,500 kg (33.5t)',
-        glbModel: './shantui3dv2.glb',
-        specs: [
-          { label: 'Modelo de Motor', value: 'Cummins QSL9' },
-          { label: 'Potencia Neta', value: '275 HP (205 kW)' },
-          { label: 'Capacidad de Balde', value: '1.6 m³' },
-          { label: 'Profundidad de Excavación', value: '7,320 mm' }
-        ],
-        phoneText: 'Hola Carlos, necesito información de la Excavadora Lovol FR335F en patio.'
+        ]
       },
       'fr220d': {
         brand: 'LOVOL',
         title: 'Excavadora Hidráulica FR220D',
-        category: 'Excavadora de Oruga 0 Horas • Minería y Construcción',
+        category: 'Excavación y Movimiento de Tierras • 0 Horas',
         power: 'Cummins 160 HP',
         weight: '21,900 kg (21.9t)',
+        glbModel: './shantui3dv2.glb', // Reemplazar con el archivo .glb propio si lo tienes
+        specs: [
+          { label: 'Modelo de Motor', value: 'Cummins QSB6.7' },
+          { label: 'Potencia del Motor', value: '160 HP @ 2000 rpm' },
+          { label: 'Capacidad de Cuchara', value: '1.0 m³ estándar' },
+          { label: 'Bomba Hidráulica', value: 'Kawasaki de caudal variable' },
+          { label: 'Profundidad de Excavación', value: '6,650 mm' }
+        ]
+      },
+      'fl955k': {
+        brand: 'LOVOL',
+        title: 'Payloader / Cargador FL955K',
+        category: 'Carga Frontal y Manejo de Agregados • 0 Horas',
+        power: 'Weichai / Cummins 220 HP',
+        weight: '17,200 kg (17.2t)',
         glbModel: './shantui3dv2.glb',
         specs: [
-          { label: 'Modelo de Motor', value: 'Cummins 6BTAA5.9-C' },
-          { label: 'Potencia al Volante', value: '160 HP (119 kW)' },
-          { label: 'Bomba Hidráulica', value: 'Kawasaki de caudal variable' },
-          { label: 'Capacidad de Balde', value: '1.0 m³ reforzado' },
-          { label: 'Profundidad de Excavación', value: '6,730 mm' },
-          { label: 'Fuerza de Excavación', value: '142 kN' }
-        ],
-        phoneText: 'Hola Carlos, requiero cotización y disponibilidad inmediata de la Excavadora Lovol FR220D (21.9t) en Valencia.'
+          { label: 'Capacidad de Balde', value: '3.0 m³' },
+          { label: 'Carga Útil Nominal', value: '5,000 kg (5 Toneladas)' },
+          { label: 'Altura de Descarga', value: '3,100 mm' },
+          { label: 'Transmisión', value: 'PowerShift Planetary' }
+        ]
+      },
+      'fb878m': {
+        brand: 'LOVOL',
+        title: 'Retroexcavadora FB878M',
+        category: 'Construcción Urbana y Obras Civiles • 0 Horas',
+        power: 'Weichai 100 HP',
+        weight: '8,400 kg (8.4t)',
+        glbModel: './shantui3dv2.glb',
+        specs: [
+          { label: 'Potencia', value: '100 HP Turbo' },
+          { label: 'Tracción', value: '4x4 Asistida' },
+          { label: 'Profundidad Excavación', value: '4,500 mm' }
+        ]
+      },
+      'shantuic5': {
+        brand: 'SHANTUI',
+        title: 'Motoniveladora SG27-C5',
+        category: 'Minería y Grandes Proyectos viales',
+        power: 'Weichai 270 HP',
+        weight: '18,500 kg (18.5t)',
+        glbModel: './shantui3dv2.glb',
+        specs: [
+          { label: 'Potencia Neta', value: '270 HP' },
+          { label: 'Ancho de Hoja', value: '4,400 mm' },
+          { label: 'Transmisión', value: 'Electro-hidráulica avanzada' }
+        ]
       }
     };
 
-    let currentMachineKey = 'sg21b6';
+    let activeMachineKey = 'sg21b6';
 
-    // Renderizar pestañas de máquinas
-    function renderMachinesTabs() {
-      const container = document.getElementById('machinesTabs');
-      container.innerHTML = '';
-      
+    // Inicializar Showroom y Pestañas
+    function initShowroom() {
+      const tabsContainer = document.getElementById('machinesTabs');
+      tabsContainer.innerHTML = '';
+
       Object.keys(machinesData).forEach(key => {
         const m = machinesData[key];
-        const isActive = key === currentMachineKey;
-        
+        const isActive = key === activeMachineKey;
         const btn = document.createElement('button');
-        btn.className = `px-4 py-2.5 rounded-xl text-xs font-mono-tech whitespace-nowrap transition-all border flex items-center gap-2 cursor-pointer ${
+        btn.className = `px-4 py-2.5 rounded-xl text-xs font-mono-tech uppercase tracking-wider whitespace-nowrap transition-all border ${
           isActive 
-            ? 'bg-amber-500 text-neutral-950 font-black border-amber-400 shadow-lg shadow-amber-500/20' 
-            : 'bg-neutral-900/80 text-neutral-300 hover:text-white border-white/10 hover:border-white/30'
+            ? 'bg-amber-500 text-neutral-950 font-bold border-amber-400 shadow-lg shadow-amber-500/20' 
+            : 'bg-neutral-900/60 text-neutral-300 border-white/10 hover:bg-neutral-800'
         }`;
-        btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${isActive ? 'bg-neutral-950' : 'bg-amber-400'}"></span><span>${m.title}</span>`;
-        btn.onclick = () => selectMachine(key);
-        container.appendChild(btn);
+        btn.innerText = m.title;
+        btn.onclick = () => switchMachine(key);
+        tabsContainer.appendChild(btn);
       });
+
+      updateActiveMachineView();
     }
 
-    function selectMachine(key) {
-      currentMachineKey = key;
-      const m = machinesData[key];
+    function switchMachine(key) {
+      activeMachineKey = key;
+      initShowroom();
+    }
+
+    function updateActiveMachineView() {
+      const m = machinesData[activeMachineKey];
       
-      // Actualizar Ficha Técnica
+      document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
+      document.getElementById('main3DViewer').setAttribute('src', m.glbModel);
+      
       document.getElementById('specBrandBadge').innerText = m.brand;
       document.getElementById('specTitle').innerText = m.title;
       document.getElementById('specCategory').innerText = m.category;
       document.getElementById('specQuickPower').innerText = m.power;
       document.getElementById('specQuickWeight').innerText = m.weight;
-      document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
 
-      // Cambiar dinámicamente el modelo 3D en el visor
-      const viewer = document.getElementById('main3DViewer');
-      if (viewer && m.glbModel) {
-        viewer.src = m.glbModel;
-      }
-
-      // Control dinámico de botones de acción (WhatsApp + Video exclusivo si aplica)
-      const actionGrid = document.getElementById('actionButtonsGrid');
-      if (m.videoUrl) {
-        actionGrid.className = 'grid grid-cols-2 gap-2';
-        actionGrid.innerHTML = `
-          <a 
-            id="btnWhatsAppShowroom"
-            href="https://wa.me/584247780942?text=${encodeURIComponent(m.phoneText)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="py-2.5 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
-            <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
-            <span>Proforma</span>
-          </a>
-          <a 
-            id="btnWatchVideo"
-            href="${m.videoUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="py-2.5 px-3 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 hover:border-blue-500 text-blue-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
-            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span>Ver Video</span>
-          </a>
-        `;
-      } else {
-        actionGrid.className = 'grid grid-cols-1 gap-2';
-        actionGrid.innerHTML = `
-          <a 
-            id="btnWhatsAppShowroom"
-            href="https://wa.me/584247780942?text=${encodeURIComponent(m.phoneText)}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="w-full py-2.5 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 hover:border-emerald-500 text-emerald-400 font-bold text-[11px] uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center">
-            <svg class="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.698c.969.584 1.761.879 2.796.879 3.182 0 5.768-2.587 5.768-5.766.001-3.187-2.575-5.766-5.768-5.766zm9.969 5.766c0 5.514-4.486 10-10 10-1.823 0-3.531-.493-5.002-1.354l-5.998 1.571 1.6-5.845c-.96-1.532-1.6-3.344-1.6-5.372 0-5.514 4.486-10 10-10s10 4.486 10 10z"/></svg>
-            <span>Solicitar Proforma en WhatsApp</span>
-          </a>
-        `;
-      }
-
-      // Renderizar tabla de especificaciones
-      const listContainer = document.getElementById('specsList');
-      listContainer.innerHTML = '';
+      const specsList = document.getElementById('specsList');
+      specsList.innerHTML = '';
       m.specs.forEach(s => {
         const row = document.createElement('div');
-        row.className = 'py-2 flex justify-between items-center text-xs';
-        row.innerHTML = `<span class="text-neutral-400 font-mono-tech">${s.label}</span><span class="text-white font-bold text-right">${s.value}</span>`;
-        listContainer.appendChild(row);
+        row.className = 'py-2 flex justify-between items-center';
+        row.innerHTML = `<span class="text-neutral-400">${s.label}</span><span class="font-mono-tech font-bold text-white">${s.value}</span>`;
+        specsList.appendChild(row);
       });
-
-      renderMachinesTabs();
     }
 
     function selectAndScroll3D(key) {
-      selectMachine(key);
+      switchMachine(key);
       document.getElementById('showroom3d').scrollIntoView({ behavior: 'smooth' });
     }
 
     function resetCamera3D() {
       const viewer = document.getElementById('main3DViewer');
-      if (viewer) {
-        viewer.cameraOrbit = '0deg 75deg 105%';
+      viewer.cameraOrbit = '0deg 75deg 105%';
+    }
+
+    // Funciones del Modal de Leads
+    function openLeadModal(machineName) {
+      if (machineName) {
+        document.getElementById('modalSubtext').innerText = `Estás solicitando información sobre: ${machineName}`;
+        document.getElementById('leadMachine').value = machineName;
       }
+      document.getElementById('leadModal').classList.remove('hidden');
+      document.getElementById('leadModal').classList.add('flex');
+    }
+
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.remove('flex');
+      document.getElementById('leadModal').classList.add('hidden');
     }
 
     function quoteSelectedMachine() {
-      const m = machinesData[currentMachineKey];
-      openChatPrompt(`Hola Carlos, deseo cotizar formalmente la unidad ${m.title}. ¿Cuáles son los términos de entrega en Valencia y opciones de pago?`);
-      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+      const m = machinesData[activeMachineKey];
+      openLeadModal(m.title);
     }
 
-    // Inicialización al cargar la página
-    window.addEventListener('DOMContentLoaded', () => {
-      renderMachinesTabs();
-      selectMachine('sg21b6');
-    });
+    async function submitLeadForm(event) {
+      event.preventDefault();
 
-    // Control de Video de Fondo
-    function togglePlayPause() {
-      const v = document.getElementById('heroVideo');
-      const pIcon = document.getElementById('pauseIcon');
-      const playIcon = document.getElementById('playIcon');
-      if (v.paused) {
-        v.play();
-        pIcon.classList.remove('hidden');
-        playIcon.classList.add('hidden');
+      const name = document.getElementById('leadName').value.trim();
+      const phone = document.getElementById('leadPhone').value.trim();
+      const machine = document.getElementById('leadMachine').value;
+      const btn = document.getElementById('btnSubmitLead');
+
+      btn.disabled = true;
+      btn.innerText = 'Registrando...';
+
+      // (Opcional) Webhook de Make o Airtable si deseas conectarlo
+      const webhookURL = ''; 
+
+      if (webhookURL) {
+        try {
+          await fetch(webhookURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre: name, whatsapp: phone, maquina: machine, fecha: new Date().toISOString() })
+          });
+        } catch (e) {
+          console.error('Error al enviar Webhook:', e);
+        }
+      }
+
+      // Número de WhatsApp de gerencia comercial
+      const empresaWhatsApp = '584120000000'; // Reemplaza con tu número real
+      const mensaje = `Hola, mi nombre es *${name}*. Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la máquina: *${machine}*.`;
+      const urlWhatsApp = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+
+      window.location.href = urlWhatsApp;
+    }
+
+    // Lógica del Chat Interactivo (Pide datos en la 3era pregunta)
+    let userQuestionCount = 0;
+    let waitingForLeadData = false;
+
+    function sendMessage() {
+      const inputField = document.getElementById('userInput');
+      const messageText = inputField.value.trim();
+      if (!messageText) return;
+
+      appendMessage(messageText, 'user');
+      inputField.value = '';
+      userQuestionCount++;
+
+      showTypingIndicator();
+
+      setTimeout(() => {
+        hideTypingIndicator();
+
+        // Al cumplir la 3era pregunta, pedimos datos de contacto
+        if (userQuestionCount === 3) {
+          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, indícanos por favor:<br><br>1️⃣ **Tu Nombre o Empresa:**<br>2️⃣ **Tu número de WhatsApp:**`;
+          appendMessage(promptMsg, 'assistant');
+          waitingForLeadData = true;
+          return;
+        }
+
+        // Procesar respuesta de datos del usuario
+        if (waitingForLeadData) {
+          waitingForLeadData = false;
+          const contactoInfo = messageText;
+          const empresaWhatsApp = '584120000000'; // Reemplaza con tu número
+          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
+          const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
+
+          appendMessage(`¡Perfecto! Registrando tus datos... Te conectaremos directamente al WhatsApp con Carlos Mendoza.`, 'assistant');
+          setTimeout(() => {
+            window.location.href = urlWA;
+          }, 2000);
+          return;
+        }
+
+        // Respuestas automáticas del bot
+        let botReply = "Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.";
+        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz')) {
+          botReply = "Con gusto preparamos la cotización formal. ¿Te interesa alguna unidad en específico de nuestro catálogo (Lovol o Shantui)?";
+        } else if (messageText.toLowerCase().includes('repuesto') || messageText.toLowerCase().includes('garantia')) {
+          botReply = "Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.";
+        }
+
+        appendMessage(botReply, 'assistant');
+      }, 1000);
+    }
+
+    function appendMessage(text, sender) {
+      const chatBox = document.getElementById('chatBox');
+      const messageDiv = document.createElement('div');
+      
+      if (sender === 'user') {
+        messageDiv.className = 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md font-medium leading-relaxed';
       } else {
-        v.pause();
-        pIcon.classList.add('hidden');
-        playIcon.classList.add('hidden');
+        messageDiv.className = 'self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed';
+      }
+      
+      messageDiv.innerHTML = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      document.getElementById('typingIndicator').classList.remove('hidden');
+    }
+
+    function hideTypingIndicator() {
+      document.getElementById('typingIndicator').classList.add('hidden');
+    }
+
+    function handleKey(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
       }
     }
 
@@ -833,58 +858,27 @@
       document.getElementById('rotatePrompt').style.display = 'none';
     }
 
-    // Chatbot interactivo con Carlos Mendoza
-    const responses = [
-      "Excelente elección. Las unidades 2026 vienen con configuración reforzada para trabajo pesado en Venezuela.",
-      "Tenemos disponibilidad inmediata en nuestro patio central en Valencia, con entrega a nivel nacional en cama baja.",
-      "Te comunico que incluimos garantía directa de fábrica y stock permanente de más de 12.000 repuestos.",
-      "¿Te gustaría que te envíe la proforma detallada en formato PDF o prefieres que coordine una llamada telefónica?"
-    ];
-
-    function appendMessage(sender, text) {
-      const box = document.getElementById('chatBox');
-      const div = document.createElement('div');
-      div.className = sender === 'user' 
-        ? 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md leading-relaxed font-medium'
-        : 'self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed';
-      div.innerHTML = text;
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
-    }
-
-    function sendMessage() {
-      const input = document.getElementById('userInput');
-      const val = input.value.trim();
-      if(!val) return;
-      
-      appendMessage('user', val);
-      input.value = '';
-
-      document.getElementById('typingIndicator').classList.remove('hidden');
-
-      setTimeout(() => {
-        document.getElementById('typingIndicator').classList.add('hidden');
-        const rand = responses[Math.floor(Math.random() * responses.length)];
-        appendMessage('bot', rand);
-      }, 1200);
-    }
-
-    function handleKey(e) {
-      if(e.key === 'Enter') sendMessage();
-    }
-
-    function openChatPrompt(msg) {
-      appendMessage('user', msg);
-      document.getElementById('typingIndicator').classList.remove('hidden');
-      setTimeout(() => {
-        document.getElementById('typingIndicator').classList.add('hidden');
-        appendMessage('bot', 'Perfecto, he registrado tu requerimiento técnico. Un asesor se pondrá en contacto contigo de inmediato para gestionar la proforma formal.');
-      }, 1000);
+    function togglePlayPause() {
+      const video = document.getElementById('heroVideo');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const playIcon = document.getElementById('playIcon');
+      if (video.paused) {
+        video.play();
+        pauseIcon.classList.remove('hidden');
+        playIcon.classList.add('hidden');
+      } else {
+        video.pause();
+        pauseIcon.classList.add('hidden');
+        playIcon.classList.remove('hidden');
+      }
     }
 
     function toggleGithubModal() {
-      alert("Fuente de video oficial: Repositorio local (construvenimport.mp4) optimizado para la plataforma de Construven Import.");
+      alert('Construven Import • Sistema comercial configurado para Venezuela.');
     }
+
+    // Ejecutar inicialización al cargar la página
+    window.onload = initShowroom;
   </script>
 </body>
 </html>
