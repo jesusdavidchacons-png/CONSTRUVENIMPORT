@@ -85,7 +85,7 @@
       animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    /* Modal de rotación en móviles verticales (Por defecto aparece si está en vertical y no se ha descartado) */
+    /* Modal de orientación: solo aparece si está en vertical Y el usuario NO ha decidido continuar en vertical */
     @media screen and (orientation: portrait) and (max-width: 1024px) {
       #rotatePrompt:not(.user-dismissed) {
         display: flex !important;
@@ -134,7 +134,7 @@
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
   <!-- ===============================================================
-       MODAL DE SUGERENCIA DE GIRO DE PANTALLA (CON OPCIÓN VERTICAL)
+       MODAL DE SUGERENCIA DE ORIENTACIÓN (CON SOPORTE VERTICAL)
        =============================================================== -->
   <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
     <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
@@ -152,10 +152,10 @@
       Gira tu teléfono o continúa en vertical
     </h2>
     <p class="text-xs text-neutral-400 max-w-xs leading-relaxed mb-8">
-      Disfruta del catálogo, las fichas y el visor 3D en formato horizontal para una experiencia óptima, o explora cómodamente en vertical.
+      Disfruta del catálogo, las fichas técnicas y el visor 3D en formato horizontal para mayor comodidad, o explora con total fluidez en vertical.
     </p>
 
-    <button onclick="dismissRotateOverlay()" class="btn-pill-ford text-xs py-3 px-6">
+    <button onclick="dismissRotateOverlay()" class="btn-pill-ford text-xs py-3 px-6 shadow-xl shadow-amber-500/10">
       Continuar en vertical
     </button>
   </div>
@@ -585,7 +585,7 @@
     // URL de tu Google Apps Script Web App
     const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/TU_WEBHOOK_ID_AQUÍ/exec';
 
-    // Base de datos de maquinaria con el archivo 3D exacto "Lovol FB878M.glb"
+    // Base de datos de maquinaria
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -817,3 +817,121 @@
     }
 
     // Chat Interactivo
+    let userQuestionCount = 0;
+    let waitingForLeadData = false;
+
+    function sendMessage() {
+      const inputField = document.getElementById('userInput');
+      const messageText = inputField.value.trim();
+      if (!messageText) return;
+
+      appendMessage(messageText, 'user');
+      inputField.value = '';
+      userQuestionCount++;
+
+      showTypingIndicator();
+
+      setTimeout(() => {
+        hideTypingIndicator();
+
+        if (userQuestionCount === 3) {
+          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, indícanos por favor:<br><br>1️⃣ **Tu Nombre o Empresa:**<br>2️⃣ **Tu número de WhatsApp:**`;
+          appendMessage(promptMsg, 'assistant');
+          waitingForLeadData = true;
+          return;
+        }
+
+        if (waitingForLeadData) {
+          waitingForLeadData = false;
+          const contactoInfo = messageText;
+          
+          if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
+            fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ nombre: contactoInfo, telefono: 'Vía Chat Web', maquina: 'Consulta General Chat', fecha: new Date().toLocaleString() })
+            }).catch(err => console.error(err));
+          }
+
+          const empresaWhatsApp = '584120000000'; 
+          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
+          const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
+
+          appendMessage(`¡Datos registrados con éxito! Te conectamos directamente al WhatsApp con Carlos Mendoza.`, 'assistant');
+          setTimeout(() => {
+            window.location.href = urlWA;
+          }, 2000);
+          return;
+        }
+
+        let botReply = "Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.";
+        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz')) {
+          botReply = "Con gusto preparamos la cotización formal. ¿Te interesa alguna unidad en específico de nuestro catálogo (Lovol o Shantui)?";
+        } else if (messageText.toLowerCase().includes('repuesto') || messageText.toLowerCase().includes('garantia')) {
+          botReply = "Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.";
+        }
+
+        appendMessage(botReply, 'assistant');
+      }, 1000);
+    }
+
+    function appendMessage(text, sender) {
+      const chatBox = document.getElementById('chatBox');
+      const messageDiv = document.createElement('div');
+      
+      if (sender === 'user') {
+        messageDiv.className = 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md font-medium leading-relaxed';
+      } else {
+        messageDiv.className = 'self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed';
+      }
+      
+      messageDiv.innerHTML = text;
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      document.getElementById('typingIndicator').classList.remove('hidden');
+    }
+
+    function hideTypingIndicator() {
+      document.getElementById('typingIndicator').classList.add('hidden');
+    }
+
+    function handleKey(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    // Función que permite desbloquear la vista en vertical sin alterar el resto del código
+    function dismissRotateOverlay() {
+      const prompt = document.getElementById('rotatePrompt');
+      prompt.classList.add('user-dismissed');
+      prompt.style.display = 'none';
+    }
+
+    function togglePlayPause() {
+      const video = document.getElementById('heroVideo');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const playIcon = document.getElementById('playIcon');
+      if (video.paused) {
+        video.play();
+        pauseIcon.classList.remove('hidden');
+        playIcon.classList.add('hidden');
+      } else {
+        video.pause();
+        pauseIcon.classList.add('hidden');
+        playIcon.classList.remove('hidden');
+      }
+    }
+
+    function toggleGithubModal() {
+      alert('Construven Import • Sistema comercial configurado para Venezuela.');
+    }
+
+    window.onload = initShowroom;
+  </script>
+</body>
+</html>
