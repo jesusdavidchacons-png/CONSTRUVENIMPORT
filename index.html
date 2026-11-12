@@ -672,6 +672,7 @@
     };
 
     let activeMachineKey = 'sg21b6';
+    let userDetectedMachine = 'Consulta General Chat';
 
     document.addEventListener('DOMContentLoaded', () => {
       const viewer = document.getElementById('main3DViewer');
@@ -816,7 +817,18 @@
       }, 1000);
     }
 
-    // CHAT INTERACTIVO CON EXTRACCIÓN REAL DE NOMBRE Y TELÉFONO
+    // DETECTOR DE MÁQUINAS EN EL TEXTO DEL CHAT
+    function detectMachineInText(text) {
+      const t = text.toLowerCase();
+      if (t.includes('fr220') || t.includes('excavadora')) return 'Excavadora Lovol FR220D';
+      if (t.includes('fl955') || t.includes('payloader') || t.includes('cargador')) return 'Payloader Lovol FL955K';
+      if (t.includes('fb878') || t.includes('retroexcavadora')) return 'Retroexcavadora Lovol FB878M';
+      if (t.includes('sg21') || t.includes('sg21-b6')) return 'Motoniveladora Shantui SG21-B6';
+      if (t.includes('sg27') || t.includes('sg27-c5') || t.includes('mineria')) return 'Motoniveladora Shantui SG27-C5';
+      return null;
+    }
+
+    // CHAT INTERACTIVO CON DETECTO DE MÁQUINA E INTELIGENCIA DE DATOS
     let userQuestionCount = 0;
     let waitingForLeadData = false;
 
@@ -824,6 +836,12 @@
       const inputField = document.getElementById('userInput');
       const messageText = inputField.value.trim();
       if (!messageText) return;
+
+      // Revisar si en este mensaje mencionó alguna máquina
+      const foundMachine = detectMachineInText(messageText);
+      if (foundMachine) {
+        userDetectedMachine = foundMachine;
+      }
 
       appendMessage(messageText, 'user');
       inputField.value = '';
@@ -853,10 +871,9 @@
           waitingForLeadData = false;
           const contactoInfo = messageText;
           
-          // Extraer los números de teléfono del texto ingresado por el chat
+          // Extraer número de teléfono y nombre limpiamente
           const phoneMatch = contactoInfo.match(/[\d\+\-\s\(\)]{7,}/);
           const extractedPhone = phoneMatch ? phoneMatch[0].trim() : 'No especificado';
-          // El nombre queda siendo todo el texto menos el teléfono extraído
           const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.-]/g, '').trim() || 'Cliente Chat';
 
           if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
@@ -864,15 +881,20 @@
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ nombre: extractedName, telefono: extractedPhone, maquina: 'Consulta General Chat', fecha: new Date().toLocaleString() })
+              body: JSON.stringify({ 
+                nombre: extractedName, 
+                telefono: extractedPhone, 
+                maquina: userDetectedMachine, 
+                fecha: new Date().toLocaleString() 
+              })
             }).catch(err => console.error(err));
           }
 
           const empresaWhatsApp = '584227170891'; 
-          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}.`;
+          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}. Estoy interesado en: ${userDetectedMachine}.`;
           const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
 
-          appendMessage(`¡Datos y teléfono registrados con éxito en la base de datos! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
+          appendMessage(`¡Datos y equipo registradas con éxito! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
           setTimeout(() => {
             window.location.href = urlWA;
           }, 2000);
