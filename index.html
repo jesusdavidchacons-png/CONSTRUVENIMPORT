@@ -128,7 +128,7 @@
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black">
 
-  <!-- MODAL DE SUGERENCIA DE ORIENTACIÓN -->
+  <!-- MODAL DE ORIENTACIÓN -->
   <div id="rotatePrompt" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex-col items-center justify-center p-6 text-center hidden">
     <div class="relative w-20 h-20 mb-6 flex items-center justify-center">
       <div class="w-14 h-24 border-2 border-amber-400 rounded-2xl animate-rotate-phone relative flex items-center justify-center shadow-lg shadow-amber-500/20">
@@ -153,7 +153,7 @@
     </button>
   </div>
 
-  <!-- CAPA 1: HERO BANNER A PANTALLA COMPLETA -->
+  <!-- CAPA 1: HERO BANNER -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
     <video 
       id="heroVideo"
@@ -172,7 +172,6 @@
     <div class="absolute inset-0 hud-scanlines opacity-25 z-10 pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 z-10 pointer-events-none"></div>
 
-    <!-- TOP HEADER -->
     <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
       <a href="#" class="flex items-center gap-3 group">
         <img 
@@ -200,7 +199,6 @@
       </div>
     </div>
 
-    <!-- BASE INFERIOR -->
     <div class="relative z-20 w-full px-6 md:px-14 pb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
       <div class="flex flex-col items-start max-w-xl">
         <h2 class="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug drop-shadow-xl mb-4">
@@ -228,7 +226,7 @@
     </div>
   </section>
 
-  <!-- CAPA 2: CATÁLOGO Y ASESOR TÉCNICO INTERACTIVO -->
+  <!-- CAPA 2: CATÁLOGO Y ASESOR TÉCNICO -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
     
     <div class="lg:col-span-6 flex flex-col gap-6">
@@ -374,7 +372,7 @@
     </div>
   </main>
 
-  <!-- CAPA 3: SHOWROOM VIRTUAL 3D & INGENIERÍA TÉCNICA -->
+  <!-- CAPA 3: SHOWROOM 3D & FICHAS TÉCNICAS -->
   <section id="showroom3d" class="w-full border-t border-white/10 bg-black/60 backdrop-blur-md py-16 px-4 md:px-8 relative scroll-mt-6">
     <div class="max-w-[1340px] mx-auto space-y-10">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -416,7 +414,7 @@
             </div>
           </div>
 
-          <!-- Aviso si un GLB no carga o está cargando -->
+          <!-- Overlay de Carga y Errores -->
           <div id="viewerLoadingOverlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm pointer-events-none hidden">
             <div class="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-2"></div>
             <span id="viewerLoadingText" class="text-xs font-mono-tech text-amber-400">Cargando modelo 3D...</span>
@@ -594,7 +592,7 @@
         category: 'Construcción Urbana y Obras Civiles • 0 Horas',
         power: 'Weichai 100 HP',
         weight: '8,400 kg (8.4t)',
-        glbModel: './lovol.glb',
+        glbModel: './lovol.glb',  // <-- ARCHIVO LOVOL.GLB ASIGNADO CORRECTAMENTE AQUÍ
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
@@ -641,13 +639,14 @@
           statusBadge.innerText = 'Modelado GLB Activo';
           statusBadge.classList.replace('text-red-400', 'text-amber-400');
           
-          // Forzar auto-encuadre de cámara y escala del objeto 3D
           viewer.cameraTarget = 'auto auto auto';
           viewer.cameraOrbit = 'auto auto auto';
           viewer.fieldOfView = 'auto';
           viewer.updateFraming();
         });
       }
+
+      initShowroom();
     });
 
     function initShowroom() {
@@ -685,7 +684,6 @@
       
       document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
       
-      // Mostrar indicador mientras carga el nuevo GLB
       overlay.classList.remove('hidden');
       loadingText.innerText = `Cargando ${m.glbModel}...`;
       viewer.setAttribute('src', m.glbModel);
@@ -926,8 +924,6 @@
     function toggleGithubModal() {
       alert('Construven Import • Sistema comercial configurado para Venezuela.');
     }
-
-    window.onload = initShowroom;
   </script>
 </body>
 </html>
