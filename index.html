@@ -592,7 +592,8 @@
         category: 'Construcción Urbana y Obras Civiles • 0 Horas',
         power: 'Weichai 100 HP',
         weight: '8,400 kg (8.4t)',
-        glbModel: './lovol.glb',  // <-- ARCHIVO LOVOL.GLB ASIGNADO CORRECTAMENTE AQUÍ
+        glbModel: './retro%20lovol.glb', // <-- ARCHIVO "retro lovol.glb" ASIGNADO CORRECTAMENTE
+        fallbackGlb: './retro lovol.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
@@ -627,9 +628,15 @@
 
       if (viewer) {
         viewer.addEventListener('error', (event) => {
-          console.error('Error cargando GLB:', viewer.getAttribute('src'), event);
+          const m = machinesData[activeMachineKey];
+          const currentSrc = viewer.getAttribute('src');
+          if (m && m.fallbackGlb && currentSrc !== m.fallbackGlb) {
+            viewer.setAttribute('src', m.fallbackGlb);
+            return;
+          }
+          console.error('Error cargando GLB:', currentSrc, event);
           overlay.classList.remove('hidden');
-          loadingText.innerText = `No se encontró el archivo ${viewer.getAttribute('src')} en el servidor`;
+          loadingText.innerText = `No se encontró el archivo ${decodeURIComponent(currentSrc)} en el servidor`;
           statusBadge.innerText = 'Archivo no encontrado';
           statusBadge.classList.replace('text-amber-400', 'text-red-400');
         });
@@ -685,7 +692,7 @@
       document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
       
       overlay.classList.remove('hidden');
-      loadingText.innerText = `Cargando ${m.glbModel}...`;
+      loadingText.innerText = `Cargando ${decodeURIComponent(m.glbModel)}...`;
       viewer.setAttribute('src', m.glbModel);
       
       document.getElementById('specBrandBadge').innerText = m.brand;
