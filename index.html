@@ -287,10 +287,10 @@
         <div onclick="selectAndScroll3D('shantuic5')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora Shantui</span>
-            <span class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono-tech">CON VIDEO</span>
+            <span class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono-tech">CON VIDEO + 3D</span>
           </div>
-          <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">SG27-C5 (18.5t)</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Weichai 270 HP • Minería</div>
+          <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">SG21-B6 / SG27-C5</div>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Modelado Oficial</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
             <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
@@ -422,7 +422,7 @@
 
           <model-viewer 
             id="main3DViewer"
-            src="./shantui3dv2.glb" 
+            src="./motoniveladora_shanntui-v1.glb" 
             alt="Maquinaria Lovol y Shantui 3D"
             camera-controls 
             auto-rotate 
@@ -543,7 +543,8 @@
         category: 'Maquinaria Pesada para Vialidad y Movimiento de Tierra',
         power: 'Cummins 215 HP',
         weight: '16,800 - 19,000 kg',
-        glbModel: './shantui3dv2.glb',
+        glbModel: './motoniveladora_shanntui-v1.glb', // <-- NUEVO ARCHIVO 3D SHANTUI ASIGNADO
+        fallbackGlb: './motoniveladora_shanntui-v1.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Modelo de Motor', value: 'Cummins Tier 3' },
@@ -594,7 +595,7 @@
         weight: '8,400 kg (8.4t)',
         glbModel: './retro_lovol3-v1.glb',
         fallbackGlb: './retro_lovol3-v1.glb',
-        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0', // <-- ENLACE DE VIDEO DE LA RETROEXCAVADORA CONFIGURADO
+        videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0',
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
           { label: 'Tracción', value: '4x4 Asistida' },
@@ -607,7 +608,8 @@
         category: 'Minería y Grandes Proyectos viales',
         power: 'Weichai 270 HP',
         weight: '18,500 kg (18.5t)',
-        glbModel: './shantui3dv2.glb',
+        glbModel: './motoniveladora_shanntui-v1.glb',
+        fallbackGlb: './motoniveladora_shanntui-v1.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Potencia Neta', value: '270 HP' },
@@ -830,7 +832,7 @@
           const hasPhoneNumbers = /\d{7,}/.test(messageText);
 
           if (!hasPhoneNumbers) {
-            appendMessage(`⚠️ Por favor, asegúrate de incluir tu **número de teléfono o WhatsApp** en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.`, 'assistant');
+            appendMessage(`⚠️ Por favor, asegúrate de incluir tu **número de teléfono أو WhatsApp** en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.`, 'assistant');
             userQuestionCount--; 
             return;
           }
