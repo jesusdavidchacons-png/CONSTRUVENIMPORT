@@ -297,7 +297,7 @@
           </div>
         </div>
 
-        <!-- FB878M (Retroexcavadora con Lovol FB878M.glb y Video) -->
+        <!-- FB878M (Retroexcavadora con lovol.glb) -->
         <div onclick="selectAndScroll3D('fb878m')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Retroexcavadora Lovol</span>
@@ -585,7 +585,7 @@
     // URL DE GOOGLE APPS SCRIPT CONFIGURADA
     const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwQPZeLeJZeXnOYAUQy-ibjixSPvC25DpWc7aSf9pry7wu8lom27W5_8ct_BhWpg91G/exec';
 
-    // Base de datos oficial de maquinaria de la página
+    // Base de datos oficial de maquinaria de la página (con lovol.glb asignado a la FB878M)
     const machinesData = {
       'sg21b6': {
         brand: 'SHANTUI',
@@ -645,8 +645,8 @@
         category: 'Construcción Urbana y Obras Civiles • 0 Horas',
         power: 'Weichai 100 HP',
         weight: '8,400 kg (8.4t)',
-        glbModel: './Lovol%20FB878M.glb',
-        fallbackGlb: './Lovol FB878M.glb',
+        glbModel: './lovol.glb',
+        fallbackGlb: './lovol.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
@@ -715,7 +715,7 @@
 
     function switchMachine(key) {
       activeMachineKey = key;
-      userDetectedMachine = machinesData[key].title; // Al hacer clic en una máquina, se asigna automáticamente
+      userDetectedMachine = machinesData[key].title;
       initShowroom();
     }
 
@@ -838,7 +838,6 @@
       const messageText = inputField.value.trim();
       if (!messageText) return;
 
-      // Detectar si el usuario mencionó alguna máquina en su texto
       const foundMachine = detectMachineInText(messageText);
       if (foundMachine) {
         userDetectedMachine = foundMachine;
@@ -872,7 +871,6 @@
           waitingForLeadData = false;
           const contactoInfo = messageText;
           
-          // Extraer número de teléfono limpio y nombre
           const phoneMatch = contactoInfo.match(/[\d\+\-\s\(\)]{7,}/);
           const extractedPhone = phoneMatch ? phoneMatch[0].trim() : 'No especificado';
           const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.-]/g, '').trim() || 'Cliente Chat';
