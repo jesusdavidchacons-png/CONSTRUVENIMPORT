@@ -323,8 +323,7 @@
 
         <div id="chatBox" class="flex-1 overflow-y-auto p-4 md:p-5 flex flex-col gap-3.5 scroll-smooth">
           <div id="welcomeMessage" class="self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed">
-            <span id="greetingText">Buenas tardes</span>, un gusto saludarte. Soy el asistente virtual de <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>.<br><br>
-            Tenemos unidades 2026 de maquinaria pesada 0 horas listas para entrega inmediata en patio. ¿Con quién tengo el gusto de hablar hoy?
+            <span id="greetingText">Buenas tardes</span> 👋 Soy el asistente virtual de <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>. Tenemos maquinaria Lovol y Shantui <strong class="text-amber-400">0 horas</strong> lista para entrega inmediata en Valencia.
           </div>
         </div>
 
@@ -339,7 +338,7 @@
             type="text"
             id="userInput"
             placeholder="Escribe tu consulta o requerimiento técnico..."
-            class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all"
+            class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all disabled:opacity-50"
             onkeydown="handleKey(event)"
           >
           <button
@@ -495,7 +494,7 @@
 
         <div>
           <label for="leadPhone" class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Número de WhatsApp</label>
-          <input type="tel" id="leadPhone" required placeholder="Ej. +58 422 7170891" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
+          <input type="tel" id="leadPhone" required placeholder="Ej. 0414-1234567" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
         </div>
 
         <input type="hidden" id="leadMachine" value="Maquinaria General">
@@ -607,6 +606,25 @@
       return 'Buenas noches';
     }
 
+    function normalizePhoneVE(raw) {
+      let d = String(raw).replace(/\D/g, '');
+      if (d.startsWith('00')) d = d.slice(2);
+      if (d.startsWith('0')) d = '58' + d.slice(1);   // 0414... → 58414...
+      else if (d.length === 10) d = '58' + d;         // 414...  → 58414...
+      return d;
+    }
+
+    // Guarda el lead en Google Sheets (lo usan el chat y el formulario)
+    function saveLead({ nombre, telefono, maquina, origen }) {
+      if (!GOOGLE_SHEETS_WEBHOOK_URL || !GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) return Promise.resolve();
+      return fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, telefono, maquina, origen, fecha: new Date().toLocaleString('es-VE') })
+      }).catch(err => console.error('Error al registrar en Google Sheets:', err));
+    }
+
     // ---------- Inicialización ----------
     document.addEventListener('DOMContentLoaded', () => {
       const viewer = document.getElementById('main3DViewer');
@@ -651,6 +669,7 @@
 
       buildTabs();
       updateActiveMachineView();
+      initChat();
     });
 
     // ---------- Showroom ----------
@@ -686,7 +705,6 @@
     function switchMachine(key) {
       if (!machinesData[key]) return;
       activeMachineKey = key;
-      userDetectedMachine = machinesData[key].title;
       updateActiveMachineView();
     }
 
@@ -807,20 +825,10 @@
       btn.disabled = true;
       label.innerText = 'Guardando...';
 
-      if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
-        try {
-          await fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre: name, telefono: phone, maquina: machine, fecha: new Date().toLocaleString() })
-          });
-        } catch (e) {
-          console.error('Error al registrar en Google Sheets:', e);
-        }
-      }
+      const phoneIntl = '+' + normalizePhoneVE(phone);
+      await saveLead({ nombre: name, telefono: phoneIntl, maquina: machine, origen: 'Formulario' });
 
-      const mensaje = `Hola, mi nombre es *${name}* (Tel: ${phone}). Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
+      const mensaje = `Hola, mi nombre es *${name}* (Tel: ${phoneIntl}). Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
       const urlWhatsApp = `https://wa.me/${EMPRESA_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
 
       setTimeout(() => {
@@ -831,96 +839,147 @@
     }
 
     // ---------- Chat ----------
+    // Pasos: 0 = saludo | 1 = máquina | 2 = nombre | 3 = WhatsApp | 4 = finalizado
+    let chatStep = 0;
+    let botBusy = false;
+    let leadName = '';
+
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    const CHAT_MACHINES = [
+      { short: 'Excavadora FR220D',      full: 'Excavadora Hidráulica FR220D' },
+      { short: 'Payloader FL955K',       full: 'Payloader / Cargador FL955K' },
+      { short: 'Retroexcavadora FB878M', full: 'Retroexcavadora FB878M' },
+      { short: 'Motoniveladora SG21-B6', full: 'Motoniveladora SG21-B6' },
+      { short: 'Motoniveladora SG27-C5', full: 'Motoniveladora SG27-C5' },
+      { short: 'Otra consulta',          full: 'Consulta General Chat' }
+    ];
+
+    function machineButtonsHTML() {
+      const cls = 'px-3 py-1.5 rounded-full text-xs font-mono-tech border border-amber-500/40 text-amber-400 hover:bg-amber-500 hover:text-black transition-all';
+      return '<div class="flex flex-wrap gap-2 mt-3">' +
+        CHAT_MACHINES.map((m, i) =>
+          `<button data-chat-machine="${i}" onclick="pickMachine(${i})" class="${cls}">${m.short}</button>`
+        ).join('') + '</div>';
+    }
+
     function detectMachineInText(text) {
       const t = text.toLowerCase();
       // La retroexcavadora va ANTES que "excavadora" porque la contiene
-      if (t.includes('fb878') || t.includes('fb 878') || t.includes('retroexcavadora') || t.includes('retro excavadora')) return 'Retroexcavadora FB878M';
+      if (t.includes('fb878') || t.includes('fb 878') || t.includes('retro')) return 'Retroexcavadora FB878M';
       if (t.includes('fr220') || t.includes('fr 220') || t.includes('excavadora')) return 'Excavadora Hidráulica FR220D';
       if (t.includes('fl955') || t.includes('fl 955') || t.includes('payloader') || t.includes('cargador')) return 'Payloader / Cargador FL955K';
-      if (t.includes('sg27') || t.includes('sg 27') || t.includes('sg27-c5') || t.includes('mineria') || t.includes('minería')) return 'Motoniveladora SG27-C5';
-      if (t.includes('sg21') || t.includes('sg 21') || t.includes('sg21-b6') || t.includes('motoniveladora')) return 'Motoniveladora SG21-B6';
+      if (t.includes('sg27') || t.includes('sg 27') || t.includes('mineria') || t.includes('minería')) return 'Motoniveladora SG27-C5';
+      if (t.includes('sg21') || t.includes('sg 21') || t.includes('motoniveladora') || t.includes('niveladora')) return 'Motoniveladora SG21-B6';
       return null;
     }
 
-    let userQuestionCount = 0;
-    let waitingForLeadData = false;
-
-    function sendMessage() {
-      const inputField = document.getElementById('userInput');
-      const messageText = inputField.value.trim();
-      if (!messageText) return;
-
-      const foundMachine = detectMachineInText(messageText);
-      if (foundMachine) userDetectedMachine = foundMachine;
-
-      appendMessage(messageText, 'user');
-      inputField.value = '';
-
+    // El bot "escribe" y luego responde; bloquea el envío mientras tanto
+    async function botSay(html, delay = 800) {
+      botBusy = true;
       showTypingIndicator();
+      await sleep(delay);
+      hideTypingIndicator();
+      appendMessage(html, 'assistant');
+      botBusy = false;
+    }
 
-      setTimeout(() => {
-        hideTypingIndicator();
+    function setInputMode(placeholder, inputmode) {
+      const input = document.getElementById('userInput');
+      input.placeholder = placeholder;
+      input.setAttribute('inputmode', inputmode);
+      if (!input.disabled) input.focus({ preventScroll: true });
+    }
 
-        // 1) Si estamos esperando los datos de contacto, validarlos primero
-        if (waitingForLeadData) {
-          const hasPhoneNumbers = /\d{7,}/.test(messageText.replace(/[\s\-\(\)\+]/g, ''));
+    // PASO 0 → el saludo ya está en pantalla; el bot pregunta la máquina solo
+    async function initChat() {
+      await sleep(1200);
+      chatStep = 1;
+      await botSay(`¿Qué máquina te interesa? Elige una opción o escríbela:${machineButtonsHTML()}`, 900);
+    }
 
-          if (!hasPhoneNumbers) {
-            appendMessage('⚠️ Por favor, asegúrate de incluir tu <strong>número de teléfono o WhatsApp</strong> en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.', 'assistant');
-            return;
-          }
+    // PASO 1 → máquina (por botón o por texto)
+    async function pickMachine(i) {
+      if (chatStep !== 1 || botBusy) return;
+      const m = CHAT_MACHINES[i];
+      userDetectedMachine = m.full;
+      appendMessage(m.short, 'user');
+      await askName();
+    }
 
-          waitingForLeadData = false;
-          const contactoInfo = messageText;
+    async function handleMachineText(text) {
+      const found = detectMachineInText(text);
+      if (!found) {
+        await botSay(`No logré identificar la unidad. Elige una de nuestro catálogo:${machineButtonsHTML()}`);
+        return;
+      }
+      userDetectedMachine = found;
+      await askName();
+    }
 
-          const phoneMatch = contactoInfo.match(/[\d\+\-\s\(\)]{7,}/);
-          const extractedPhone = phoneMatch ? phoneMatch[0].trim() : 'No especificado';
-          const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.\-]/g, '').trim() || 'Cliente Chat';
+    async function askName() {
+      // Desactiva los botones viejos para evitar clics repetidos
+      document.querySelectorAll('[data-chat-machine]').forEach(b => {
+        b.disabled = true;
+        b.classList.add('opacity-40', 'pointer-events-none');
+      });
+      chatStep = 2;
+      const interes = userDetectedMachine === 'Consulta General Chat'
+        ? 'Con gusto te ayudamos.'
+        : `Excelente elección: <strong class="text-amber-400">${escapeHTML(userDetectedMachine)}</strong>. 🚜`;
+      await botSay(`${interes}<br><br>Para preparar tu cotización, ¿<strong>con quién tengo el gusto</strong>? (Nombre o empresa)`);
+      setInputMode('Escribe tu nombre o empresa...', 'text');
+    }
 
-          if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
-            fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                nombre: extractedName,
-                telefono: extractedPhone,
-                maquina: userDetectedMachine,
-                fecha: new Date().toLocaleString()
-              })
-            }).catch(err => console.error(err));
-          }
+    // PASO 2 → nombre
+    async function handleName(text) {
+      const cleanName = text.replace(/\s+/g, ' ').trim();
+      if (!/\p{L}{2,}/u.test(cleanName)) {
+        await botSay('⚠️ Necesito tu <strong>nombre o el de tu empresa</strong> para continuar. ¿Cómo te llamas?');
+        return;
+      }
+      leadName = cleanName;
+      chatStep = 3;
+      await botSay(`Mucho gusto, <strong class="text-white">${escapeHTML(leadName)}</strong>. 🤝<br><br>¿Cuál es tu <strong>número de WhatsApp</strong> para que Carlos te envíe la cotización?<br><span class="text-xs text-amber-400 font-mono-tech">(Ej: 0414-1234567)</span>`);
+      setInputMode('Ej. 0414-1234567', 'tel');
+    }
 
-          const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}. Estoy interesado en la unidad: ${userDetectedMachine}.`;
-          const urlWA = `https://wa.me/${EMPRESA_WHATSAPP}?text=${encodeURIComponent(textoWA)}`;
+    // PASO 3 → WhatsApp, guarda y conecta
+    async function handlePhone(text) {
+      const phone = normalizePhoneVE(text);
+      if (phone.length < 11 || phone.length > 15) {
+        await botSay('⚠️ Ese número no parece válido. Escríbelo con código de área, por ejemplo: <span class="text-amber-400 font-mono-tech">0414-1234567</span>');
+        return;
+      }
 
-          appendMessage(`¡Datos recibidos! Equipo de interés: <strong>${escapeHTML(userDetectedMachine)}</strong>. Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
-          setTimeout(() => {
-            window.location.href = urlWA;
-          }, 2000);
-          return;
-        }
+      chatStep = 4;
+      const input = document.getElementById('userInput');
+      input.disabled = true;
+      input.placeholder = 'Conversación finalizada';
 
-        userQuestionCount++;
+      saveLead({ nombre: leadName, telefono: '+' + phone, maquina: userDetectedMachine, origen: 'Chat' });
 
-        // 2) En la segunda consulta, pedir datos de contacto
-        if (userQuestionCount === 2) {
-          appendMessage('Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, por favor indícanos en tu siguiente mensaje:<br><br>👉 <strong>Tu Nombre y tu Teléfono o WhatsApp</strong><br><span class="text-xs text-amber-400 font-mono-tech">(Ej: Juan Pérez, 0414-1234567)</span>', 'assistant');
-          waitingForLeadData = true;
-          return;
-        }
+      const textoWA = `Hola Carlos, mi nombre es *${leadName}* (Tel: +${phone}). Escribí desde la web de Construven Import y estoy interesado en cotizar la unidad: *${userDetectedMachine}*.`;
+      const urlWA = `https://wa.me/${EMPRESA_WHATSAPP}?text=${encodeURIComponent(textoWA)}`;
 
-        // 3) Respuestas por defecto
-        const lower = messageText.toLowerCase();
-        let botReply = 'Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.';
-        if (lower.includes('precio') || lower.includes('cotiz') || lower.includes('cuanto') || lower.includes('cuánto')) {
-          botReply = 'Con gusto preparamos la cotización formal. ¿Qué unidad específica de nuestro catálogo (Lovol o Shantui) requiere para su obra?';
-        } else if (lower.includes('repuesto') || lower.includes('garantia') || lower.includes('garantía')) {
-          botReply = 'Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.';
-        }
+      await botSay(`¡Listo, <strong class="text-white">${escapeHTML(leadName)}</strong>! Registré tu interés en <strong class="text-amber-400">${escapeHTML(userDetectedMachine)}</strong>. ✅<br><br>Te estamos conectando con Carlos Mendoza...<br>
+        <a href="${urlWA}" class="inline-block mt-3 px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-black uppercase tracking-wider transition-all">Abrir WhatsApp ahora</a>`);
 
-        appendMessage(botReply, 'assistant');
-      }, 1000);
+      setTimeout(() => { window.location.href = urlWA; }, 2500);
+    }
+
+    async function sendMessage() {
+      if (botBusy || chatStep === 0 || chatStep >= 4) return;
+      const input = document.getElementById('userInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      appendMessage(text, 'user');
+      input.value = '';
+
+      if (chatStep === 1) return handleMachineText(text);
+      if (chatStep === 2) return handleName(text);
+      if (chatStep === 3) return handlePhone(text);
     }
 
     function appendMessage(text, sender) {
