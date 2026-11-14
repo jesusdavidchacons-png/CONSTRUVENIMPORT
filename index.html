@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Construven Import | Maquinaria Lovol & Shantui 0 Horas Venezuela</title>
-  
+
   <!-- Configuración de Vista Previa para WhatsApp / Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Construven Import | Maquinaria Lovol & Shantui 0 Horas">
@@ -15,16 +15,16 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
 
-  <!-- Twitter Card (compatibilidad extendida) -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Construven Import | Maquinaria Lovol & Shantui 0 Horas">
   <meta name="twitter:description" content="Línea Amarilla 0 Horas en Venezuela. Despacho nacional en cama baja y garantía de fábrica.">
   <meta name="twitter:image" content="https://i.postimg.cc/4N18YTbb/LOGO-CONSTRUVEN.jpg">
 
-  <!-- Favicon con Logo -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png">
 
-  <!-- Google Fonts & Tailwind CDN -->
+  <!-- Google Fonts & Tailwind CDN (para producción conviene compilar Tailwind) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -47,23 +47,15 @@
       color: #f3f4f6;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
-      background-image: 
+      background-image:
         radial-gradient(circle at 10% 15%, rgba(245, 158, 11, 0.04) 0%, transparent 45%),
         radial-gradient(circle at 90% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 45%);
     }
 
-    .font-mono-tech {
-      font-family: 'JetBrains Mono', monospace;
-    }
+    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
 
     .hud-scanlines {
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.12),
-        rgba(0, 0, 0, 0.12) 1px,
-        transparent 1px,
-        transparent 2px
-      );
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.12), rgba(0,0,0,0.12) 1px, transparent 1px, transparent 2px);
       pointer-events: none;
     }
 
@@ -79,14 +71,10 @@
       50%, 85% { transform: rotate(90deg); }
       100% { transform: rotate(0deg); }
     }
-    .animate-rotate-phone {
-      animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    }
+    .animate-rotate-phone { animation: phoneRotate 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 
     @media screen and (orientation: portrait) and (max-width: 1024px) {
-      #rotatePrompt:not(.user-dismissed) {
-        display: flex !important;
-      }
+      #rotatePrompt:not(.user-dismissed) { display: flex !important; }
     }
 
     .btn-pill-ford {
@@ -113,16 +101,14 @@
       box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
       transform: translateY(-2px);
     }
-    .btn-pill-ford:active {
-      transform: scale(0.96);
-    }
+    .btn-pill-ford:active { transform: scale(0.96); }
 
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    .catalog-card:focus-visible, .tab-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
   </style>
 </head>
@@ -139,7 +125,7 @@
         </svg>
       </div>
     </div>
-    
+
     <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase mb-2 block">Experiencia Interactiva</span>
     <h2 class="text-2xl font-black text-white uppercase tracking-tight max-w-sm mb-3">
       Gira tu teléfono o continúa en vertical
@@ -155,12 +141,12 @@
 
   <!-- CAPA 1: HERO BANNER -->
   <section class="relative w-full h-screen overflow-hidden bg-black flex flex-col justify-between">
-    <video 
+    <video
       id="heroVideo"
       class="absolute inset-0 w-full h-full object-cover z-0 bg-black"
-      autoplay 
-      loop 
-      muted 
+      autoplay
+      loop
+      muted
       playsinline
       preload="auto">
       <source src="construvenimport.mp4" type="video/mp4">
@@ -174,9 +160,9 @@
 
     <div class="relative z-20 w-full px-6 md:px-12 pt-6 flex justify-between items-center">
       <a href="#" class="flex items-center gap-3 group">
-        <img 
-          src="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png" 
-          alt="Construven Import Logo" 
+        <img
+          src="https://i.postimg.cc/DfqyGWXT/Constru-VEN-08.png"
+          alt="Construven Import Logo"
           class="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-transform duration-300 group-hover:scale-105"
         >
       </a>
@@ -187,12 +173,7 @@
           <span>VISOR 3D</span>
         </a>
 
-        <button onclick="toggleGithubModal()" class="bg-black/50 hover:bg-black/80 text-neutral-300 hover:text-white px-3 py-1.5 rounded-full text-xs font-mono-tech border border-white/15 backdrop-blur-md flex items-center gap-1.5 transition-all">
-          <svg class="w-3.5 h-3.5 text-amber-400" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-          <span class="hidden sm:inline">Fuente de Video</span>
-        </button>
-
-        <button onclick="togglePlayPause()" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full border border-white/15 backdrop-blur-md">
+        <button onclick="togglePlayPause()" aria-label="Pausar o reproducir video" class="bg-black/50 hover:bg-black/80 text-white p-2 rounded-full border border-white/15 backdrop-blur-md">
           <svg id="pauseIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <svg id="playIcon" class="w-3.5 h-3.5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
         </button>
@@ -228,7 +209,7 @@
 
   <!-- CAPA 2: CATÁLOGO Y ASESOR TÉCNICO -->
   <main id="catalogo" class="flex-1 max-w-[1340px] w-full mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start scroll-mt-6">
-    
+
     <div class="lg:col-span-6 flex flex-col gap-6">
       <div>
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-3">
@@ -245,7 +226,7 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div onclick="selectAndScroll3D('fr220d')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div role="button" tabindex="0" data-machine="fr220d" class="catalog-card glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Excavadora Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
@@ -258,7 +239,7 @@
           </div>
         </div>
 
-        <div onclick="selectAndScroll3D('fl955k')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div role="button" tabindex="0" data-machine="fl955k" class="catalog-card glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Payloader Lovol</span>
             <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded font-mono-tech">DISPONIBLE</span>
@@ -271,7 +252,7 @@
           </div>
         </div>
 
-        <div onclick="selectAndScroll3D('fb878m')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div role="button" tabindex="0" data-machine="fb878m" class="catalog-card glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Retroexcavadora Lovol</span>
             <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 px-1.5 py-0.5 rounded font-mono-tech">0 HORAS + 3D</span>
@@ -284,13 +265,13 @@
           </div>
         </div>
 
-        <div onclick="selectAndScroll3D('shantuic5')" class="glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
+        <div role="button" tabindex="0" data-machine="sg21b6" class="catalog-card glass-panel p-4 rounded-xl border border-white/10 hover:border-amber-500/50 hover:-translate-y-1 transition-all cursor-pointer group shadow-lg">
           <div class="flex justify-between items-start">
             <span class="text-[11px] font-bold tracking-wider text-amber-400 uppercase">Motoniveladora Shantui</span>
             <span class="text-[10px] bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1.5 py-0.5 rounded font-mono-tech">CON VIDEO + 3D</span>
           </div>
           <div class="text-base font-bold text-white group-hover:text-amber-400 transition-colors mt-1">SG21-B6 / SG27-C5</div>
-          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP • Modelado Oficial</div>
+          <div class="text-xs text-neutral-400 mt-1 font-mono-tech">Cummins 215 HP / Weichai 270 HP</div>
           <div class="mt-3 flex items-center justify-between text-xs text-amber-400 font-semibold">
             <span>Ver Ficha & 3D</span>
             <span class="group-hover:translate-x-1 transition-transform">→</span>
@@ -327,8 +308,8 @@
             </div>
             <div>
               <div class="flex items-center gap-2">
-                <h3 class="font-bold text-white text-sm">Carlos Mendoza</h3>
-                <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">Asesor Senior</span>
+                <h3 class="font-bold text-white text-sm">Asistente de Carlos Mendoza</h3>
+                <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded font-medium">Asistente Virtual</span>
               </div>
               <p class="text-xs text-neutral-400">Gerencia Comercial • Construven Import</p>
             </div>
@@ -341,8 +322,8 @@
         </div>
 
         <div id="chatBox" class="flex-1 overflow-y-auto p-4 md:p-5 flex flex-col gap-3.5 scroll-smooth">
-          <div class="self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed">
-            Buenas tardes, un gusto saludarte. Mi nombre es <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>.<br><br>
+          <div id="welcomeMessage" class="self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed">
+            <span id="greetingText">Buenas tardes</span>, un gusto saludarte. Soy el asistente virtual de <strong class="text-amber-400">Carlos Mendoza</strong>, asesor técnico de <strong class="text-white">Construven Import</strong>.<br><br>
             Tenemos unidades 2026 de maquinaria pesada 0 horas listas para entrega inmediata en patio. ¿Con quién tengo el gusto de hablar hoy?
           </div>
         </div>
@@ -354,15 +335,15 @@
         </div>
 
         <div class="p-3.5 border-t border-white/10 bg-[#0f121d] flex items-center gap-2">
-          <input 
-            type="text" 
-            id="userInput" 
-            placeholder="Escribe tu consulta o requerimiento técnico..." 
+          <input
+            type="text"
+            id="userInput"
+            placeholder="Escribe tu consulta o requerimiento técnico..."
             class="flex-1 bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all"
             onkeydown="handleKey(event)"
           >
-          <button 
-            onclick="sendMessage()" 
+          <button
+            onclick="sendMessage()"
             class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-bold px-5 py-3 rounded-xl text-sm transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center gap-1.5">
             <span>Enviar</span>
             <svg class="w-4 h-4 fill-none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -403,7 +384,7 @@
       <!-- Contenedor Principal: Visor 3D + Ficha Técnica -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         <div class="lg:col-span-7 glass-panel rounded-2xl md:rounded-3xl border border-amber-500/30 overflow-hidden relative min-h-[420px] md:min-h-[580px] flex flex-col bg-gradient-to-b from-[#0b0e17] to-[#04060a] shadow-2xl">
-          
+
           <div class="absolute top-4 left-4 right-4 z-20 flex justify-between items-center pointer-events-none">
             <div class="bg-black/75 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-xl text-xs font-mono-tech flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
@@ -416,25 +397,19 @@
 
           <!-- Overlay de Carga y Errores -->
           <div id="viewerLoadingOverlay" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/60 backdrop-blur-sm pointer-events-none hidden">
-            <div class="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-2"></div>
+            <div id="viewerSpinner" class="w-8 h-8 border-2 border-amber-400 border-t-transparent rounded-full animate-spin mb-2"></div>
             <span id="viewerLoadingText" class="text-xs font-mono-tech text-amber-400">Cargando modelo 3D...</span>
           </div>
 
-          <model-viewer 
+          <model-viewer
             id="main3DViewer"
-            src="./motoniveladora_shanntui-v1.glb" 
             alt="Maquinaria Lovol y Shantui 3D"
-            camera-controls 
-            auto-rotate 
+            camera-controls
+            auto-rotate
             rotation-per-second="18deg"
             shadow-intensity="2"
             environment-image="neutral"
             exposure="1.2"
-            camera-target="auto auto auto"
-            camera-orbit="auto auto auto"
-            min-camera-orbit="auto auto auto"
-            max-camera-orbit="auto auto auto"
-            field-of-view="auto"
             ar
             style="width: 100%; height: 100%; min-height: 420px; background: transparent; cursor: grab;">
           </model-viewer>
@@ -479,14 +454,14 @@
             <div>
               <h4 class="text-xs font-mono-tech text-amber-400 uppercase tracking-widest mb-3 flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-                <span>Especificaciones Técnicas Certificadas</span>
+                <span>Especificaciones Técnicas</span>
               </h4>
               <div id="specsList" class="space-y-2 text-xs divide-y divide-white/5 max-h-[220px] overflow-y-auto pr-2"></div>
             </div>
           </div>
 
           <div class="pt-5 border-t border-white/10 space-y-2.5">
-            <button 
+            <button
               id="btnQuoteShowroom"
               onclick="quoteSelectedMachine()"
               class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2">
@@ -504,7 +479,7 @@
   <!-- MODAL DE CAPTURA DE LEAD -->
   <div id="leadModal" class="fixed inset-0 z-[110] bg-black/90 backdrop-blur-xl hidden items-center justify-center p-4">
     <div class="glass-panel max-w-md w-full p-6 md:p-8 rounded-3xl border border-amber-500/40 relative shadow-2xl bg-[#0c0f18]">
-      <button onclick="closeLeadModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
+      <button onclick="closeLeadModal()" aria-label="Cerrar" class="absolute top-4 right-4 text-neutral-400 hover:text-white text-lg font-bold">✕</button>
 
       <div class="text-center mb-6">
         <span class="text-amber-400 font-mono-tech text-xs tracking-widest uppercase block mb-1">Construven Import • Ventas</span>
@@ -514,19 +489,19 @@
 
       <form id="whatsappLeadForm" onsubmit="submitLeadForm(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Tu Nombre / Empresa</label>
+          <label for="leadName" class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Tu Nombre / Empresa</label>
           <input type="text" id="leadName" required placeholder="Ej. Ing. Roberto Sánchez" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
         </div>
 
         <div>
-          <label class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Número de WhatsApp</label>
+          <label for="leadPhone" class="block text-xs font-mono-tech text-neutral-300 mb-1 uppercase">Número de WhatsApp</label>
           <input type="tel" id="leadPhone" required placeholder="Ej. +58 422 7170891" class="w-full bg-white/5 border border-white/10 focus:border-amber-500 rounded-xl px-4 py-3 text-sm text-white placeholder-neutral-500 outline-none transition-all">
         </div>
 
         <input type="hidden" id="leadMachine" value="Maquinaria General">
 
-        <button type="submit" id="btnSubmitLead" class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2">
-          <span>Guardar y Abrir WhatsApp</span>
+        <button type="submit" id="btnSubmitLead" class="w-full py-3.5 px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs sm:text-sm uppercase tracking-wider rounded-xl transition-all shadow-lg shadow-amber-500/20 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+          <span id="btnSubmitLabel">Guardar y Abrir WhatsApp</span>
           <svg class="w-4 h-4 fill-none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </button>
       </form>
@@ -535,6 +510,7 @@
 
   <script>
     const GOOGLE_SHEETS_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwQPZeLeJZeXnOYAUQy-ibjixSPvC25DpWc7aSf9pry7wu8lom27W5_8ct_BhWpg91G/exec';
+    const EMPRESA_WHATSAPP = '584227170891';
 
     const machinesData = {
       'sg21b6': {
@@ -543,8 +519,7 @@
         category: 'Maquinaria Pesada para Vialidad y Movimiento de Tierra',
         power: 'Cummins 215 HP',
         weight: '16,800 - 19,000 kg',
-        glbModel: './motoniveladora_shanntui-v1.glb', // <-- NUEVO ARCHIVO 3D SHANTUI ASIGNADO
-        fallbackGlb: './motoniveladora_shanntui-v1.glb',
+        glbModel: './motoniveladora_shanntui-v1.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Modelo de Motor', value: 'Cummins Tier 3' },
@@ -594,7 +569,6 @@
         power: 'Weichai 100 HP',
         weight: '8,400 kg (8.4t)',
         glbModel: './retro_lovol3-v1.glb',
-        fallbackGlb: './retro_lovol3-v1.glb',
         videoUrl: 'https://www.youtube.com/watch?v=-ZPi0QhVVK0',
         specs: [
           { label: 'Potencia', value: '100 HP Turbo' },
@@ -609,7 +583,6 @@
         power: 'Weichai 270 HP',
         weight: '18,500 kg (18.5t)',
         glbModel: './motoniveladora_shanntui-v1.glb',
-        fallbackGlb: './motoniveladora_shanntui-v1.glb',
         videoUrl: 'https://youtu.be/7a21WVTfeaQ',
         specs: [
           { label: 'Potencia Neta', value: '270 HP' },
@@ -622,22 +595,46 @@
     let activeMachineKey = 'sg21b6';
     let userDetectedMachine = 'Consulta General Chat';
 
+    // ---------- Utilidades ----------
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function getGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Buenos días';
+      if (h < 19) return 'Buenas tardes';
+      return 'Buenas noches';
+    }
+
+    // ---------- Inicialización ----------
     document.addEventListener('DOMContentLoaded', () => {
       const viewer = document.getElementById('main3DViewer');
       const overlay = document.getElementById('viewerLoadingOverlay');
       const loadingText = document.getElementById('viewerLoadingText');
       const statusBadge = document.getElementById('viewerStatusBadge');
+      const spinner = document.getElementById('viewerSpinner');
+
+      document.getElementById('greetingText').innerText = getGreeting();
+
+      // Tarjetas del catálogo (click + teclado)
+      document.querySelectorAll('.catalog-card').forEach(card => {
+        const key = card.dataset.machine;
+        card.addEventListener('click', () => selectAndScroll3D(key));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectAndScroll3D(key);
+          }
+        });
+      });
 
       if (viewer) {
-        viewer.addEventListener('error', (event) => {
-          const m = machinesData[activeMachineKey];
-          const currentSrc = viewer.getAttribute('src');
-          if (m && m.fallbackGlb && currentSrc !== m.fallbackGlb) {
-            viewer.setAttribute('src', m.fallbackGlb);
-            return;
-          }
-          console.error('Error cargando GLB:', currentSrc, event);
+        viewer.addEventListener('error', () => {
+          const currentSrc = viewer.getAttribute('src') || '';
+          console.error('Error cargando GLB:', currentSrc);
           overlay.classList.remove('hidden');
+          spinner.classList.add('hidden');
           loadingText.innerText = `No se encontró el archivo ${decodeURIComponent(currentSrc)} en el servidor`;
           statusBadge.innerText = 'Archivo no encontrado';
           statusBadge.classList.replace('text-amber-400', 'text-red-400');
@@ -645,44 +642,52 @@
 
         viewer.addEventListener('load', () => {
           overlay.classList.add('hidden');
+          spinner.classList.remove('hidden');
           statusBadge.innerText = 'Modelado GLB Activo';
           statusBadge.classList.replace('text-red-400', 'text-amber-400');
-          
-          viewer.cameraTarget = 'auto auto auto';
-          viewer.cameraOrbit = 'auto auto auto';
-          viewer.fieldOfView = 'auto';
-          viewer.updateFraming();
+          resetCamera3D();
         });
       }
 
-      initShowroom();
+      buildTabs();
+      updateActiveMachineView();
     });
 
-    function initShowroom() {
+    // ---------- Showroom ----------
+    const TAB_ACTIVE = ['bg-amber-500', 'text-neutral-950', 'font-bold', 'border-amber-400', 'shadow-lg', 'shadow-amber-500/20'];
+    const TAB_INACTIVE = ['bg-neutral-900/60', 'text-neutral-300', 'border-white/10', 'hover:bg-neutral-800'];
+
+    function buildTabs() {
       const tabsContainer = document.getElementById('machinesTabs');
       tabsContainer.innerHTML = '';
 
       Object.keys(machinesData).forEach(key => {
-        const m = machinesData[key];
-        const isActive = key === activeMachineKey;
         const btn = document.createElement('button');
-        btn.className = `px-4 py-2.5 rounded-xl text-xs font-mono-tech uppercase tracking-wider whitespace-nowrap transition-all border ${
-          isActive 
-            ? 'bg-amber-500 text-neutral-950 font-bold border-amber-400 shadow-lg shadow-amber-500/20' 
-            : 'bg-neutral-900/60 text-neutral-300 border-white/10 hover:bg-neutral-800'
-        }`;
-        btn.innerText = m.title;
+        btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs font-mono-tech uppercase tracking-wider whitespace-nowrap transition-all border';
+        btn.dataset.key = key;
+        btn.innerText = machinesData[key].title;
         btn.onclick = () => switchMachine(key);
         tabsContainer.appendChild(btn);
       });
+    }
 
-      updateActiveMachineView();
+    function refreshTabStyles() {
+      document.querySelectorAll('#machinesTabs .tab-btn').forEach(btn => {
+        const isActive = btn.dataset.key === activeMachineKey;
+        btn.classList.remove(...TAB_ACTIVE, ...TAB_INACTIVE);
+        btn.classList.add(...(isActive ? TAB_ACTIVE : TAB_INACTIVE));
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) {
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+      });
     }
 
     function switchMachine(key) {
+      if (!machinesData[key]) return;
       activeMachineKey = key;
       userDetectedMachine = machinesData[key].title;
-      initShowroom();
+      updateActiveMachineView();
     }
 
     function updateActiveMachineView() {
@@ -690,13 +695,23 @@
       const viewer = document.getElementById('main3DViewer');
       const overlay = document.getElementById('viewerLoadingOverlay');
       const loadingText = document.getElementById('viewerLoadingText');
-      
+      const spinner = document.getElementById('viewerSpinner');
+
+      refreshTabStyles();
+
       document.getElementById('viewerModelTitle').innerText = m.title.toUpperCase();
-      
-      overlay.classList.remove('hidden');
-      loadingText.innerText = `Cargando ${decodeURIComponent(m.glbModel)}...`;
-      viewer.setAttribute('src', m.glbModel);
-      
+
+      // Solo recargar el modelo si cambió el archivo (si es el mismo, 'load' no se dispara)
+      const currentSrc = viewer.getAttribute('src');
+      if (currentSrc !== m.glbModel) {
+        spinner.classList.remove('hidden');
+        overlay.classList.remove('hidden');
+        loadingText.innerText = `Cargando ${decodeURIComponent(m.glbModel)}...`;
+        viewer.setAttribute('src', m.glbModel);
+      } else {
+        overlay.classList.add('hidden');
+      }
+
       document.getElementById('specBrandBadge').innerText = m.brand;
       document.getElementById('specTitle').innerText = m.title;
       document.getElementById('specCategory').innerText = m.category;
@@ -707,8 +722,15 @@
       specsList.innerHTML = '';
       m.specs.forEach(s => {
         const row = document.createElement('div');
-        row.className = 'py-2 flex justify-between items-center';
-        row.innerHTML = `<span class="text-neutral-400">${s.label}</span><span class="font-mono-tech font-bold text-white">${s.value}</span>`;
+        row.className = 'py-2 flex justify-between items-center gap-3';
+        const label = document.createElement('span');
+        label.className = 'text-neutral-400';
+        label.textContent = s.label;
+        const value = document.createElement('span');
+        value.className = 'font-mono-tech font-bold text-white text-right';
+        value.textContent = s.value;
+        row.appendChild(label);
+        row.appendChild(value);
         specsList.appendChild(row);
       });
 
@@ -716,11 +738,13 @@
       actionGrid.innerHTML = '';
 
       if (m.videoUrl) {
-        actionGrid.innerHTML = `
-          <a href="${m.videoUrl}" target="_blank" class="w-full py-2.5 px-4 bg-neutral-900 hover:bg-neutral-800 text-amber-400 border border-amber-500/30 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2">
-            <span>Ver Video Demostrativo en Terreno ↗</span>
-          </a>
-        `;
+        const link = document.createElement('a');
+        link.href = m.videoUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.className = 'w-full py-2.5 px-4 bg-neutral-900 hover:bg-neutral-800 text-amber-400 border border-amber-500/30 font-bold text-xs uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-2';
+        link.innerHTML = '<span>Ver Video Demostrativo en Terreno ↗</span>';
+        actionGrid.appendChild(link);
       }
     }
 
@@ -731,12 +755,14 @@
 
     function resetCamera3D() {
       const viewer = document.getElementById('main3DViewer');
+      if (!viewer) return;
       viewer.cameraTarget = 'auto auto auto';
       viewer.cameraOrbit = 'auto auto auto';
       viewer.fieldOfView = 'auto';
-      viewer.updateFraming();
+      if (typeof viewer.updateFraming === 'function') viewer.updateFraming();
     }
 
+    // ---------- Modal de Lead ----------
     function openLeadModal(machineName) {
       if (machineName) {
         document.getElementById('modalSubtext').innerText = `Estás solicitando información sobre: ${machineName}`;
@@ -751,10 +777,23 @@
       document.getElementById('leadModal').classList.add('hidden');
     }
 
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLeadModal();
+    });
+
     function quoteSelectedMachine() {
-      const m = machinesData[activeMachineKey];
-      openLeadModal(m.title);
+      openLeadModal(machinesData[activeMachineKey].title);
     }
+
+    function resetLeadButton() {
+      const btn = document.getElementById('btnSubmitLead');
+      const label = document.getElementById('btnSubmitLabel');
+      if (btn) btn.disabled = false;
+      if (label) label.innerText = 'Guardar y Abrir WhatsApp';
+    }
+
+    // Si el usuario vuelve desde WhatsApp (bfcache), reactivar el botón
+    window.addEventListener('pageshow', resetLeadButton);
 
     async function submitLeadForm(event) {
       event.preventDefault();
@@ -763,9 +802,10 @@
       const phone = document.getElementById('leadPhone').value.trim();
       const machine = document.getElementById('leadMachine').value;
       const btn = document.getElementById('btnSubmitLead');
+      const label = document.getElementById('btnSubmitLabel');
 
       btn.disabled = true;
-      btn.innerText = 'Guardando en Base de Datos...';
+      label.innerText = 'Guardando...';
 
       if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
         try {
@@ -780,22 +820,25 @@
         }
       }
 
-      const empresaWhatsApp = '584227170891'; 
       const mensaje = `Hola, mi nombre es *${name}* (Tel: ${phone}). Acabo de registrarme en la web de Construven Import y estoy interesado en cotizar la unidad: *${machine}*.`;
-      const urlWhatsApp = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+      const urlWhatsApp = `https://wa.me/${EMPRESA_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
 
       setTimeout(() => {
         window.location.href = urlWhatsApp;
-      }, 1000);
+        // Por si el usuario regresa sin recargar la página
+        setTimeout(resetLeadButton, 1500);
+      }, 800);
     }
 
+    // ---------- Chat ----------
     function detectMachineInText(text) {
       const t = text.toLowerCase();
+      // La retroexcavadora va ANTES que "excavadora" porque la contiene
+      if (t.includes('fb878') || t.includes('fb 878') || t.includes('retroexcavadora') || t.includes('retro excavadora')) return 'Retroexcavadora FB878M';
       if (t.includes('fr220') || t.includes('fr 220') || t.includes('excavadora')) return 'Excavadora Hidráulica FR220D';
       if (t.includes('fl955') || t.includes('fl 955') || t.includes('payloader') || t.includes('cargador')) return 'Payloader / Cargador FL955K';
-      if (t.includes('fb878') || t.includes('fb 878') || t.includes('retroexcavadora')) return 'Retroexcavadora FB878M';
-      if (t.includes('sg21') || t.includes('sg 21') || t.includes('sg21-b6')) return 'Motoniveladora SG21-B6';
-      if (t.includes('sg27') || t.includes('sg 27') || t.includes('sg27-c5') || t.includes('mineria')) return 'Motoniveladora SG27-C5';
+      if (t.includes('sg27') || t.includes('sg 27') || t.includes('sg27-c5') || t.includes('mineria') || t.includes('minería')) return 'Motoniveladora SG27-C5';
+      if (t.includes('sg21') || t.includes('sg 21') || t.includes('sg21-b6') || t.includes('motoniveladora')) return 'Motoniveladora SG21-B6';
       return null;
     }
 
@@ -808,72 +851,72 @@
       if (!messageText) return;
 
       const foundMachine = detectMachineInText(messageText);
-      if (foundMachine) {
-        userDetectedMachine = foundMachine;
-      }
+      if (foundMachine) userDetectedMachine = foundMachine;
 
       appendMessage(messageText, 'user');
       inputField.value = '';
-      userQuestionCount++;
 
       showTypingIndicator();
 
       setTimeout(() => {
         hideTypingIndicator();
 
-        if (userQuestionCount === 2) {
-          const promptMsg = `Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, por favor indícanos en tu siguiente mensaje:<br><br>👉 **Tu Nombre y tu Teléfono o WhatsApp**<br><span class="text-xs text-amber-400 font-mono-tech">(Ej: Juan Pérez, 0414-1234567)</span>`;
-          appendMessage(promptMsg, 'assistant');
-          waitingForLeadData = true;
-          return;
-        }
-
+        // 1) Si estamos esperando los datos de contacto, validarlos primero
         if (waitingForLeadData) {
-          const hasPhoneNumbers = /\d{7,}/.test(messageText);
+          const hasPhoneNumbers = /\d{7,}/.test(messageText.replace(/[\s\-\(\)\+]/g, ''));
 
           if (!hasPhoneNumbers) {
-            appendMessage(`⚠️ Por favor, asegúrate de incluir tu **número de teléfono أو WhatsApp** en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.`, 'assistant');
-            userQuestionCount--; 
+            appendMessage('⚠️ Por favor, asegúrate de incluir tu <strong>número de teléfono o WhatsApp</strong> en el mensaje para poder guardar tu cotización y abrir el chat con Carlos Mendoza.', 'assistant');
             return;
           }
 
           waitingForLeadData = false;
           const contactoInfo = messageText;
-          
+
           const phoneMatch = contactoInfo.match(/[\d\+\-\s\(\)]{7,}/);
           const extractedPhone = phoneMatch ? phoneMatch[0].trim() : 'No especificado';
-          const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.-]/g, '').trim() || 'Cliente Chat';
+          const extractedName = contactoInfo.replace(extractedPhone, '').replace(/[,.\-]/g, '').trim() || 'Cliente Chat';
 
           if (GOOGLE_SHEETS_WEBHOOK_URL && GOOGLE_SHEETS_WEBHOOK_URL.includes('https://')) {
             fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
-                nombre: extractedName, 
-                telefono: extractedPhone, 
-                maquina: userDetectedMachine, 
-                fecha: new Date().toLocaleString() 
+              body: JSON.stringify({
+                nombre: extractedName,
+                telefono: extractedPhone,
+                maquina: userDetectedMachine,
+                fecha: new Date().toLocaleString()
               })
             }).catch(err => console.error(err));
           }
 
-          const empresaWhatsApp = '584227170891'; 
           const textoWA = `Hola Carlos, soy de la web. Mis datos son: ${contactoInfo}. Estoy interesado en la unidad: ${userDetectedMachine}.`;
-          const urlWA = `https://wa.me/${empresaWhatsApp}?text=${encodeURIComponent(textoWA)}`;
+          const urlWA = `https://wa.me/${EMPRESA_WHATSAPP}?text=${encodeURIComponent(textoWA)}`;
 
-          appendMessage(`¡Datos y equipo "${userDetectedMachine}" registrados con éxito en la base de datos! Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
+          appendMessage(`¡Datos recibidos! Equipo de interés: <strong>${escapeHTML(userDetectedMachine)}</strong>. Te conectamos de inmediato al WhatsApp con Carlos Mendoza.`, 'assistant');
           setTimeout(() => {
             window.location.href = urlWA;
           }, 2000);
           return;
         }
 
-        let botReply = "Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.";
-        if (messageText.toLowerCase().includes('precio') || messageText.toLowerCase().includes('cotiz') || messageText.toLowerCase().includes('cuanto')) {
-          botReply = "Con gusto preparamos la cotización formal. ¿Qué unidad específica de nuestro catálogo (Lovol o Shantui) requiere para su obra?";
-        } else if (messageText.toLowerCase().includes('repuesto') || messageText.toLowerCase().includes('garantia')) {
-          botReply = "Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.";
+        userQuestionCount++;
+
+        // 2) En la segunda consulta, pedir datos de contacto
+        if (userQuestionCount === 2) {
+          appendMessage('Para brindarte una atención personalizada y enviarte la cotización formal de fábrica, por favor indícanos en tu siguiente mensaje:<br><br>👉 <strong>Tu Nombre y tu Teléfono o WhatsApp</strong><br><span class="text-xs text-amber-400 font-mono-tech">(Ej: Juan Pérez, 0414-1234567)</span>', 'assistant');
+          waitingForLeadData = true;
+          return;
+        }
+
+        // 3) Respuestas por defecto
+        const lower = messageText.toLowerCase();
+        let botReply = 'Todas nuestras unidades son 0 horas, año 2026, con disponibilidad inmediata en nuestro patio de Valencia y despacho nacional.';
+        if (lower.includes('precio') || lower.includes('cotiz') || lower.includes('cuanto') || lower.includes('cuánto')) {
+          botReply = 'Con gusto preparamos la cotización formal. ¿Qué unidad específica de nuestro catálogo (Lovol o Shantui) requiere para su obra?';
+        } else if (lower.includes('repuesto') || lower.includes('garantia') || lower.includes('garantía')) {
+          botReply = 'Contamos con más de 12.000 ítems en stock de repuestos originales y garantía directa de fábrica.';
         }
 
         appendMessage(botReply, 'assistant');
@@ -883,14 +926,15 @@
     function appendMessage(text, sender) {
       const chatBox = document.getElementById('chatBox');
       const messageDiv = document.createElement('div');
-      
+
       if (sender === 'user') {
-        messageDiv.className = 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md font-medium leading-relaxed';
+        messageDiv.className = 'self-end max-w-[85%] bg-amber-500 text-neutral-950 text-sm p-4 rounded-2xl rounded-tr-sm shadow-md font-medium leading-relaxed break-words';
+        messageDiv.textContent = text; // texto del usuario: nunca como HTML
       } else {
         messageDiv.className = 'self-start max-w-[85%] bg-[#141824] border border-white/10 text-neutral-200 text-sm p-4 rounded-2xl rounded-tl-sm shadow-md leading-relaxed';
+        messageDiv.innerHTML = text; // solo contenido propio, controlado por nosotros
       }
-      
-      messageDiv.innerHTML = text;
+
       chatBox.appendChild(messageDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -904,17 +948,30 @@
     }
 
     function handleKey(event) {
-      if (event.key === 'Enter') {
-        sendMessage();
-      }
+      if (event.key === 'Enter') sendMessage();
     }
 
+    // ---------- Orientación ----------
     function dismissRotateOverlay() {
       const prompt = document.getElementById('rotatePrompt');
       prompt.classList.add('user-dismissed');
       prompt.style.display = 'none';
+      try { sessionStorage.setItem('rotateDismissed', '1'); } catch (e) {}
     }
 
+    (function () {
+      try {
+        if (sessionStorage.getItem('rotateDismissed') === '1') {
+          const prompt = document.getElementById('rotatePrompt');
+          if (prompt) {
+            prompt.classList.add('user-dismissed');
+            prompt.style.display = 'none';
+          }
+        }
+      } catch (e) {}
+    })();
+
+    // ---------- Video ----------
     function togglePlayPause() {
       const video = document.getElementById('heroVideo');
       const pauseIcon = document.getElementById('pauseIcon');
@@ -928,10 +985,6 @@
         pauseIcon.classList.add('hidden');
         playIcon.classList.remove('hidden');
       }
-    }
-
-    function toggleGithubModal() {
-      alert('Construven Import • Sistema comercial configurado para Venezuela.');
     }
   </script>
 </body>
